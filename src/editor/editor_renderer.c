@@ -50,7 +50,7 @@ void initTiledTextures()
   u32          tileCountPerRow[] = {20, 4, 9};
   for (u32 i = 0; i < numberOfTiles; i++)
   {
-    TextureTiled* tile = &g_tiledTextures[i];
+    TextureTiled* tile = &g_tiledTextures[tiles[i]];
     tile->texture      = &g_renderer.textures[tiles[i]];
     tile->dim          = tile->texture->width / tileCountPerRow[i];
   }

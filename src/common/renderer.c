@@ -51,6 +51,30 @@ void generateTextures(const char* textureLocations)
   }
 }
 
+void createLineVertexArray()
+{
+  GLfloat bufferData[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+
+  i32     indices[]     = {0, 1};
+
+  sta_glGenVertexArrays(1, &g_renderer.lineVertexId);
+  sta_glBindVertexArray(g_renderer.lineVertexId);
+
+  sta_glGenBuffers(1, &g_renderer.lineBufferId);
+  sta_glBindBuffer(GL_ARRAY_BUFFER, g_renderer.lineBufferId);
+
+  sta_glEnableVertexAttribArray(0);
+
+  sta_glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 2, 0);
+
+  u32 indexBufferId;
+  sta_glGenBuffers(1, &indexBufferId);
+  sta_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
+  sta_glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(u32) * 2, indices, GL_STATIC_DRAW);
+
+  sta_glBindVertexArray(0);
+}
+
 void createTextureVertexArray()
 {
   GLfloat bufferData[20] = {
@@ -62,7 +86,6 @@ void createTextureVertexArray()
   int    indices[6] = {0, 1, 2, 1, 3, 2};
 
   GLuint indexBufferId;
-  GLuint vertexBufferId;
 
   sta_glGenVertexArrays(1, &g_renderer.textureVertexId);
   sta_glBindVertexArray(g_renderer.textureVertexId);
@@ -141,6 +164,21 @@ void createTextShaderProgram()
   sta_glLinkProgram(font->programId);
 }
 
+void createLineShaderProgram()
+{
+  GLuint vShader, fShader;
+  createAndCompileVertexShader(&vShader, "shaders/line.vs");
+  createAndCompileFragmentShader(&fShader, "shaders/line.ps");
+
+  g_renderer.lineProgramId = sta_glCreateProgram();
+  sta_glAttachShader(g_renderer.lineProgramId, vShader);
+  sta_glAttachShader(g_renderer.lineProgramId, fShader);
+
+  sta_glBindAttribLocation(g_renderer.lineProgramId, 0, "inputPosition");
+
+  sta_glLinkProgram(g_renderer.lineProgramId);
+}
+
 void createTextureShaderProgram()
 {
   GLuint vShader, fShader;
@@ -168,6 +206,9 @@ void initRenderer(Font* font, const char* textureLocation)
 
   createTextureShaderProgram();
   createTextureVertexArray();
+
+  createLineShaderProgram();
+  createLineVertexArray();
 }
 
 void renderTexture(Matrix3x3* transMatrix, u32 textureIdx)
@@ -187,6 +228,20 @@ void renderTexture(Matrix3x3* transMatrix, u32 textureIdx)
 
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
   sta_glBindVertexArray(0);
+}
+
+static void setLineShaderParams(Color* color)
+{
+  sta_glUseProgram(g_renderer.lineProgramId);
+
+  int location = sta_glGetUniformLocation(g_renderer.lineProgramId, "pixelColor");
+  if (location == -1)
+  {
+    printf("Failed to get pixel color location\n");
+    exit(1);
+  }
+  f32 c[4] = {color->r, color->g, color->b, color->a};
+  sta_glUniform4fv(location, 1, &c[0]);
 }
 
 static void setTextShaderParams(Font* font, Color* color)
@@ -210,6 +265,22 @@ static void setTextShaderParams(Font* font, Color* color)
   f32 c[4] = {color->r, color->g, color->b, color->a};
   sta_glUniform4fv(location, 1, &c[0]);
 }
+
+void renderLine(Vec2f32 start, Vec2f32 end, Color* color)
+{
+  setLineShaderParams(color);
+  sta_glBindVertexArray(g_renderer.lineVertexId);
+
+  sta_glBindBuffer(GL_ARRAY_BUFFER, g_renderer.lineBufferId);
+  f32 bufferData[4] = {
+      start.x * 0.01f, start.y * 0.01f, //
+      end.x * 0.01f, end.y * 0.01f      //
+  };
+
+  sta_glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 4, bufferData, GL_STATIC_DRAW);
+  glDrawElements(GL_LINE_STRIP, 2, GL_UNSIGNED_INT, 0);
+}
+
 static void renderText(Font* font, Color* color)
 {
   setTextShaderParams(font, color);
@@ -244,7 +315,7 @@ void renderComponent(UIComponent* comp)
   Matrix3x3 transMatrix;
   clearMat3x3(&transMatrix);
   getTransformationMatrix(&transMatrix, comp->x, comp->y, comp->width, comp->height);
-  Texture texture = g_renderer.textures[comp->textureIdx]; 
+  Texture texture = g_renderer.textures[comp->textureIdx];
   renderTexture(&transMatrix, texture.textureId);
 }
 

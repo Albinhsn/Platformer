@@ -26,9 +26,8 @@ i32 main()
     {
       break;
     }
-    renderTextureTile(0.0f, 0.0f, 200.0f, 200.0f, 1, 2);
 
-    // renderUI(&ui);
+    renderUI(&ui);
 
     SDL_GL_SwapWindow(g_renderer.window);
   }

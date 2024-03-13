@@ -15,6 +15,9 @@ struct Renderer
   GLuint        textureProgramId;
   GLuint        textureVertexId;
   GLuint        textureBufferId;
+  GLuint        lineProgramId;
+  GLuint        lineVertexId;
+  GLuint        lineBufferId;
   Font*         font;
   Texture       textures[32];
   u32           textureCount;
@@ -24,6 +27,7 @@ typedef enum TextureModel TextureModel;
 typedef struct Renderer   Renderer;
 extern Renderer           g_renderer;
 
+void                      renderLine(Vec2f32 start, Vec2f32 end, Color* color);
 void                      updateWindowSize(i32 width, i32 height);
 void                      renderComponent(UIComponent* comp);
 void                      renderTexture(Matrix3x3* transMatrix, u32 textureIdx);
