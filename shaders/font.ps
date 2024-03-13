@@ -1,0 +1,15 @@
+#version 400
+
+
+in vec2 texCoord;
+
+out vec4 outputColor;
+
+uniform sampler2D fontTexture;
+uniform vec4 pixelColor;
+
+void main(void)
+{
+	outputColor = texture(fontTexture, texCoord) * pixelColor;
+
+}
