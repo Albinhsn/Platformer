@@ -11,7 +11,12 @@ Renderer g_renderer;
 Texture  textures[32];
 u32      textureCount = 0;
 
-u32      getTextureId(TextureModel textureModel)
+void     updateWindowSize(i32 width, i32 height)
+{
+  updateWindowSizeSDL(g_renderer.window, width, height);
+}
+
+u32 getTextureId(TextureModel textureModel)
 {
   return textures[textureModel].textureId;
 }
@@ -253,7 +258,6 @@ void renderComponent(UIComponent* comp)
   Matrix3x3 transMatrix;
   clearMat3x3(&transMatrix);
   getTransformationMatrix(&transMatrix, comp->x, comp->y, comp->width, comp->height);
-
   renderTexture(&transMatrix, comp->textureIdx);
 }
 

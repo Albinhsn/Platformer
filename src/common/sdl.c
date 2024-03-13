@@ -331,3 +331,9 @@ SDL_Window* initSDLWindow(SDL_GLContext* context, int screenWidth, int screenHei
 
   return window;
 }
+
+void                   updateWindowSizeSDL(SDL_Window * window, i32 width, i32 height)
+{
+  SDL_SetWindowSize(window, width, height);
+  glViewport(0, 0, width, height);
+}

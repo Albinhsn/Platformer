@@ -1,26 +1,10 @@
-#ifndef UI_H
-#define UI_H
+#ifndef GAME_UI_H
+#define GAME_UI_H
 
-#include "common.h"
-#include "font.h"
 #include "input.h"
-#include "vector.h"
-#include <stdbool.h>
+#include "ui.h"
 
 #define CONSOLE_NUMBER_OF_COMMANDS_VISIBLE 6
-
-struct Animation
-{
-  u64 startedAnimation;
-  u64 endedAnimation;
-  u64 animationTimer;
-  f32 initialWidth;
-  f32 initialHeight;
-  f32 maxSize;
-  u32 functionIdx;
-};
-
-typedef struct Animation Animation;
 
 enum UIState
 {
@@ -33,56 +17,6 @@ enum UIState
   UI_CONSOLE
 };
 typedef enum UIState UIState;
-
-struct UIComponent
-{
-  u32 textureIdx;
-  f32 x;
-  f32 y;
-  f32 width;
-  f32 height;
-};
-typedef struct UIComponent UIComponent;
-
-struct ButtonUIComponent
-{
-  const char* text;
-  f32         fontSize;
-  f32         spaceSize;
-  Color       color;
-  UIComponent component;
-  Animation   animation;
-};
-typedef struct ButtonUIComponent ButtonUIComponent;
-
-struct CheckboxUIComponent
-{
-  UIComponent checkmark;
-  UIComponent background;
-  bool        toggled;
-};
-typedef struct CheckboxUIComponent CheckboxUIComponent;
-
-struct DropdownUIComponent
-{
-  u32                itemCount;
-  ButtonUIComponent  dropdownButton;
-  ButtonUIComponent* items;
-  void*              dropdownData;
-  bool               toggled;
-};
-typedef struct DropdownUIComponent DropdownUIComponent;
-
-struct SliderUIComponent
-{
-  UIComponent background;
-  UIComponent bar;
-  UIComponent slider;
-  f32         value;
-  f32         minValue;
-  f32         maxValue;
-};
-typedef struct SliderUIComponent SliderUIComponent;
 
 struct ConsoleUI
 {

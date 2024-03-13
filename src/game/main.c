@@ -1,10 +1,11 @@
 #include "common.h"
 #include "entity.h"
+#include "game_ui.h"
 #include "input.h"
 #include "renderer.h"
 #include "timer.h"
-#include "ui.h"
 #include <stdlib.h>
+#include <string.h>
 
 struct Game
 {
@@ -26,10 +27,6 @@ static void renderGameEntities(Player* player)
   renderEntity(player->entity);
 }
 
-static void handleCollisions(Player* player, u64 currentTick)
-{
-}
-
 static void gameLoop(UIState* state, InputState* inputState, Game* game)
 {
   updateTimer(&game->timer);
@@ -39,7 +36,9 @@ static void gameLoop(UIState* state, InputState* inputState, Game* game)
     {
       *state = UI_EXIT;
     }
+    updatePlayer(inputState, &game->player, &game->timer);
   }
+  renderEntity(game->player.entity);
 }
 
 static void renderInfoStrings(u64* prevTick)
@@ -73,7 +72,6 @@ i32 main()
   initRenderer(&font);
 
   InputState inputState;
-  initInputState(&inputState);
 
   UI ui;
   ui.state = UI_MAIN_MENU;
@@ -90,20 +88,32 @@ i32 main()
   memset(&game, 0, sizeof(Game));
   resetGame(&game);
 
+  game.player.hp     = 3;
+  game.player.entity = getNewEntity();
+  initEntity(game.player.entity, 0.0f, 0.0f, 10.0f, 10.0f, 0, 1.0f);
+
   while (ui.state != UI_EXIT)
   {
 
-    initNewFrame();
+    initNewFrame(BLACK);
+    renderInfoStrings(&prevTick);
 
-    if (handleInput(&inputState))
+    if (ui.state == UI_GAME_RUNNING)
+    {
+      if (!game.timer.running)
+      {
+        startTimer(&game.timer);
+      }
+      gameLoop(&ui.state, &inputState, &game);
+    }
+    else if (handleInput(&inputState))
     {
       break;
     }
 
-    // UIState newState = renderUI(&ui, &inputState);
-    // updateUIState(&ui, newState, &game.timer);
+    UIState newState = renderUI(&ui, &inputState);
+    updateUIState(&ui, newState, &game.timer);
 
-    renderInfoStrings(&prevTick);
     SDL_GL_SwapWindow(g_renderer.window);
   }
 

@@ -1,7 +1,7 @@
 # Platformer
 
 ## ToDo
-- [ ] render a dude and have him move
+- [x] render a dude and have him move
 - [ ] create a map editor
     - [ ] background
     - [ ] actual tiles

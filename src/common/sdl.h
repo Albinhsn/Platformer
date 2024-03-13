@@ -57,6 +57,7 @@ typedef void(APIENTRYP PFNGLDRAWBUFFERSPROC)(GLint n, const GLenum* bufs);
 typedef void(APIENTRYP PFNGLDELETERENDERBUFFERSPROC)(GLsizei n, const GLuint* renderbuffers);
 typedef void(APIENTRYP PFNGLGENERATEMIPMAPPROC)(GLuint n);
 
+void                   updateWindowSizeSDL(SDL_Window * window, i32 width, i32 height);
 SDL_Window * initSDLWindow(SDL_GLContext * context, i32 screenWidth, i32 screenHeight);
 void      TurnZBufferOn();
 void      TurnZBufferOff();

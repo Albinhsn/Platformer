@@ -1,4 +1,4 @@
-#include "string.h"
+#include "sta_string.h"
 
 void ah_strcpyString(String *s1, String *s2) {
   s1->len = s2->len;

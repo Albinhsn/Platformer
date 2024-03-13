@@ -1,5 +1,6 @@
 #include "files.h"
 #include "lodepng.h"
+#include <stdlib.h>
 #include <string.h>
 
 

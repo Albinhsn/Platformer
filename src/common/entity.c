@@ -80,10 +80,13 @@ void updatePlayer(InputState* inputState, Player* player, Timer* timer)
 
   Entity* entity = player->entity;
   entity->x += xAcc;
-  entity->y += yAcc;
   if (!withinScreen(entity))
   {
     entity->x -= xAcc;
+  }
+  entity->y += yAcc;
+  if (!withinScreen(entity))
+  {
     entity->y -= yAcc;
   }
 }

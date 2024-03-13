@@ -3,7 +3,6 @@
 
 #define TEXT_MAX_LENGTH 32
 #include "sdl.h"
-#include "texture.h"
 #include <ctype.h>
 
 struct FontType
@@ -31,8 +30,8 @@ enum TextIndentation
 };
 typedef enum TextIndentation TextIndentation;
 
-void initFont(Font* font);
-void buildUpdatedTextVertexArray(Font* font, f32* vertices, u32 vertexCount, const char* text, f32 x, f32 y, f32 spaceSize, f32 fontSize, TextIndentation indentation);
-void updateText(Font* font, const char* text, f32 x, f32 y, f32 fontSize, f32 spaceSize, TextIndentation indentation);
+void                         initFont(Font* font);
+void                         buildUpdatedTextVertexArray(Font* font, f32* vertices, u32 vertexCount, const char* text, f32 x, f32 y, f32 spaceSize, f32 fontSize, TextIndentation indentation);
+void                         updateText(Font* font, const char* text, f32 x, f32 y, f32 fontSize, f32 spaceSize, TextIndentation indentation);
 
 #endif
