@@ -37,5 +37,5 @@ void renderUI(UI* ui)
     }
   }
 
-  renderLine(CREATE_VEC2f32(0.0f, 0.0f), CREATE_VEC2f32(-100.0f, -100.0f), &RED);
+  renderUnfilledQuad(CREATE_VEC2f32(-90.0f, 60.0f), CREATE_VEC2f32(30.0f, -60.0f), 5, &RED);
 }

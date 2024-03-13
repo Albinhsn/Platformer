@@ -266,7 +266,16 @@ static void setTextShaderParams(Font* font, Color* color)
   sta_glUniform4fv(location, 1, &c[0]);
 }
 
-void renderLine(Vec2f32 start, Vec2f32 end, Color* color)
+void renderUnfilledQuad(Vec2f32 start, Vec2f32 end, u32 width, Color* color)
+{
+
+  renderLine(CREATE_VEC2f32(start.x, start.y), CREATE_VEC2f32(end.x, start.y), width, color);
+  renderLine(CREATE_VEC2f32(start.x, start.y), CREATE_VEC2f32(start.x, end.y), width, color);
+  renderLine(CREATE_VEC2f32(end.x, start.y), CREATE_VEC2f32(end.x, end.y), width, color);
+  renderLine(CREATE_VEC2f32(start.x, end.y), CREATE_VEC2f32(end.x, end.y), width, color);
+}
+
+void renderLine(Vec2f32 start, Vec2f32 end, u32 width, Color* color)
 {
   setLineShaderParams(color);
   sta_glBindVertexArray(g_renderer.lineVertexId);
@@ -278,7 +287,9 @@ void renderLine(Vec2f32 start, Vec2f32 end, Color* color)
   };
 
   sta_glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 4, bufferData, GL_STATIC_DRAW);
+  glLineWidth(width);
   glDrawElements(GL_LINE_STRIP, 2, GL_UNSIGNED_INT, 0);
+  glLineWidth(1);
 }
 
 static void renderText(Font* font, Color* color)
