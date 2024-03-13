@@ -4,10 +4,10 @@
 - [x] render a dude and have him move
 - [x] able to get render a portion of the texture
 - [x] render "selectable tiles"
-- [ ] render empty map
-- [ ] render selected tile
-- [ ] able to place a tile
-- [ ] able to select what you want to place
+- [x] render empty map
+- [x] render selected tile
+- [x] able to place a tile
+- [ ] able to select what "category" you want to place
 - [ ] able to select background
 - [ ] able to select spawn point
 - [ ] able to select exit point?
@@ -19,6 +19,7 @@
 ## Editor
 * background
 * actual tiles
+    - [x]
 * spawn
 * exit
 * enemies

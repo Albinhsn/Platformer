@@ -27,7 +27,7 @@ i32 main()
       break;
     }
 
-    renderUI(&ui);
+    renderUI(&ui, &inputState);
 
     SDL_GL_SwapWindow(g_renderer.window);
   }

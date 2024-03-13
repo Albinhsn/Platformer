@@ -16,8 +16,8 @@ extern TextureTiled g_tiledTextures[8];
 
 void                      initTiledTextures();
 void                      renderTextureTile(f32 x, f32 y, f32 width, f32 height, u32 tiledTextureIdx, u32 textureIdx);
-inline TextureTiled getTiledTexture(TextureModel textureModel){
-  return g_tiledTextures[textureModel];
+inline TextureTiled *getTiledTexture(TextureModel textureModel){
+  return &g_tiledTextures[textureModel];
 }
 inline u32                getTextureId(TextureModel textureModel)
 {
