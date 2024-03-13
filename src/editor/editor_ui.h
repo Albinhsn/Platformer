@@ -3,6 +3,7 @@
 
 #include "common.h"
 
+
 struct UIMapTile
 {
   u8 textureIdx;
@@ -21,21 +22,24 @@ struct UIMap
 };
 typedef struct UIMap UIMap;
 
-struct UITiles{
+struct UITiles
+{
   f32 x;
   f32 y;
   f32 width;
   f32 height;
+  u8  textureIdx;
 };
 typedef struct UITiles UITiles;
 
 struct UI
 {
   UIMap map;
+  UITiles tileMap;
 };
 typedef struct UI UI;
 
-void renderUI(UI * ui);
-void initUI(UI * ui);
+void              renderUI(UI* ui);
+void              initUI(UI* ui);
 
 #endif

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "editor_renderer.h"
 #include "editor_ui.h"
 #include "font.h"
 #include "input.h"
@@ -7,7 +8,8 @@
 i32 main()
 {
   Font font;
-  initRenderer(&font);
+  initRenderer(&font, "./Assets/variables/editorTextureLocation.txt");
+  font.textureId = getTextureId(TEXTURE_FONT);
 
   InputState inputState;
 

@@ -1,4 +1,5 @@
 #include "game_ui.h"
+#include "game_renderer.h"
 #include "renderer.h"
 #include "timer.h"
 #include "ui.h"
@@ -65,7 +66,7 @@ struct ScreenSizePair
 };
 typedef struct ScreenSizePair ScreenSizePair;
 
-static UIState renderSettingsMenu(SettingsMenuUI* settingsMenu, InputState* inputState)
+static UIState                renderSettingsMenu(SettingsMenuUI* settingsMenu, InputState* inputState)
 {
   f32 fontSize  = getStateVariable("fontFontSizeSmall");
   f32 spaceSize = getStateVariable("fontSpaceSizeSmall");
@@ -385,7 +386,7 @@ void initSettingsUI(SettingsMenuUI* settings)
   f32 dropdownButtonHeight = BUTTON_SIZE_MEDIUM_HEIGHT;
 
   initButton(&settings->returnButton, RED, "RETURN", fontSize, spaceSize, 0.0f, -40.0f, buttonWidth, buttonHeight, TEXTURE_GREY_BUTTON_05);
-  initSlider(&settings->audioSlider, 50.0f, 0.0f, 100.0f, 0.0f, 60.0f, 65.0f, 8.0f);
+  initSlider(&settings->audioSlider, 50.0f, 0.0f, 100.0f, 0.0f, 60.0f, 65.0f, 8.0f, TEXTURE_GREY_BUTTON_05, TEXTURE_GREY_SLIDER_HORIZONTAL, TEXTURE_GREY_SLIDER_UP);
 
   u32             itemCount   = 4;
   ScreenSizePair* pairs       = (ScreenSizePair*)malloc(sizeof(ScreenSizePair) * itemCount);
@@ -400,8 +401,8 @@ void initSettingsUI(SettingsMenuUI* settings)
       "620x480",
   };
 
-  initDropdown(&settings->screenSizeDropdown, itemCount, dropdownText, (void*)pairs, RED, "Resolution", fontSize, spaceSize, 60.0f, 20.0f, dropdownButtonWidth, dropdownButtonHeight);
-  initCheckbox(&settings->vsyncCheckbox, 0.0f, 0.0f, 6.0f, 8.0f, getStateVariable("vsync") != 0);
+  initDropdown(&settings->screenSizeDropdown, itemCount, dropdownText, (void*)pairs, RED, "Resolution", fontSize, spaceSize, 60.0f, 20.0f, dropdownButtonWidth, dropdownButtonHeight, TEXTURE_GREY_BUTTON_05);
+  initCheckbox(&settings->vsyncCheckbox, 0.0f, 0.0f, 6.0f, 8.0f, getStateVariable("vsync") != 0, TEXTURE_GREY_BOX, TEXTURE_GREY_CHECKMARK_GREY);
 
   settings->parentState = UI_MAIN_MENU;
 }

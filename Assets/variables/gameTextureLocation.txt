@@ -1,0 +1,8 @@
+./Assets/Characters/Platformer/tile_0000.png
+./Assets/UI/grey_button05.png
+./Assets/UI/grey_box.png
+./Assets/UI/grey_checkmarkGrey.png
+./Assets/UI/grey_sliderUp.png
+./Assets/UI/grey_sliderHorizontal.png
+./Assets/UI/grey_button14.png
+./Assets/Fonts/font03.png

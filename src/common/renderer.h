@@ -2,8 +2,8 @@
 #define RENDERER_H
 
 #include "common.h"
-#include "entity.h"
 #include "font.h"
+#include "texture.h"
 #include "ui.h"
 
 #define TEXT_MAX_LENGTH 32
@@ -15,28 +15,15 @@ struct Renderer
   GLuint        textureProgramId;
   GLuint        textureVertexId;
   Font*         font;
+  Texture       textures[32];
+  u32           textureCount;
 };
 
-enum TextureModel
-{
-  TEXTURE_PLAYER_MODEL,
-  TEXTURE_GREY_BUTTON_05,
-  TEXTURE_GREY_BOX,
-  TEXTURE_GREY_CHECKMARK_GREY,
-  TEXTURE_GREY_SLIDER_UP,
-  TEXTURE_GREY_SLIDER_HORIZONTAL,
-  TEXTURE_GREY_BUTTON_14,
-  TEXTURE_FONT
-};
 typedef enum TextureModel TextureModel;
-
 typedef struct Renderer   Renderer;
-
 extern Renderer           g_renderer;
 
 void                      updateWindowSize(i32 width, i32 height);
-void                      initRenderer(Font* font);
-void                      renderEntity(Entity* entity);
 void                      renderComponent(UIComponent* comp);
 void                      renderTexture(Matrix3x3* transMatrix, u32 textureIdx);
 void                      renderButton(ButtonUIComponent* button);
@@ -47,9 +34,8 @@ void                      renderTextCentered(const char* text, Color* color, f32
 void                      renderTextEndsAt(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
 void                      renderTextStartsAt(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
 void                      renderTextEndsAt(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
-u32                       getTextureId(enum TextureModel textureModel);
-void                      renderHealth(u8 hp);
 
+void initRenderer(Font* font, const char* textureLocation);
 static inline void        initNewFrame(Color color)
 {
   glClearColor(color.x, color.y, color.z, color.a);

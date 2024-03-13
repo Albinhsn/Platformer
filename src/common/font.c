@@ -90,7 +90,6 @@ void initFont(Font* font)
 {
   parseFontTypes(font, FONT_DATA_LOCATION);
   createTextBuffers(font);
-  font->textureId = getTextureId(TEXTURE_FONT);
 }
 
 void buildUpdatedTextVertexArray(Font* font, f32* vertices, u32 vertexCount, const char* text, f32 x, f32 y, f32 spaceSize, f32 fontSize, TextIndentation indentation)

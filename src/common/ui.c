@@ -1,8 +1,6 @@
 #include "ui.h"
 #include "common.h"
-#include "renderer.h"
 #include <SDL2/SDL_video.h>
-
 
 void initUIComponent(UIComponent* component, f32 x, f32 y, f32 width, f32 height, u32 textureIdx)
 {
@@ -13,21 +11,21 @@ void initUIComponent(UIComponent* component, f32 x, f32 y, f32 width, f32 height
   component->height     = height;
 }
 
-void initSlider(SliderUIComponent* slider, f32 initialValue, f32 minValue, f32 maxValue, f32 x, f32 y, f32 width, f32 height)
+void initSlider(SliderUIComponent* slider, f32 initialValue, f32 minValue, f32 maxValue, f32 x, f32 y, f32 width, f32 height, u32 backgroundTextureIdx, u32 barTextureIdx, u32 sliderTextureIdx)
 {
   slider->minValue = minValue;
   slider->maxValue = maxValue;
   slider->value    = initialValue;
-  initUIComponent(&slider->background, x, y, width, height, TEXTURE_GREY_BUTTON_05);
-  initUIComponent(&slider->bar, x, y, width * 0.9f, height, TEXTURE_GREY_SLIDER_HORIZONTAL);
-  initUIComponent(&slider->slider, x, y, width * 0.1f, height * 0.9f, TEXTURE_GREY_SLIDER_UP);
+  initUIComponent(&slider->background, x, y, width, height, backgroundTextureIdx);
+  initUIComponent(&slider->bar, x, y, width * 0.9f, height, barTextureIdx);
+  initUIComponent(&slider->slider, x, y, width * 0.1f, height * 0.9f, sliderTextureIdx);
 }
 
-void initCheckbox(CheckboxUIComponent* checkbox, f32 x, f32 y, f32 width, f32 height, bool toggled)
+void initCheckbox(CheckboxUIComponent* checkbox, f32 x, f32 y, f32 width, f32 height, bool toggled, u32 backgroundTextureIdx, u32 checkmarkTextureIdx)
 {
   checkbox->toggled = toggled;
-  initUIComponent(&checkbox->background, x, y, width, height, TEXTURE_GREY_BOX);
-  initUIComponent(&checkbox->checkmark, x, y, width, height, TEXTURE_GREY_CHECKMARK_GREY);
+  initUIComponent(&checkbox->background, x, y, width, height, backgroundTextureIdx);
+  initUIComponent(&checkbox->checkmark, x, y, width, height, checkmarkTextureIdx);
 }
 
 void initButton(ButtonUIComponent* button, Color color, const char* text, f32 fontSize, f32 spaceSize, f32 x, f32 y, f32 width, f32 height, u32 textureIdx)
@@ -40,19 +38,19 @@ void initButton(ButtonUIComponent* button, Color color, const char* text, f32 fo
 }
 
 void initDropdown(DropdownUIComponent* slider, u32 itemCount, const char** itemText, void* dropdownData, Color color, const char* text, f32 fontSize, f32 spaceSize, f32 x, f32 y, f32 width,
-                         f32 height)
+                  f32 height, u32 dropdownButtonTextureIdx)
 {
   slider->toggled      = false;
   slider->itemCount    = itemCount;
   slider->dropdownData = dropdownData;
 
-  initButton(&slider->dropdownButton, color, text, fontSize, spaceSize, x, y, width, height, TEXTURE_GREY_BUTTON_05);
+  initButton(&slider->dropdownButton, color, text, fontSize, spaceSize, x, y, width, height, dropdownButtonTextureIdx);
 
   slider->items = (ButtonUIComponent*)malloc(sizeof(ButtonUIComponent) * itemCount);
   for (u32 i = 0; i < itemCount; i++)
   {
     y -= 2.0f * height;
-    initButton(&slider->items[i], color, itemText[i], fontSize, spaceSize, x, y, width, height, TEXTURE_GREY_BUTTON_05);
+    initButton(&slider->items[i], color, itemText[i], fontSize, spaceSize, x, y, width, height, dropdownButtonTextureIdx);
   }
 }
 
@@ -133,7 +131,6 @@ bool componentIsPressed(UIComponent component, InputState* inputState)
   return hovers(component, inputState);
 }
 
-
 void updateSliderPosition(SliderUIComponent* slider, InputState* inputState)
 {
   slider->slider.x = ((inputState->mouseX / (f32)getScreenWidth()) * 2.0f - 1.0f) * 100.0f;
@@ -149,4 +146,3 @@ void updateSliderValue(SliderUIComponent* slider)
 
   slider->value  = slider->value + (slider->maxValue - slider->minValue) * (slider->slider.x - minSliderX) / (maxSliderX - minSliderX);
 }
-

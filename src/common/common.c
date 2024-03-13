@@ -1,4 +1,5 @@
 #include "common.h"
+#include "timer.h"
 #include "renderer.h"
 #include <SDL2/SDL_video.h>
 #include <stdio.h>

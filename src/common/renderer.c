@@ -8,37 +8,32 @@
 #include <string.h>
 
 Renderer g_renderer;
-Texture  textures[32];
-u32      textureCount = 0;
 
 void     updateWindowSize(i32 width, i32 height)
 {
   updateWindowSizeSDL(g_renderer.window, width, height);
 }
 
-u32 getTextureId(TextureModel textureModel)
-{
-  return textures[textureModel].textureId;
-}
-
-#define NUMBER_OF_TEXTURES 8
-static const char* textureLocations[NUMBER_OF_TEXTURES] = {
-    "./Assets/Characters/Platformer/tile_0000.png", "./Assets/UI/grey_button05.png", "./Assets/UI/grey_box.png", "./Assets/UI/grey_checkmarkGrey.png", "./Assets/UI/grey_sliderUp.png",
-    "./Assets/UI/grey_sliderHorizontal.png",        "./Assets/UI/grey_button14.png", "./Assets/Fonts/font03.png"};
-
-void generateTextures()
+void generateTextures(const char* textureLocations)
 {
   glActiveTexture(GL_TEXTURE0);
-  for (u32 i = 0; i < NUMBER_OF_TEXTURES; i++)
+  FILE* filePtr = fopen(textureLocations, "rb");
+  if (filePtr == 0)
   {
-    Texture* texture = &textures[i];
+    printf("Failed to open stateVariables '%s'\n", textureLocations);
+    return;
+  }
+  char buffer[256];
+  memset(buffer, 0, 256);
+  u8 idx = 0;
+  while (fgets(buffer, 256, filePtr))
+  {
+    Texture* texture = &g_renderer.textures[idx];
     glGenTextures(1, &texture->textureId);
     glBindTexture(GL_TEXTURE_2D, texture->textureId);
-    printf("Generated %d\n", texture->textureId);
 
-    const char* location = textureLocations[i];
-
-    bool        result   = parsePNG(&texture->data, &texture->width, &texture->height, location);
+    buffer[strlen(buffer) - 1] = '\0';
+    bool result = parsePNG(&texture->data, &texture->width, &texture->height, buffer);
     if (!result)
     {
       continue;
@@ -52,9 +47,9 @@ void generateTextures()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
     sta_glGenerateMipmap(GL_TEXTURE_2D);
+    idx++;
   }
 }
-#undef NUMBER_OF_TEXTURES
 
 void createTextureVertexArray()
 {
@@ -162,12 +157,12 @@ void createTextureShaderProgram()
   sta_glLinkProgram(g_renderer.textureProgramId);
 }
 
-void initRenderer(Font* font)
+void initRenderer(Font* font, const char* textureLocation)
 {
   g_renderer.window = initSDLWindow(&g_renderer.context, DEFAULT_SCREENWIDTH, DEFAULT_SCREENHEIGHT);
   g_renderer.font   = font;
 
-  generateTextures();
+  generateTextures(textureLocation);
   createTextShaderProgram();
   initFont(font);
 
@@ -175,20 +170,13 @@ void initRenderer(Font* font)
   createTextureVertexArray();
 }
 
-void renderEntity(Entity* entity)
-{
-  Matrix3x3 transMatrix;
-  clearMat3x3(&transMatrix);
-  getTransformationMatrix(&transMatrix, entity->x, entity->y, entity->width, entity->height);
-  renderTexture(&transMatrix, entity->textureIdx);
-}
-
 void renderTexture(Matrix3x3* transMatrix, u32 textureIdx)
 {
   sta_glUseProgram(g_renderer.textureProgramId);
   sta_glBindVertexArray(g_renderer.textureVertexId);
 
-  Texture texture = textures[textureIdx];
+  Texture texture = g_renderer.textures[textureIdx];
+
   glBindTexture(GL_TEXTURE_2D, texture.textureId);
 
   i32 location = sta_glGetUniformLocation(g_renderer.textureProgramId, "transMatrix");

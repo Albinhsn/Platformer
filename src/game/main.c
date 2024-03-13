@@ -1,5 +1,6 @@
 #include "common.h"
 #include "entity.h"
+#include "game_renderer.h"
 #include "game_ui.h"
 #include "input.h"
 #include "renderer.h"
@@ -69,11 +70,13 @@ i32 main()
   loadStateVariables();
 
   Font font;
-  initRenderer(&font);
+  initRenderer(&font, "./Assets/variables/gameTextureLocation.txt");
+  font.textureId = getTextureId(TEXTURE_FONT);
+
 
   InputState inputState;
 
-  UI ui;
+  UI         ui;
   ui.state = UI_MAIN_MENU;
   ConsoleUI      console;
   GameOverUI     gameOver;
