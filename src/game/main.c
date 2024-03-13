@@ -23,11 +23,6 @@ static void         resetGame(Game* game)
   printf("Restarted game\n");
 }
 
-static void renderGameEntities(Player* player)
-{
-  renderEntity(player->entity);
-}
-
 static void gameLoop(UIState* state, InputState* inputState, Game* game)
 {
   updateTimer(&game->timer);

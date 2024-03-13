@@ -12,6 +12,13 @@ struct Texture
 };
 typedef struct Texture Texture;
 
+struct TextureTiled
+{
+  u32      dim;
+  Texture* texture;
+};
+typedef struct TextureTiled TextureTiled;
+
 void parseTexture(Texture * texture);
 
 #endif

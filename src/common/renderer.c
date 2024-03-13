@@ -33,7 +33,7 @@ void generateTextures(const char* textureLocations)
     glBindTexture(GL_TEXTURE_2D, texture->textureId);
 
     buffer[strlen(buffer) - 1] = '\0';
-    bool result = parsePNG(&texture->data, &texture->width, &texture->height, buffer);
+    bool result                = parsePNG(&texture->data, &texture->width, &texture->height, buffer);
     if (!result)
     {
       continue;
@@ -67,8 +67,8 @@ void createTextureVertexArray()
   sta_glGenVertexArrays(1, &g_renderer.textureVertexId);
   sta_glBindVertexArray(g_renderer.textureVertexId);
 
-  sta_glGenBuffers(1, &vertexBufferId);
-  sta_glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
+  sta_glGenBuffers(1, &g_renderer.textureBufferId);
+  sta_glBindBuffer(GL_ARRAY_BUFFER, g_renderer.textureBufferId);
   sta_glBufferData(GL_ARRAY_BUFFER, 16 * sizeof(GLfloat), bufferData, GL_STATIC_DRAW);
 
   sta_glEnableVertexAttribArray(0);
@@ -175,9 +175,7 @@ void renderTexture(Matrix3x3* transMatrix, u32 textureIdx)
   sta_glUseProgram(g_renderer.textureProgramId);
   sta_glBindVertexArray(g_renderer.textureVertexId);
 
-  Texture texture = g_renderer.textures[textureIdx];
-
-  glBindTexture(GL_TEXTURE_2D, texture.textureId);
+  glBindTexture(GL_TEXTURE_2D, textureIdx);
 
   i32 location = sta_glGetUniformLocation(g_renderer.textureProgramId, "transMatrix");
   if (location == -1)
@@ -246,7 +244,8 @@ void renderComponent(UIComponent* comp)
   Matrix3x3 transMatrix;
   clearMat3x3(&transMatrix);
   getTransformationMatrix(&transMatrix, comp->x, comp->y, comp->width, comp->height);
-  renderTexture(&transMatrix, comp->textureIdx);
+  Texture texture = g_renderer.textures[comp->textureIdx]; 
+  renderTexture(&transMatrix, texture.textureId);
 }
 
 void renderButton(ButtonUIComponent* button)

@@ -14,6 +14,7 @@ struct Renderer
   SDL_GLContext context;
   GLuint        textureProgramId;
   GLuint        textureVertexId;
+  GLuint        textureBufferId;
   Font*         font;
   Texture       textures[32];
   u32           textureCount;
@@ -34,8 +35,9 @@ void                      renderTextCentered(const char* text, Color* color, f32
 void                      renderTextEndsAt(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
 void                      renderTextStartsAt(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
 void                      renderTextEndsAt(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
+Texture*                  getTexture(u32 textureIdx);
 
-void initRenderer(Font* font, const char* textureLocation);
+void                      initRenderer(Font* font, const char* textureLocation);
 static inline void        initNewFrame(Color color)
 {
   glClearColor(color.x, color.y, color.z, color.a);
