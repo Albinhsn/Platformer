@@ -48,14 +48,14 @@ typedef void(APIENTRY* PFNGLBINDRENDERBUFFERPROC)(GLenum target, GLuint renderbu
 typedef void(APIENTRY* PFNGLRENDERBUFFERSTORAGEPROC)(GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
 typedef void(APIENTRY* PFNGLFRAMEBUFFERRENDERBUFFERPROC)(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
 typedef void(APIENTRY* PFNGLDELETERENDERBUFFERSPROC)(GLsizei n, const GLuint* renderbuffers);
-typedef void(APIENTRYP PFNGLBLENDFUNCSEPARATEPROC)(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
-typedef void(APIENTRYP PFNGLSHADERSOURCEPROC)(GLuint shader, GLsizei count, const GLchar* const* string, const GLint* length);
-typedef void(APIENTRYP PFNGLGENERATEMIPMAPPROC)(GLenum target);
-typedef void*(APIENTRYP PFNGLMAPNAMEDBUFFERPROC)(GLuint buffer, GLenum access);
-typedef void(APIENTRYP PFNGLFRAMEBUFFERTEXTURE2DPROC)(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-typedef void(APIENTRYP PFNGLDRAWBUFFERSPROC)(GLint n, const GLenum* bufs);
-typedef void(APIENTRYP PFNGLDELETERENDERBUFFERSPROC)(GLsizei n, const GLuint* renderbuffers);
-typedef void(APIENTRYP PFNGLGENERATEMIPMAPPROC)(GLuint n);
+typedef void(APIENTRY* PFNGLBLENDFUNCSEPARATEPROC)(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
+typedef void(APIENTRY* PFNGLSHADERSOURCEPROC)(GLuint shader, GLsizei count, const char* const* string, const GLint* length);
+typedef void(APIENTRY* PFNGLGENERATEMIPMAPPROC)(GLenum target);
+typedef void*(APIENTRY* PFNGLMAPNAMEDBUFFERPROC)(GLuint buffer, GLenum access);
+typedef void(APIENTRY* PFNGLFRAMEBUFFERTEXTURE2DPROC)(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+typedef void(APIENTRY* PFNGLDRAWBUFFERSPROC)(GLint n, const GLenum* bufs);
+typedef void(APIENTRY* PFNGLDELETERENDERBUFFERSPROC)(GLsizei n, const GLuint* renderbuffers);
+typedef void(APIENTRY* PFNGLGENERATEMIPMAPPROC)(GLuint n);
 
 void                   updateWindowSizeSDL(SDL_Window * window, i32 width, i32 height);
 SDL_Window * initSDLWindow(SDL_GLContext * context, i32 screenWidth, i32 screenHeight);
@@ -108,7 +108,7 @@ void      sta_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsize
 void      sta_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
 void      sta_glDeleteRenderbuffers(GLsizei n, const GLuint* renderbuffers);
 void      sta_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
-void      sta_glShaderSource(GLuint shader, GLsizei count, const GLchar* const* string, const GLint* length);
+void      sta_glShaderSource(GLuint shader, GLsizei count, const char* const* string, const GLint* length);
 void      sta_glMapNamedBuffer(GLuint buffer, GLenum access);
 void      sta_glDrawBuffers(GLint n, const GLenum* bufs);
 

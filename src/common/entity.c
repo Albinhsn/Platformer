@@ -1,7 +1,6 @@
 #include "entity.h"
 #include "input.h"
 #include "timer.h"
-#include <endian.h>
 #include <stdbool.h>
 #include <stdio.h>
 

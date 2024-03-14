@@ -1,4 +1,5 @@
 #include "editor_renderer.h"
+#include <GL/glext.h>
 #include "sdl.h"
 
 TextureTiled g_tiledTextures[8];

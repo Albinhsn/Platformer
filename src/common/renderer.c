@@ -2,6 +2,8 @@
 #include "common.h"
 #include "files.h"
 #include "font.h"
+#include <GL/glext.h>
+#include <GL/gl.h>
 #include "sdl.h"
 #include "texture.h"
 #include "vector.h"
@@ -16,7 +18,7 @@ void     updateWindowSize(i32 width, i32 height)
 
 void generateTextures(const char* textureLocations)
 {
-  glActiveTexture(GL_TEXTURE0);
+  //glActiveTexture(GL_TEXTURE0);
   FILE* filePtr = fopen(textureLocations, "rb");
   if (filePtr == 0)
   {

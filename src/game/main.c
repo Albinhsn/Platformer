@@ -59,7 +59,7 @@ static void renderInfoStrings(u64* prevTick)
   *prevTick = SDL_GetTicks();
 }
 
-i32 main()
+i32 main(int argc, char* argv[])
 {
   srand(0);
   loadStateVariables();

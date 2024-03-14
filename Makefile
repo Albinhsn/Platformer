@@ -1,7 +1,7 @@
-CC := gcc
-CFLAGS := -O2 -g -std=c11 -Wall -Wno-missing-braces -Wno-stringop-truncation -D_DEFAULT_SOURCE -I./src/common -I./src/game
+CC := x86_64-w64-mingw32-gcc
+CFLAGS := -O2 -g -std=c11 -Wall -Wno-missing-braces -Wno-stringop-truncation -D_DEFAULT_SOURCE -I./src/common -I/usr/local/x86_64-w64-mingw32/include 
 TARGET := main 
-LDFLAGS := -ldl -lSDL2 -lm -lz -lGL
+LDFLAGS := -L/usr/local/x86_64-w64-mingw32/lib -lm -lopengl32 -lmingw32   -lSDL2main -lSDL2_test -lSDL2
 
 COMMON_SRCS = $(wildcard src/common/*.c)
 GAME_SRCS = $(wildcard src/game/*.c)
@@ -11,9 +11,8 @@ COMMON_OBJS = $(patsubst src/common/%.c,obj/game/%.o,$(COMMON_SRCS))
 GAME_OBJS = $(patsubst src/game/%.c,obj/game/%.o,$(GAME_SRCS))
 EDITOR_OBJS = $(patsubst src/editor/%.c,obj/editor/%.o,$(EDITOR_SRCS))
 
-TARGET = main 
+TARGET = main.exe
 TARGET_EDITOR = editor 
-
 
 g: $(TARGET)
 $(TARGET): $(COMMON_OBJS) $(GAME_OBJS)

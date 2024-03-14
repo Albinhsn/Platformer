@@ -1,4 +1,5 @@
 #include "sdl.h"
+#include <GL/glext.h>
 #include "common.h"
 
 PFNGLCREATESHADERPROC             glCreateShader             = NULL;
@@ -45,7 +46,7 @@ PFNGLGENRENDERBUFFERSPROC         glGenRenderbuffers         = NULL;
 PFNGLBINDRENDERBUFFERPROC         glBindRenderbuffer         = NULL;
 PFNGLRENDERBUFFERSTORAGEPROC      glRenderbufferStorage      = NULL;
 PFNGLFRAMEBUFFERRENDERBUFFERPROC  glFramebufferRenderbuffer  = NULL;
-PFNGLDRAWBUFFERSARBPROC           glDrawBuffers              = NULL;
+PFNGLDRAWBUFFERSPROC              glDrawBuffers              = NULL;
 PFNGLDELETERENDERBUFFERSPROC      glDeleteRenderbuffers      = NULL;
 PFNGLBLENDFUNCSEPARATEPROC        glBlendFuncSeparate        = NULL;
 PFNGLBINDVERTEXARRAYPROC          glBindVertexArray          = NULL;
@@ -98,7 +99,7 @@ void                              loadExtensions()
   glBindRenderbuffer         = (PFNGLBINDRENDERBUFFERPROC)SDL_GL_GetProcAddress("glBindRenderbuffer");
   glRenderbufferStorage      = (PFNGLRENDERBUFFERSTORAGEPROC)SDL_GL_GetProcAddress("glRenderbufferStorage");
   glFramebufferRenderbuffer  = (PFNGLFRAMEBUFFERRENDERBUFFERPROC)SDL_GL_GetProcAddress("glFramebufferRenderbuffer");
-  glDrawBuffers              = (PFNGLDRAWBUFFERSARBPROC)SDL_GL_GetProcAddress("glDrawBuffers");
+  glDrawBuffers              = (PFNGLDRAWBUFFERSPROC)SDL_GL_GetProcAddress("glDrawBuffers");
   glDeleteRenderbuffers      = (PFNGLDELETERENDERBUFFERSPROC)SDL_GL_GetProcAddress("glDeleteRenderbuffers");
   glBlendFuncSeparate        = (PFNGLBLENDFUNCSEPARATEPROC)SDL_GL_GetProcAddress("glBlendFuncSeparate");
 }
@@ -280,7 +281,7 @@ void sta_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfacto
 {
   glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
 }
-void sta_glShaderSource(GLuint shader, GLsizei count, const GLchar* const* string, const GLint* length)
+void sta_glShaderSource(GLuint shader, GLsizei count, const char* const* string, const GLint* length)
 {
   glShaderSource(shader, count, string, length);
 }

@@ -5,7 +5,7 @@
 #include "input.h"
 #include "renderer.h"
 
-i32 main()
+i32 main(int argv, char * argc[])
 {
   loadStateVariables();
 
