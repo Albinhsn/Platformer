@@ -31,13 +31,29 @@
 - [x] differentiate between ground and other collidedable objects
 - [x] spawn at correct position and end game at correct position
 
+## Game Things
+### Enemies
+- [ ] Spawn them
+- [ ] Have them move
+- [ ] Have them kill you :)
+
+### Interaction with ui
+- [ ] fix everything from test map
+    - [ ] the pole thingy that move
+    - [ ] the bouncing thing
+    - [ ] ladders
+    - [ ] gather emeralds
+    - [ ] take dmg from spikes
+    - [ ] See if you can animate the water
+    - [ ] Have x3 clouds move
+### Random
+- [ ] have some sort of hp idea and respawn rather then die
+- [ ] fix some sort of background in general
+
 
 
 ## Cleanup
 cleanup what's common and whats not
-Just use the same map as ui component
-Fix the -y thingy
-Fix the main menu -> exit
 
 
 ## Editor

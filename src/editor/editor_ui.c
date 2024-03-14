@@ -21,14 +21,14 @@ static void renderUIMap(UIMap* map)
 
   for (u32 i = 0; i < map->tileCount; i++)
   {
-    UIMapTile tile = map->tiles[i];
-    renderTextureTile(minX + (tile.col + 0.5f) * dimX * 2, minY - (tile.row + 0.5f) * dimY * 2, dimX, dimY, TEXTURE_TILES, map->tiles[i].textureIdx);
+    MapTile tile = map->tiles[i];
+    renderTextureTile(minX + (tile.x + 0.5f) * dimX * 2, minY - (tile.y + 0.5f) * dimY * 2, dimX, dimY, TEXTURE_TILES, map->tiles[i].textureIdx);
   }
 
   for (u32 i = 0; i < map->characterCount; i++)
   {
-    UIMapTile tile = map->characters[i];
-    renderTextureTile(minX + (tile.col + 0.5f) * dimX * 2, minY - (tile.row + 0.5f) * dimY * 2, dimX, dimY, TEXTURE_CHARACTERS, map->characters[i].textureIdx);
+    MapTile tile = map->characters[i];
+    renderTextureTile(minX + (tile.x + 0.5f) * dimX * 2, minY - (tile.y + 0.5f) * dimY * 2, dimX, dimY, TEXTURE_CHARACTERS, map->characters[i].textureIdx);
   }
 }
 static void initUIMap(UIMap* map, f32 x, f32 y, f32 w, f32 h)
@@ -39,11 +39,11 @@ static void initUIMap(UIMap* map, f32 x, f32 y, f32 w, f32 h)
 
   map->tileCap        = 8;
   map->tileCount      = 0;
-  map->tiles          = (UIMapTile*)malloc(sizeof(UIMapTile) * map->tileCap);
+  map->tiles          = (MapTile*)malloc(sizeof(MapTile) * map->tileCap);
 
   map->characterCap   = 8;
   map->characterCount = 0;
-  map->characters     = (UIMapTile*)malloc(sizeof(UIMapTile) * map->characterCap);
+  map->characters     = (MapTile*)malloc(sizeof(MapTile) * map->characterCap);
 
   map->backgroundIdx  = -1;
 }
@@ -83,19 +83,19 @@ void initUI(UI* ui)
   initUISelectedType(&ui->selectTypes);
   ui->selectedTileType = TEXTURE_TILES;
 
-  initButton(&ui->saveBtn, RED, "save", 5.0f, 10.0f, -10.0f, -80.0f, 15.0f, 15.0f, TEXTURE_GREY_BOX);
+  initButton(&ui->saveBtn, RED, "save", 5.0f, 10.0f, -10.0f, -80.0f, 15.0f, 15.0f, TEXTURE_GREY_BUTTON_05);
 }
 
 static void renderTiles(UITiles* tiles, TextureModel model)
 {
 
-  f32      dim       = tiles->tileDim;
-  f32      start     = tiles->comp.x - tiles->comp.width + dim;
-  f32      x         = start;
-  f32      endX      = tiles->comp.x + tiles->comp.width;
-  f32      y         = tiles->comp.y + tiles->comp.height - dim;
+  f32 dim       = tiles->tileDim;
+  f32 start     = tiles->comp.x - tiles->comp.width + dim;
+  f32 x         = start;
+  f32 endX      = tiles->comp.x + tiles->comp.width;
+  f32 y         = tiles->comp.y + tiles->comp.height - dim;
 
-  f32      doubleDim = dim * 2.0f;
+  f32 doubleDim = dim * 2.0f;
   for (u32 i = 0; i < tiles->tiles->count; i++)
   {
     renderTextureTile(x, y, dim, dim, model, i);
@@ -164,21 +164,21 @@ static void debugTileMap(UIMap* map)
 }
 static void addCharacterToMap(UIMap* map, InputState* inputState, u32 textureIdx)
 {
-  u32        screenWidth  = getScreenWidth();
-  u32        screenHeight = getScreenHeight();
-  f32        mouseX       = inputState->mouseX / (f32)screenWidth * 200.0f - 100.0f;
-  f32        mouseY       = inputState->mouseY / (f32)screenHeight * 200.0f - 100.0f;
+  u32      screenWidth  = getScreenWidth();
+  u32      screenHeight = getScreenHeight();
+  f32      mouseX       = inputState->mouseX / (f32)screenWidth * 200.0f - 100.0f;
+  f32      mouseY       = inputState->mouseY / (f32)screenHeight * 200.0f - 100.0f;
 
-  f32        x            = (mouseX - map->comp.x + map->comp.width) / (map->comp.width * 2);
-  f32        y            = (mouseY - map->comp.y + map->comp.height) / (map->comp.height * 2);
+  f32      x            = (mouseX - map->comp.x + map->comp.width) / (map->comp.width * 2);
+  f32      y            = (mouseY - map->comp.y + map->comp.height) / (map->comp.height * 2);
 
-  u32        colIdx       = map->tileWidth * x;
-  u32        rowIdx       = map->tileHeight * y;
+  u32      colIdx       = map->tileWidth * x;
+  u32      rowIdx       = map->tileHeight * y;
 
-  UIMapTile* chars        = map->characters;
+  MapTile* chars        = map->characters;
   for (u32 i = 0; i < map->characterCount; i++)
   {
-    if (chars[i].col == colIdx && chars[i].row == rowIdx)
+    if (chars[i].x == colIdx && chars[i].y == rowIdx)
     {
       if (chars[i].textureIdx != textureIdx)
       {
@@ -198,32 +198,32 @@ static void addCharacterToMap(UIMap* map, InputState* inputState, u32 textureIdx
   if (map->characterCount >= map->characterCap)
   {
     map->characterCap *= 2;
-    map->characters = realloc(map->characters, sizeof(UIMapTile) * map->characterCap);
+    map->characters = realloc(map->characters, sizeof(MapTile) * map->characterCap);
   }
 
-  map->characters[map->characterCount].col        = colIdx;
-  map->characters[map->characterCount].row        = rowIdx;
+  map->characters[map->characterCount].x          = colIdx;
+  map->characters[map->characterCount].y          = rowIdx;
   map->characters[map->characterCount].textureIdx = textureIdx;
   map->characterCount++;
 }
 
 static void addTileToMap(UIMap* map, InputState* inputState, u32 textureIdx)
 {
-  u32        screenWidth  = getScreenWidth();
-  u32        screenHeight = getScreenHeight();
-  f32        mouseX       = inputState->mouseX / (f32)screenWidth * 200.0f - 100.0f;
-  f32        mouseY       = inputState->mouseY / (f32)screenHeight * 200.0f - 100.0f;
+  u32      screenWidth  = getScreenWidth();
+  u32      screenHeight = getScreenHeight();
+  f32      mouseX       = inputState->mouseX / (f32)screenWidth * 200.0f - 100.0f;
+  f32      mouseY       = inputState->mouseY / (f32)screenHeight * 200.0f - 100.0f;
 
-  f32        x            = (mouseX - map->comp.x + map->comp.width) / (map->comp.width * 2);
-  f32        y            = (mouseY - map->comp.y + map->comp.height) / (map->comp.height * 2);
+  f32      x            = (mouseX - map->comp.x + map->comp.width) / (map->comp.width * 2);
+  f32      y            = (mouseY - map->comp.y + map->comp.height) / (map->comp.height * 2);
 
-  u32        colIdx       = map->tileWidth * x;
-  u32        rowIdx       = map->tileHeight * y;
+  u32      colIdx       = map->tileWidth * x;
+  u32      rowIdx       = map->tileHeight * y;
 
-  UIMapTile* tiles        = map->tiles;
+  MapTile* tiles        = map->tiles;
   for (u32 i = 0; i < map->tileCount; i++)
   {
-    if (tiles[i].col == colIdx && tiles[i].row == rowIdx)
+    if (tiles[i].x == colIdx && tiles[i].y == rowIdx)
     {
       if (tiles[i].textureIdx != textureIdx)
       {
@@ -243,11 +243,11 @@ static void addTileToMap(UIMap* map, InputState* inputState, u32 textureIdx)
   if (map->tileCount >= map->tileCap)
   {
     map->tileCap *= 2;
-    map->tiles = realloc(map->tiles, sizeof(UIMapTile) * map->tileCap);
+    map->tiles = realloc(map->tiles, sizeof(MapTile) * map->tileCap);
   }
 
-  map->tiles[map->tileCount].col        = colIdx;
-  map->tiles[map->tileCount].row        = rowIdx;
+  map->tiles[map->tileCount].x        = colIdx;
+  map->tiles[map->tileCount].y        = rowIdx;
   map->tiles[map->tileCount].textureIdx = textureIdx;
   map->tileCount++;
 }

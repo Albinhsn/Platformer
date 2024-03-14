@@ -33,13 +33,13 @@ void saveMap(UI* ui)
 
   for (u32 i = 0; i < ui->map.tileCount; i++)
   {
-    UIMapTile tile            = ui->map.tiles[i];
+    MapTile   tile            = ui->map.tiles[i];
     String    xKey            = (String){.len = 1, .buffer = (u8*)"x", .capacity = 1};
     String    yKey            = (String){.len = 1, .buffer = (u8*)"y", .capacity = 1};
     String    textureIdxKey   = (String){.len = 10, .buffer = (u8*)"textureIdx", .capacity = 10};
 
-    JsonValue xValue          = (JsonValue){.type = JSON_NUMBER, .number = tile.col};
-    JsonValue yValue          = (JsonValue){.type = JSON_NUMBER, .number = tile.row};
+    JsonValue xValue          = (JsonValue){.type = JSON_NUMBER, .number = tile.x};
+    JsonValue yValue          = (JsonValue){.type = JSON_NUMBER, .number = tile.y};
     JsonValue textureIdxValue = (JsonValue){.type = JSON_NUMBER, .number = tile.textureIdx};
 
     JsonValue tileValue;
@@ -61,13 +61,13 @@ void saveMap(UI* ui)
 
   for (u32 i = 0; i < ui->map.characterCount; i++)
   {
-    UIMapTile tile            = ui->map.characters[i];
+    MapTile   tile            = ui->map.characters[i];
     String    xKey            = (String){.len = 1, .buffer = (u8*)"x", .capacity = 1};
     String    yKey            = (String){.len = 1, .buffer = (u8*)"y", .capacity = 1};
     String    textureIdxKey   = (String){.len = 10, .buffer = (u8*)"textureIdx", .capacity = 10};
 
-    JsonValue xValue          = (JsonValue){.type = JSON_NUMBER, .number = tile.col};
-    JsonValue yValue          = (JsonValue){.type = JSON_NUMBER, .number = tile.row};
+    JsonValue xValue          = (JsonValue){.type = JSON_NUMBER, .number = tile.x};
+    JsonValue yValue          = (JsonValue){.type = JSON_NUMBER, .number = tile.y};
     JsonValue textureIdxValue = (JsonValue){.type = JSON_NUMBER, .number = tile.textureIdx};
 
     JsonValue tileValue;

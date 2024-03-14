@@ -2,6 +2,7 @@
 #define GAME_UI_H
 
 #include "input.h"
+#include "background.h"
 #include "ui.h"
 
 #define CONSOLE_NUMBER_OF_COMMANDS_VISIBLE 6
@@ -47,6 +48,7 @@ struct MainMenuUI
   ButtonUIComponent playButton;
   ButtonUIComponent exitButton;
   ButtonUIComponent settingsButton;
+  Background background;
 };
 typedef struct MainMenuUI MainMenuUI;
 

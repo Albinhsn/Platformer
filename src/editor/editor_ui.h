@@ -6,19 +6,12 @@
 #include "texture.h"
 #include "ui.h"
 
-struct UIMapTile
-{
-  u8 textureIdx;
-  u8 col;
-  u8 row;
-};
 
-typedef struct UIMapTile UIMapTile;
 
 struct UIMap
 {
-  UIMapTile*  tiles;
-  UIMapTile*  characters;
+  MapTile*  tiles;
+  MapTile*  characters;
   UIComponent comp;
   i8          backgroundIdx;
   u8          tileCap;

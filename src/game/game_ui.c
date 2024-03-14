@@ -152,20 +152,23 @@ static UIState renderGameRunning(InputState* inputState)
 
 static UIState renderPauseMenu(PauseMenuUI* pauseMenu, InputState* inputState)
 {
+  animate(&pauseMenu->playButton.component.width, &pauseMenu->playButton.component.height, &pauseMenu->playButton.animation, hovers(pauseMenu->playButton.component, inputState));
   renderButton(&pauseMenu->playButton);
-  if (componentIsPressed(pauseMenu->playButton.component, inputState))
+  if (componentIsReleased(pauseMenu->playButton.component, inputState))
   {
     return UI_GAME_RUNNING;
   }
 
+  animate(&pauseMenu->mainMenuButton.component.width, &pauseMenu->mainMenuButton.component.height, &pauseMenu->mainMenuButton.animation, hovers(pauseMenu->mainMenuButton.component, inputState));
   renderButton(&pauseMenu->mainMenuButton);
-  if (componentIsPressed(pauseMenu->mainMenuButton.component, inputState))
+  if (componentIsReleased(pauseMenu->mainMenuButton.component, inputState))
   {
     return UI_MAIN_MENU;
   }
 
+  animate(&pauseMenu->settingsButton.component.width, &pauseMenu->settingsButton.component.height, &pauseMenu->settingsButton.animation, hovers(pauseMenu->settingsButton.component, inputState));
   renderButton(&pauseMenu->settingsButton);
-  if (componentIsPressed(pauseMenu->settingsButton.component, inputState))
+  if (componentIsReleased(pauseMenu->settingsButton.component, inputState))
   {
     return UI_SETTINGS_MENU;
   }
@@ -279,6 +282,7 @@ UIState renderUI(UI* ui, InputState* inputState)
   {
   case UI_MAIN_MENU:
   {
+    printf("Rendering menu!\n");
     return renderMainMenu(ui->mainMenu, inputState);
   }
   case UI_SETTINGS_MENU:
@@ -295,6 +299,7 @@ UIState renderUI(UI* ui, InputState* inputState)
   }
   case UI_PAUSE_MENU:
   {
+    printf("Rendering pause menu!\n");
     return renderPauseMenu(ui->pauseMenu, inputState);
   }
   case UI_CONSOLE:
@@ -367,14 +372,19 @@ void initMainMenuUI(MainMenuUI* mainMenu)
 
 void initPauseMenuUI(PauseMenuUI* menu)
 {
-  f32 buttonWidth  = BUTTON_SIZE_MEDIUM_WIDTH;
-  f32 buttonHeight = BUTTON_SIZE_MEDIUM_HEIGHT;
-  f32 fontSize     = FONT_FONT_SIZE_MEDIUM;
-  f32 spaceSize    = FONT_SPACE_SIZE_MEDIUM;
+  f32 buttonWidth  = getStateVariable("buttonSizeLargeWidth");
+  f32 buttonHeight = getStateVariable("buttonSizeLargeHeight");
+  f32 fontSize     = getStateVariable("fontFontSizeMedium");
+  f32 spaceSize    = getStateVariable("fontSpaceSizeMedium");
 
-  initButton(&menu->playButton, RED, "PLAY", spaceSize, fontSize, 0.0f, 2 * buttonHeight, buttonWidth, buttonHeight, TEXTURE_GREY_BUTTON_05);
-  initButton(&menu->settingsButton, RED, "SETTINGS", spaceSize, fontSize, 0.0f, 0.0f, buttonWidth, buttonHeight, TEXTURE_GREY_BUTTON_05);
-  initButton(&menu->mainMenuButton, RED, "MAIN MENU", spaceSize, fontSize, 0.0f, -2 * buttonHeight, buttonWidth, buttonHeight, TEXTURE_GREY_BUTTON_05);
+  initButton(&menu->playButton, RED, "PLAY", fontSize, spaceSize, 0.0f, 31.0f, buttonWidth, buttonHeight, TEXTURE_GREY_BUTTON_05);
+  initAnimation(&menu->playButton.animation, buttonWidth, buttonHeight, 500, 2.0f, 0);
+
+  initButton(&menu->settingsButton, RED, "SETTINGS", fontSize, spaceSize, 0.0f, 0.0f, buttonWidth, buttonHeight, TEXTURE_GREY_BUTTON_05);
+  initAnimation(&menu->settingsButton.animation, buttonWidth, buttonHeight, 500, 2.0f, 1);
+
+  initButton(&menu->mainMenuButton, RED, "MAIN MENU", fontSize, spaceSize, 0.0f, -31.0f, buttonWidth, buttonHeight, TEXTURE_GREY_BUTTON_05);
+  initAnimation(&menu->mainMenuButton.animation, buttonWidth, buttonHeight, 500, 2.0f, 2);
 }
 
 void initSettingsUI(SettingsMenuUI* settings)

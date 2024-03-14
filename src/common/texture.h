@@ -15,11 +15,11 @@ typedef struct Texture Texture;
 struct TextureTiled
 {
   u32      dim;
-  u32 count;
+  u32      count;
   Texture* texture;
 };
 typedef struct TextureTiled TextureTiled;
 
-void parseTexture(Texture * texture);
+void                        parseTexture(Texture* texture);
 
 #endif
