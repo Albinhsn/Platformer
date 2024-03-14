@@ -2,3 +2,4 @@
 ./Assets/Tilemap/tilemap_packed.png
 ./Assets/Tilemap/tilemap-backgrounds_packed.png
 ./Assets/Tilemap/tilemap-characters_packed.png
+./Assets/UI/grey_button04.png

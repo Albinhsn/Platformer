@@ -46,15 +46,16 @@ typedef struct UISelectType UISelectType;
 
 struct UI
 {
-  TextureModel selectedTileType;
-  UIMap        map;
-  UITiles      tiles;
-  UIComponent  selected;
-  UISelectType selectTypes;
+  TextureModel      selectedTileType;
+  UIMap             map;
+  UITiles           tiles;
+  UIComponent       selected;
+  UISelectType      selectTypes;
+  ButtonUIComponent saveBtn;
 };
 typedef struct UI UI;
 
-void              renderUI(UI* ui, InputState* inputState);
+bool              renderUI(UI* ui, InputState* inputState);
 void              initUI(UI* ui);
 
 #endif

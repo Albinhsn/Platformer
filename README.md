@@ -10,14 +10,14 @@
 - [x] able to select what "category" you want to place
 - [x] able to select background
 - [x] able to place enemies
-- [ ] create/choose markers
-    - [ ] spawn point
-    - [ ] exit point
+- [x] create/choose markers
+    - [x] spawn point
+    - [x] exit point
         Just the doors?
 - [x] "recreate" the character and tile maps
-- [ ] able to select spawn point
-- [ ] able to select exit point?
-- [ ] figure out data format (json?) for map
+- [x] able to select spawn point
+- [x] able to select exit point?
+- [x] figure out data format (json?) for map
     {
         "width": X,
         "height": Y, 
@@ -25,13 +25,8 @@
         "background": z,
         "enemies": []
     }
-- [ ] save map
+- [x] save map
+- [ ] load map
 
 
 ## Editor
-* background
-* actual tiles
-    - [x]
-* spawn
-* exit
-* enemies

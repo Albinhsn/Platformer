@@ -83,6 +83,8 @@ void initUI(UI* ui)
   initUISelected(&ui->selected, -30.0f, 80.0f, 10.0f, 10.0f);
   initUISelectedType(&ui->selectTypes);
   ui->selectedTileType = TEXTURE_TILES;
+
+  initButton(&ui->saveBtn, RED, "save", 5.0f, 10.0f, -10.0f, -80.0f, 15.0f, 15.0f, TEXTURE_GREY_BOX);
 }
 
 static void renderTiles(UITiles* tiles, TextureModel model)
@@ -262,7 +264,7 @@ void renderSelectedTypeTile(UISelectType* type)
   }
 }
 
-void renderUI(UI* ui, InputState* inputState)
+bool renderUI(UI* ui, InputState* inputState)
 {
   if (componentIsReleased(ui->tiles.comp, inputState))
   {
@@ -305,8 +307,12 @@ void renderUI(UI* ui, InputState* inputState)
     }
   }
 
+  rebindFullTexture();
+  renderButton(&ui->saveBtn);
+
   renderUIMap(&ui->map);
   renderSelectedTile(&ui->selected, ui->selectedTileType);
 
   debugTileMap(&ui->map);
+  return componentIsReleased(ui->saveBtn.component, inputState);
 }

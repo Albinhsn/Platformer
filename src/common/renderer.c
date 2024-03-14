@@ -213,6 +213,7 @@ void initRenderer(Font* font, const char* textureLocation)
   createLineVertexArray();
 }
 
+
 void renderTexture(Matrix3x3* transMatrix, u32 textureIdx)
 {
   sta_glUseProgram(g_renderer.textureProgramId);
