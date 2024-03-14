@@ -83,8 +83,9 @@ static bool collided(Player* player, Map* map)
 
     f32     minTileY = y - height;
     f32     maxTileY = y + height;
+    bool    ground    = tile.type == TILE_TYPE_GROUND;
 
-    if (!(minX > maxTileX || maxX < minTileX) && !(minY > maxTileY) && !(maxY < minTileY))
+    if (ground && !(minX > maxTileX || maxX < minTileX) && !(minY > maxTileY) && !(maxY < minTileY))
     {
       return true;
     }
@@ -123,8 +124,9 @@ static bool isGrounded(Player* player, Map* map)
 
     bool    withinX   = !(minX > x + width || maxX < x - width);
     bool    groundedY = maxY > y + height && maxY - (y + height) <= 1.0f;
+    bool    ground    = tile.type == TILE_TYPE_GROUND;
 
-    if (withinX && groundedY)
+    if (withinX && groundedY && ground)
     {
       return true;
     }

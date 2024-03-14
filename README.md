@@ -28,7 +28,8 @@
 - [x] save map
 - [x] load map
 - [x] basic movement, gravity and collision
-- [ ] differentiate between ground and other collidedable objects, and make sure the bounds is good
+- [x] differentiate between ground and other collidedable objects
+- [x] spawn at correct position and end game at correct position
 
 
 
@@ -36,6 +37,7 @@
 cleanup what's common and whats not
 Just use the same map as ui component
 Fix the -y thingy
+Fix the main menu -> exit
 
 
 ## Editor

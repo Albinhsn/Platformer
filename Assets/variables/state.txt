@@ -28,3 +28,4 @@ buttonTextureIdMapKey 13
 hpHeartHeight 10
 hpHeartWidth 10
 numberOfMeteors 1000
+jump 5
