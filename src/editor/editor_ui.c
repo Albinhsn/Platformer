@@ -20,7 +20,6 @@ static void renderUIMap(UIMap* map)
     renderTextureTile(comp.x, comp.y, comp.width, comp.height, TEXTURE_BACKGROUNDS, map->backgroundIdx);
   }
 
-  // renderUnfilledQuad(CREATE_VEC2f32(minX, minY), CREATE_VEC2f32(maxX, maxY), 5, &RED);
   for (u32 i = 0; i < map->tileCount; i++)
   {
     UIMapTile tile = map->tiles[i];
@@ -30,7 +29,7 @@ static void renderUIMap(UIMap* map)
   for (u32 i = 0; i < map->characterCount; i++)
   {
     UIMapTile tile = map->characters[i];
-    renderTextureTile(minX + (tile.col + 0.5f) * dimX * 2, minY - (tile.row + 0.5f) * dimY * 2, dimX, dimY, TEXTURE_CHARACTERS, map->tiles[i].textureIdx);
+    renderTextureTile(minX + (tile.col + 0.5f) * dimX * 2, minY - (tile.row + 0.5f) * dimY * 2, dimX, dimY, TEXTURE_CHARACTERS, map->characters[i].textureIdx);
   }
 }
 static void initUIMap(UIMap* map, f32 x, f32 y, f32 w, f32 h)
@@ -89,17 +88,16 @@ void initUI(UI* ui)
 static void renderTiles(UITiles* tiles, TextureModel model)
 {
 
-  Texture* texture    = tiles->tiles->texture;
-  u32      totalTiles = (texture->width * texture->height) / (tiles->tiles->dim * tiles->tiles->dim);
+  Texture* texture = tiles->tiles->texture;
 
-  f32      dim        = tiles->tileDim;
-  f32      start      = tiles->comp.x - tiles->comp.width + dim;
-  f32      x          = start;
-  f32      endX       = tiles->comp.x + tiles->comp.width;
-  f32      y          = tiles->comp.y + tiles->comp.height - dim;
+  f32 dim        = tiles->tileDim;
+  f32 start      = tiles->comp.x - tiles->comp.width + dim;
+  f32 x          = start;
+  f32 endX       = tiles->comp.x + tiles->comp.width;
+  f32 y          = tiles->comp.y + tiles->comp.height - dim;
 
-  f32      doubleDim  = dim * 2.0f;
-  for (u32 i = 0; i < totalTiles; i++)
+  f32 doubleDim  = dim * 2.0f;
+  for (u32 i = 0; i < tiles->tiles->count; i++)
   {
     renderTextureTile(x, y, dim, dim, model, i);
     x += doubleDim;
@@ -123,15 +121,15 @@ static void getNewSelectedTile(UI* ui, InputState* inputState)
   f32     mouseX       = inputState->mouseX / (f32)screenWidth * 200.0f - 100.0f;
   f32     mouseY       = inputState->mouseY / (f32)screenHeight * 200.0f - 100.0f;
 
-  UITiles tiles = ui->tiles;
+  UITiles tiles        = ui->tiles;
 
-  f32 x      = (mouseX - tiles.comp.x + tiles.comp.width) / (tiles.comp.width * 2);
-  f32 y      = (mouseY - tiles.comp.y + tiles.comp.height) / (tiles.comp.height * 2);
+  f32     x            = (mouseX - tiles.comp.x + tiles.comp.width) / (tiles.comp.width * 2);
+  f32     y            = (mouseY - tiles.comp.y + tiles.comp.height) / (tiles.comp.height * 2);
 
-  u32 colIdx = tiles.comp.width / tiles.tileDim * x;
-  u32 rowIdx = tiles.comp.height / tiles.tileDim * y;
+  u32     colIdx       = tiles.comp.width / tiles.tileDim * x;
+  u32     rowIdx       = tiles.comp.height / tiles.tileDim * y;
 
-  u32 newIdx = colIdx + rowIdx * tiles.comp.width / tiles.tileDim;
+  u32     newIdx       = colIdx + rowIdx * tiles.comp.width / tiles.tileDim;
   if (newIdx >= getNumberOfTiles(tiles))
   {
     return;
@@ -277,13 +275,12 @@ void renderUI(UI* ui, InputState* inputState)
     if (componentIsReleased(ui->selectTypes.types[i], inputState))
     {
       ui->selectedTileType = ui->selectTypes.models[i];
-      ui->tiles.tiles = getTiledTexture(ui->selectedTileType);
+      ui->tiles.tiles      = getTiledTexture(ui->selectedTileType);
       break;
     }
   }
 
   renderSelectedTypeTile(&ui->selectTypes);
-
   if (componentIsReleased(ui->map.comp, inputState))
   {
     switch (ui->selectedTileType)

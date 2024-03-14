@@ -6,7 +6,6 @@ TextureTiled g_tiledTextures[8];
 
 void         renderTextureTile(f32 x, f32 y, f32 width, f32 height, u32 tiledTextureIdx, u32 textureIdx)
 {
-
   Matrix3x3 transMatrix;
   clearMat3x3(&transMatrix);
   getTransformationMatrix(&transMatrix, x, y, width, height);
@@ -20,7 +19,7 @@ void         renderTextureTile(f32 x, f32 y, f32 width, f32 height, u32 tiledTex
 
   if (row >= maxRow)
   {
-    printf("SEVERE: Trying to access outside of texture\n");
+    printf("SEVERE: Trying to access outside of texture %d %d\n", tiledTextureIdx, textureIdx);
     return;
   }
 
@@ -49,10 +48,12 @@ void initTiledTextures()
   const u32    numberOfTiles     = 3;
   TextureModel tiles[]           = {TEXTURE_TILES, TEXTURE_BACKGROUNDS, TEXTURE_CHARACTERS};
   u32          tileCountPerRow[] = {20, 4, 9};
+  u32          tileCount[] = {20 * 9, 4, 9 * 3};
   for (u32 i = 0; i < numberOfTiles; i++)
   {
     TextureTiled* tile = &g_tiledTextures[tiles[i]];
     tile->texture      = &g_renderer.textures[tiles[i]];
     tile->dim          = tile->texture->width / tileCountPerRow[i];
+    tile->count = tileCount[i];
   }
 }
