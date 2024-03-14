@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 bool parsePNG(u8** data, u32* width, u32* height, const char* filename)
 {
   unsigned error;
@@ -27,6 +26,7 @@ bool readFile(char** buffer, int* len, const char* fileName)
   filePtr = fopen(fileName, "r");
   if (!filePtr)
   {
+    printf("Failed to open file at '%s'\n", fileName);
     return false;
   }
 
@@ -41,6 +41,7 @@ bool readFile(char** buffer, int* len, const char* fileName)
   if (count != fileSize)
   {
     free(*buffer);
+    printf("count != fileSize %ld %ld\n", count, fileSize);
     return false;
   }
 
@@ -53,7 +54,6 @@ bool readFile(char** buffer, int* len, const char* fileName)
 
   return true;
 }
-
 
 void parseTarga(u8** data, u32* width, u32* height, const char* filename)
 {

@@ -1,3 +1,6 @@
+./Assets/Tilemap/tilemap_packed.png
+./Assets/Tilemap/tilemap-backgrounds_packed.png
+./Assets/Tilemap/tilemap-characters_packed.png
 ./Assets/Characters/Platformer/tile_0000.png
 ./Assets/UI/grey_button05.png
 ./Assets/UI/grey_box.png

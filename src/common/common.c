@@ -109,6 +109,7 @@ void setStateVariable(const char* key, f32 value)
     }
   }
   g_stateVariables[g_stateVariableCounter++] = (StateVariable){.key = (char*)key, .value = value};
+  printf("Settings '%s' as %lf\n", key, value);
 }
 
 f32 getStateVariable(const char* key)

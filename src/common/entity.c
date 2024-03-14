@@ -1,5 +1,7 @@
 #include "entity.h"
+#include "common.h"
 #include "input.h"
+#include "map.h"
 #include "timer.h"
 #include <stdbool.h>
 #include <stdio.h>
@@ -45,27 +47,105 @@ Entity* getNewEntity()
 {
   for (i32 i = 1; i < MAX_ENTITY_COUNT; i++)
   {
-    if (g_entities[i].textureIdx == 0)
+    if (g_entities[i].textureIdx == -1)
     {
       return &g_entities[i];
     }
   }
+  printf("FAILED TO GET NEW ENTITY\n");
   return 0;
 }
 
-void updatePlayer(InputState* inputState, Player* player, Timer* timer)
+static bool collided(Player* player, Map* map)
+{
+  f32 minX      = player->entity->x - player->entity->width;
+  f32 maxX      = player->entity->x + player->entity->width;
+
+  f32 minY      = player->entity->y - player->entity->height;
+  f32 maxY      = player->entity->y + player->entity->height;
+
+  u8  tileCount = map->tileCount;
+
+  u8  maxWidth  = map->width;
+  u8  maxHeight = map->height;
+
+  f32 width     = (1.0f / (f32)maxWidth) * 100.0f;
+  f32 height    = (1.0f / (f32)maxHeight) * 100.0f;
+
+  for (u8 i = 0; i < tileCount; i++)
+  {
+    MapTile tile     = map->tiles[i];
+    f32     x        = ((tile.x / (f32)maxWidth) * 2.0f - 1.0f) * 100.0f;
+    f32     y        = -((tile.y / (f32)maxHeight) * 2.0f - 1.0f) * 100.0f;
+
+    f32     minTileX = x - width;
+    f32     maxTileX = x + width;
+
+    f32     minTileY = y - height;
+    f32     maxTileY = y + height;
+
+    if (!(minX > maxTileX || maxX < minTileX) && !(minY > maxTileY) && !(maxY < minTileY))
+    {
+      return true;
+    }
+  }
+  return false;
+}
+#define MIN_COLLISION_AMOUNT 0.5f;
+#define MAX_GRAVITY          -1.0f
+#define GRAVITY_DELTA        0.5f
+
+static bool isGrounded(Player* player, Map* map)
+{
+  if (player->yAcc > 0)
+  {
+    return false;
+  }
+
+  f32 minX      = player->entity->x - player->entity->width;
+  f32 maxX      = player->entity->x + player->entity->width;
+
+  f32 maxY      = player->entity->y - player->entity->height;
+
+  u8  tileCount = map->tileCount;
+
+  u8  maxWidth  = map->width;
+  u8  maxHeight = map->height;
+
+  f32 width     = (1.0f / (f32)maxWidth) * 100.0f;
+  f32 height    = (1.0f / (f32)maxHeight) * 100.0f;
+
+  for (u8 i = 0; i < tileCount; i++)
+  {
+    MapTile tile      = map->tiles[i];
+    f32     x         = ((tile.x / (f32)maxWidth) * 2.0f - 1.0f) * 100.0f;
+    f32     y         = -((tile.y / (f32)maxHeight) * 2.0f - 1.0f) * 100.0f;
+
+    bool    withinX   = !(minX > x + width || maxX < x - width);
+    bool    groundedY = maxY > y + height && maxY - (y + height) <= 1.0f;
+
+    if (withinX && groundedY)
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
+void updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map)
 {
 
-  f32 xAcc = 0.0f, yAcc = 0.0f;
-  f32 ms = player->entity->movementSpeed;
+  f32 ms   = player->entity->movementSpeed;
+  f32 xAcc = 0.0f;
 
-  if (inputState->keyboardStateDown['w'])
+  if (!isGrounded(player, map) || player->yAcc > 0)
   {
-    yAcc += ms;
+    player->yAcc -= GRAVITY_DELTA;
+    player->yAcc = player->yAcc < MAX_GRAVITY ? MAX_GRAVITY : player->yAcc;
   }
-  if (inputState->keyboardStateDown['s'])
+  else
   {
-    yAcc -= ms;
+    player->yAcc = inputState->keyboardStateDown['w'] ? getStateVariable("jump") : 0;
   }
 
   if (inputState->keyboardStateDown['d'])
@@ -78,15 +158,17 @@ void updatePlayer(InputState* inputState, Player* player, Timer* timer)
   }
 
   Entity* entity = player->entity;
+
   entity->x += xAcc;
-  if (!withinScreen(entity))
+  if (!withinScreen(entity) || collided(player, map))
   {
     entity->x -= xAcc;
   }
-  entity->y += yAcc;
+
+  entity->y += player->yAcc;
   if (!withinScreen(entity))
   {
-    entity->y -= yAcc;
+    entity->y -= player->yAcc;
   }
 }
 
@@ -106,9 +188,8 @@ void debugEntity(Entity* entity)
   printf("%f %f %f %f %d\n", entity->x, entity->y, entity->width, entity->height, entity->textureIdx);
 }
 
-
 void createPlayer(Player* player)
 {
-  player->entity  = getPlayerEntity();
+  player->entity = getPlayerEntity();
   initEntity(player->entity, 0.0f, 0.0f, 5.0f, 10.0f, 1, 1.0f);
 }

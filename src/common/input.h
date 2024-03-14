@@ -22,9 +22,18 @@ struct InputState
 };
 typedef struct InputState InputState;
 
-bool                      handleInput(struct InputState* inputState);
-void                      resetInputState(InputState* inputState);
-void                      debugInputState(InputState* inputState);
+inline void               initInputState(InputState* inputState)
+{
+  for (u32 i = 0; i < INPUT_STATE_LENGTH; i++)
+  {
+    inputState->keyboardStateRelease[i] = 0;
+    inputState->keyboardStateDown[i] = 0;
+  }
+}
+
+bool handleInput(struct InputState* inputState);
+void resetInputState(InputState* inputState);
+void debugInputState(InputState* inputState);
 void getKeyboardInputCharacters(struct InputState* inputState, struct String* string);
 
 #endif

@@ -2,23 +2,37 @@
 #include "common.h"
 #include "files.h"
 #include "font.h"
-#include <GL/glext.h>
-#include <GL/gl.h>
 #include "sdl.h"
 #include "texture.h"
 #include "vector.h"
+#include <GL/gl.h>
+#include <GL/glext.h>
 #include <string.h>
 
-Renderer g_renderer;
+Renderer     g_renderer;
+TextureTiled g_tiledTextures[8];
 
-void     updateWindowSize(i32 width, i32 height)
+void         rebindFullTexture()
+{
+  GLfloat bufferData[20] = {
+      -1.0f, -1.0f, 0.0f, 1.0f, //
+      1.0f,  -1.0f, 1.0f, 1.0f, //
+      -1.0f, 1.0f,  0.0f, 0.0f, //
+      1.0f,  1.0f,  1.0f, 0.0f  //
+  };
+
+  sta_glBindVertexArray(g_renderer.textureVertexId);
+  sta_glBindBuffer(GL_ARRAY_BUFFER, g_renderer.textureBufferId);
+  sta_glBufferData(GL_ARRAY_BUFFER, 16 * sizeof(GLfloat), bufferData, GL_STATIC_DRAW);
+}
+
+void updateWindowSize(i32 width, i32 height)
 {
   updateWindowSizeSDL(g_renderer.window, width, height);
 }
 
 void generateTextures(const char* textureLocations)
 {
-  //glActiveTexture(GL_TEXTURE0);
   FILE* filePtr = fopen(textureLocations, "rb");
   if (filePtr == 0)
   {
@@ -197,6 +211,21 @@ void createTextureShaderProgram()
   sta_glLinkProgram(g_renderer.textureProgramId);
 }
 
+void initTiledTextures()
+{
+  const u32    numberOfTiles     = 3;
+  TextureModel tiles[]           = {TEXTURE_TILES, TEXTURE_BACKGROUNDS, TEXTURE_CHARACTERS};
+  u32          tileCountPerRow[] = {20, 4, 9};
+  u32          tileCount[]       = {20 * 9, 4, 9 * 3};
+  for (u32 i = 0; i < numberOfTiles; i++)
+  {
+    TextureTiled* tile = &g_tiledTextures[tiles[i]];
+    tile->texture      = &g_renderer.textures[tiles[i]];
+    tile->dim          = tile->texture->width / tileCountPerRow[i];
+    tile->count        = tileCount[i];
+  }
+}
+
 void initRenderer(Font* font, const char* textureLocation)
 {
   g_renderer.window = initSDLWindow(&g_renderer.context, DEFAULT_SCREENWIDTH, DEFAULT_SCREENHEIGHT);
@@ -211,8 +240,8 @@ void initRenderer(Font* font, const char* textureLocation)
 
   createLineShaderProgram();
   createLineVertexArray();
+  initTiledTextures();
 }
-
 
 void renderTexture(Matrix3x3* transMatrix, u32 textureIdx)
 {
@@ -295,6 +324,44 @@ void renderLine(Vec2f32 start, Vec2f32 end, u32 width, Color* color)
   glLineWidth(1);
 }
 
+void renderTextureTile(f32 x, f32 y, f32 width, f32 height, u32 tiledTextureIdx, u32 textureIdx)
+{
+  Matrix3x3 transMatrix;
+  clearMat3x3(&transMatrix);
+  getTransformationMatrix(&transMatrix, x, y, width, height);
+
+  TextureTiled texture = g_tiledTextures[tiledTextureIdx];
+  u32          maxRow  = texture.texture->height / texture.dim;
+  u32          maxCol  = texture.texture->width / texture.dim;
+  u32          row     = textureIdx / maxCol;
+  u32          col     = textureIdx % maxCol;
+
+  if (row >= maxRow)
+  {
+    printf("SEVERE: Trying to access outside of texture %d %d\n", tiledTextureIdx, textureIdx);
+    return;
+  }
+
+  f32     uvHeight       = 1.0f / (f32)maxRow;
+  f32     uvWidth        = 1.0f / (f32)maxCol;
+
+  f32     uvY            = uvHeight * row;
+  f32     uvX            = uvWidth * col;
+
+  GLfloat bufferData[20] = {
+      -1.0f, -1.0f, uvX,           uvY + uvHeight, //
+      1.0f,  -1.0f, uvX + uvWidth, uvY + uvHeight, //
+      -1.0f, 1.0f,  uvX,           uvY,            //
+      1.0f,  1.0f,  uvX + uvWidth, uvY             //
+  };
+
+  sta_glBindVertexArray(g_renderer.textureVertexId);
+  sta_glBindBuffer(GL_ARRAY_BUFFER, g_renderer.textureBufferId);
+  sta_glBufferData(GL_ARRAY_BUFFER, 16 * sizeof(GLfloat), bufferData, GL_STATIC_DRAW);
+
+  renderTexture(&transMatrix, texture.texture->textureId);
+}
+
 static void renderText(Font* font, Color* color)
 {
   setTextShaderParams(font, color);
@@ -330,6 +397,7 @@ void renderComponent(UIComponent* comp)
   clearMat3x3(&transMatrix);
   getTransformationMatrix(&transMatrix, comp->x, comp->y, comp->width, comp->height);
   Texture texture = g_renderer.textures[comp->textureIdx];
+  rebindFullTexture();
   renderTexture(&transMatrix, texture.textureId);
 }
 
@@ -363,5 +431,29 @@ void renderDropdown(DropdownUIComponent* dropdown)
     {
       renderButton(&dropdown->items[i]);
     }
+  }
+}
+
+void renderEntity(Entity* entity)
+{
+  renderTextureTile(entity->x, entity->y, entity->width, entity->height, TEXTURE_CHARACTERS, entity->textureIdx);
+}
+
+void renderMap(Map* map)
+{
+  renderTextureTile(0.0f, 0.0f, 200.0f, 200.0f, TEXTURE_BACKGROUNDS, map->backgroundIdx);
+  u8  maxWidth  = map->width;
+  u8  maxHeight = map->height;
+
+  f32 width     = (1.0f / (f32)maxWidth) * 100.0f;
+  f32 height    = (1.0f / (f32)maxHeight) * 100.0f;
+
+  for (u32 i = 0; i < map->tileCount; i++)
+  {
+    MapTile tile = map->tiles[i];
+    f32     x    = ((tile.x / (f32)maxWidth) * 2.0f - 1.0f) * 100.0f;
+    f32     y    = -((tile.y / (f32)maxHeight) * 2.0f - 1.0f) * 100.0f;
+
+    renderTextureTile(x, y, width, height, TEXTURE_TILES, tile.textureIdx);
   }
 }

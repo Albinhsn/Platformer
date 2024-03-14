@@ -26,7 +26,16 @@
         "enemies": []
     }
 - [x] save map
-- [ ] load map
+- [x] load map
+- [x] basic movement, gravity and collision
+- [ ] differentiate between ground and other collidedable objects, and make sure the bounds is good
+
+
+
+## Cleanup
+cleanup what's common and whats not
+Just use the same map as ui component
+Fix the -y thingy
 
 
 ## Editor

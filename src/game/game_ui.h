@@ -29,6 +29,12 @@ struct ConsoleUI
 };
 typedef struct ConsoleUI ConsoleUI;
 
+struct GameRunningUI
+{
+  u32 mapIdx;
+};
+typedef struct GameRunningUI GameRunningUI;
+
 struct GameOverUI
 {
   ButtonUIComponent restartButton;
@@ -70,6 +76,7 @@ struct UI
   MainMenuUI*     mainMenu;
   PauseMenuUI*    pauseMenu;
   SettingsMenuUI* settingsMenu;
+  GameRunningUI*  gameRunning;
 };
 typedef struct UI UI;
 

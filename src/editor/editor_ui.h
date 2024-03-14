@@ -2,7 +2,7 @@
 #define EDITOR_UI_H
 
 #include "common.h"
-#include "editor_renderer.h"
+#include "renderer.h"
 #include "texture.h"
 #include "ui.h"
 
@@ -12,6 +12,7 @@ struct UIMapTile
   u8 col;
   u8 row;
 };
+
 typedef struct UIMapTile UIMapTile;
 
 struct UIMap

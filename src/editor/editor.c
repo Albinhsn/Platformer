@@ -1,6 +1,5 @@
 #include "arena.h"
 #include "common.h"
-#include "editor_renderer.h"
 #include "editor_ui.h"
 #include "font.h"
 #include "input.h"

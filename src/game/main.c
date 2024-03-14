@@ -1,8 +1,8 @@
 #include "common.h"
 #include "entity.h"
-#include "game_renderer.h"
 #include "game_ui.h"
 #include "input.h"
+#include "map.h"
 #include "renderer.h"
 #include "timer.h"
 #include <stdlib.h>
@@ -12,14 +12,29 @@ struct Game
 {
   Timer  timer;
   u64    lastUpdated;
+  u64    mapIdx;
   Player player;
+  Map    map;
 };
 
 typedef struct Game Game;
 
-static void         resetGame(Game* game)
+static void         resetPlayer(Player* player)
 {
+  player->yAcc = 0.0f;
+  if (player->entity)
+  {
+    player->entity->x = 0.0f;
+    player->entity->y = 75.0f;
+  }
+}
+
+static void resetGame(Game* game)
+{
+  resetPlayer(&game->player);
+  game->lastUpdated = 0;
   resetTimer(&game->timer);
+  setStateVariable("reset", 0.0f);
   printf("Restarted game\n");
 }
 
@@ -32,8 +47,9 @@ static void gameLoop(UIState* state, InputState* inputState, Game* game)
     {
       *state = UI_EXIT;
     }
-    updatePlayer(inputState, &game->player, &game->timer);
+    updatePlayer(inputState, &game->player, &game->timer, &game->map);
   }
+  renderMap(&game->map);
   renderEntity(game->player.entity);
 }
 
@@ -59,19 +75,42 @@ static void renderInfoStrings(u64* prevTick)
   *prevTick = SDL_GetTicks();
 }
 
+void initGame(Game* game)
+{
+  memset(game, 0, sizeof(Game));
+  resetGame(game);
+
+  game->player.hp     = 3;
+  game->player.entity = getNewEntity();
+  game->player.yAcc   = 0;
+  initEntity(game->player.entity, 0.0f, 75.0f, 5.0f, 5.0f, 0, 0.5f);
+  game->mapIdx = 0;
+  parseMap(&game->map, game->mapIdx);
+}
+
+void clearGlobalEntites()
+{
+  for (u32 i = 0; i < MAX_ENTITY_COUNT; i++)
+  {
+    g_entities[i].textureIdx = -1;
+  }
+}
+
 i32 main(int argc, char* argv[])
 {
   srand(0);
   loadStateVariables();
 
+  clearGlobalEntites();
+
   Font font;
   initRenderer(&font, "./Assets/variables/gameTextureLocation.txt");
   font.textureId = getTextureId(TEXTURE_FONT);
 
-
   InputState inputState;
+  initInputState(&inputState);
 
-  UI         ui;
+  UI ui;
   ui.state = UI_MAIN_MENU;
   ConsoleUI      console;
   GameOverUI     gameOver;
@@ -83,12 +122,7 @@ i32 main(int argc, char* argv[])
   u64  prevTick = 0;
 
   Game game;
-  memset(&game, 0, sizeof(Game));
-  resetGame(&game);
-
-  game.player.hp     = 3;
-  game.player.entity = getNewEntity();
-  initEntity(game.player.entity, 0.0f, 0.0f, 10.0f, 10.0f, 0, 1.0f);
+  initGame(&game);
 
   while (ui.state != UI_EXIT)
   {
@@ -96,11 +130,16 @@ i32 main(int argc, char* argv[])
     initNewFrame(BLACK);
     renderInfoStrings(&prevTick);
 
+    if (inputState.keyboardStateRelease['c'])
+    {
+      updateUIState(&ui, UI_CONSOLE, &game.timer);
+    }
+
     if (ui.state == UI_GAME_RUNNING)
     {
-      if (!game.timer.running)
+      if (getStateVariable("reset") == 1)
       {
-        startTimer(&game.timer);
+        resetGame(&game);
       }
       gameLoop(&ui.state, &inputState, &game);
     }

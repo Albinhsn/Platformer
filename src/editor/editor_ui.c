@@ -1,6 +1,5 @@
 #include "editor_ui.h"
 #include "common.h"
-#include "editor_renderer.h"
 #include "renderer.h"
 #include "ui.h"
 #include "vector.h"
@@ -90,15 +89,13 @@ void initUI(UI* ui)
 static void renderTiles(UITiles* tiles, TextureModel model)
 {
 
-  Texture* texture = tiles->tiles->texture;
+  f32      dim       = tiles->tileDim;
+  f32      start     = tiles->comp.x - tiles->comp.width + dim;
+  f32      x         = start;
+  f32      endX      = tiles->comp.x + tiles->comp.width;
+  f32      y         = tiles->comp.y + tiles->comp.height - dim;
 
-  f32 dim        = tiles->tileDim;
-  f32 start      = tiles->comp.x - tiles->comp.width + dim;
-  f32 x          = start;
-  f32 endX       = tiles->comp.x + tiles->comp.width;
-  f32 y          = tiles->comp.y + tiles->comp.height - dim;
-
-  f32 doubleDim  = dim * 2.0f;
+  f32      doubleDim = dim * 2.0f;
   for (u32 i = 0; i < tiles->tiles->count; i++)
   {
     renderTextureTile(x, y, dim, dim, model, i);

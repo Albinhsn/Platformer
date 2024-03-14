@@ -1,5 +1,4 @@
 #include "game_ui.h"
-#include "game_renderer.h"
 #include "renderer.h"
 #include "timer.h"
 #include "ui.h"
@@ -207,13 +206,15 @@ static UIState handleConsoleInput(ConsoleUI* console, InputState* inputState)
     {
       return UI_EXIT;
     }
-    if (strncmp((char*)console->input, "god", 3) == 0)
+
+    if (strncmp((char*)console->input, "reset", 5) == 0)
     {
-      setStateVariable("god", 1.0f);
+      setStateVariable("reset", 1);
     }
-    if (strncmp((char*)console->input, "meteor", 6) == 0)
+
+    if (strncmp((char*)console->input, "jump", 4) == 0)
     {
-      u8 idx = 6;
+      u8 idx = 4;
       while (console->input[idx] == ' ')
       {
         idx++;
@@ -221,7 +222,7 @@ static UIState handleConsoleInput(ConsoleUI* console, InputState* inputState)
       i32 res;
       u8  l;
       parseIntFromString(&res, (char*)&console->input[idx], &l);
-      setStateVariable("numberOfMeteors", res);
+      setStateVariable("jump", res);
     }
 
     for (i32 i = CONSOLE_NUMBER_OF_COMMANDS_VISIBLE - 2; i >= 0; i--)
@@ -401,7 +402,8 @@ void initSettingsUI(SettingsMenuUI* settings)
       "620x480",
   };
 
-  initDropdown(&settings->screenSizeDropdown, itemCount, dropdownText, (void*)pairs, RED, "Resolution", fontSize, spaceSize, 60.0f, 20.0f, dropdownButtonWidth, dropdownButtonHeight, TEXTURE_GREY_BUTTON_05);
+  initDropdown(&settings->screenSizeDropdown, itemCount, dropdownText, (void*)pairs, RED, "Resolution", fontSize, spaceSize, 60.0f, 20.0f, dropdownButtonWidth, dropdownButtonHeight,
+               TEXTURE_GREY_BUTTON_05);
   initCheckbox(&settings->vsyncCheckbox, 0.0f, 0.0f, 6.0f, 8.0f, getStateVariable("vsync") != 0, TEXTURE_GREY_BOX, TEXTURE_GREY_CHECKMARK_GREY);
 
   settings->parentState = UI_MAIN_MENU;

@@ -2,6 +2,7 @@
 #define ENTITY_H
 #include "common.h"
 #include "input.h"
+#include "map.h"
 #include "timer.h"
 
 struct Entity
@@ -19,6 +20,7 @@ struct Player
 {
   Entity* entity;
   i8      hp;
+  f32     yAcc;
 };
 typedef struct Player Player;
 
@@ -40,7 +42,7 @@ void          initPlayer(Player* player);
 
 bool          entitiesCollided(Entity* e1, Entity* e2);
 
-void          updatePlayer(InputState* inputState, Player* player, Timer* timer);
+void          updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map);
 
 void          debugPlayer(Player* player);
 void          debugEntity(Entity* entity);
