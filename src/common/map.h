@@ -1,6 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include "animation.h"
 #include "common.h"
 #include "json.h"
 
@@ -13,28 +14,33 @@ enum TileType
 };
 typedef enum TileType TileType;
 
-struct MapTile
+struct Tile
 {
   TileType type;
-  u8       textureIdx;
-  u8       x;
-  u8       y;
+  union
+  {
+    u64        textureIdx;
+    Animation animation;
+  };
+  bool animated;
+  f32 x;
+  f32 y;
 };
-typedef struct MapTile MapTile;
+typedef struct Tile Tile;
 
 struct Map
 {
-  MapTile* tiles;
-  f32      spawnX;
-  f32      spawnY;
-  f32      endX;
-  f32      endY;
-  i8       backgroundIdx;
-  u8       tileCount;
-  u8       width;
-  u8       height;
+  Tile* tiles;
+  f32   spawnX;
+  f32   spawnY;
+  f32   endX;
+  f32   endY;
+  i8    backgroundIdx;
+  u8    tileCount;
+  u8    width;
+  u8    height;
 };
 typedef struct Map Map;
 
-void               parseMapFromJson(Json*json, Map* map);
+void               parseMapFromJson(Json* json, Map* map);
 #endif

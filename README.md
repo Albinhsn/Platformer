@@ -30,6 +30,8 @@
 - [x] basic movement, gravity and collision
 - [x] differentiate between ground and other collidedable objects
 - [x] spawn at correct position and end game at correct position
+- [ ] redo and simplify the data format
+- [ ] figure out better way to handle map
 - [ ] figure out a mapping from data to tileMapping so that it can change
     - [ ] i guess do the same for characters and backgrounds
 - [ ] figure out animation format

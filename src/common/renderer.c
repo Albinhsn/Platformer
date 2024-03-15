@@ -1,4 +1,5 @@
 #include "renderer.h"
+#include "animation.h"
 #include "common.h"
 #include "files.h"
 #include "font.h"
@@ -438,8 +439,7 @@ void renderEntity(Entity* entity)
 {
   if (entity->animated)
   {
-    u64 textureIdx = entity->animation->animationData->textureIds[entity->animation->currentTexture];
-    renderTextureTile(entity->x, entity->y, entity->width, entity->height, TEXTURE_CHARACTERS, textureIdx);
+    renderTextureTile(entity->x, entity->y, entity->width, entity->height, TEXTURE_CHARACTERS, entity->animation->currentTexture);
   }
   else
   {
@@ -447,7 +447,7 @@ void renderEntity(Entity* entity)
   }
 }
 
-void renderMap(Map* map)
+void renderMap(Map* map, Timer * timer)
 {
   renderTextureTile(0.0f, 0.0f, 200.0f, 200.0f, TEXTURE_BACKGROUNDS, map->backgroundIdx);
   u8  maxWidth  = map->width;
@@ -458,10 +458,17 @@ void renderMap(Map* map)
 
   for (u32 i = 0; i < map->tileCount; i++)
   {
-    MapTile tile = map->tiles[i];
-    f32     x    = ((tile.x / (f32)maxWidth) * 2.0f - 1.0f) * 100.0f;
-    f32     y    = -((tile.y / (f32)maxHeight) * 2.0f - 1.0f) * 100.0f;
+    Tile *tile = &map->tiles[i];
 
-    renderTextureTile(x, y, width, height, TEXTURE_TILES, tile.textureIdx);
+    if (tile->animated)
+    {
+      u64 prev =  tile->animation.animationData->textureIds[tile->animation.currentTexture];
+      updateAnimation(&tile->animation, timer);
+      renderTextureTile(tile->x, tile->y, width, height, TEXTURE_TILES, tile->animation.animationData->textureIds[tile->animation.currentTexture]);
+    }
+    else
+    {
+      renderTextureTile(tile->x, tile->y, width, height, TEXTURE_TILES, tile->textureIdx);
+    }
   }
 }

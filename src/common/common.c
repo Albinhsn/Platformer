@@ -163,7 +163,7 @@ void setStateVariable(const char* key, f32 value)
   printf("Setting '%s' as %lf\n", key, value);
 }
 
-f32 getTileMapping(String key)
+f32 getTileMappingValue(String key)
 {
   for (int i = 0; i < g_tileMapMappingCounter; i++)
   {
@@ -175,6 +175,20 @@ f32 getTileMapping(String key)
   }
   printf("WARNING: Didn't find tileMapping '%.*s'\n", (i32)key.len, key.buffer);
   return 0.0f;
+}
+
+void getTileMappingKey(String* key, u64 value)
+{
+  for (int i = 0; i < g_tileMapMappingCounter; i++)
+  {
+    if (g_tileMapMapping[i].value == value)
+    {
+      key->buffer = g_tileMapMapping[i].key;
+      key->len    = strlen(key->buffer);
+      return;
+    }
+  }
+  printf("WARNING: Didn't find tileMapping key with '%d'\n", (i32)value);
 }
 
 f32 getStateVariable(const char* key)

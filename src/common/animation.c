@@ -1,12 +1,15 @@
 #include "animation.h"
 #include "common.h"
+#include "sta_string.h"
+#include "timer.h"
+#include <stdio.h>
 
 AnimationData g_animationData[128];
 u64           g_animationCount = 0;
 
-void          updateAnimation(Animation* animation)
+void          updateAnimation(Animation* animation, Timer* timer)
 {
-  u32 currentTick = getTimeInMilliseconds();
+  u32 currentTick = timer->lastTick;
   if (currentTick - animation->animationData->timer > animation->lastUpdate)
   {
     animation->lastUpdate = currentTick;
@@ -15,12 +18,32 @@ void          updateAnimation(Animation* animation)
   }
 }
 
+AnimationData* getAnimationData(String key)
+{
+  for (u64 i = 0; i < 128; i++)
+  {
+    AnimationData* data = &g_animationData[i];
+    if (sta_compareString(data->name, key))
+    {
+      printf("Found animation data with key %.*s and %.*s\n", (i32)key.len, key.buffer, (i32)data->name.len, data->name.buffer);
+      return data;
+    }
+  }
+  return 0;
+}
+void initAnimation(Animation* animation, AnimationData* data)
+{
+  animation->animationData  = data;
+  animation->lastUpdate     = 0;
+  animation->currentTexture = 0;
+}
+
 static void parseTextureIds(u64** textureIds_, JsonArray textures)
 {
   u64* textureIds = (u64*)malloc(sizeof(u64) * textures.arraySize);
   for (u64 i = 0; i < textures.arraySize; i++)
   {
-    textureIds[i] = getTileMapping(textures.values[i].string);
+    textureIds[i] = getTileMappingValue(textures.values[i].string);
   }
   *textureIds_ = textureIds;
 }
@@ -55,5 +78,6 @@ void parseAnimationDataFromJson(Json* json)
     data->textureCount    = textures.arraySize;
     parseTextureIds(&data->textureIds, textures);
     data->timer = timerValue->number;
+    printf("INFO: parsed Animation data %.*s %ld\n", (i32)data->name.len, data->name.buffer, data->textureCount);
   }
 }

@@ -5,7 +5,6 @@
 #include "json.h"
 #include "sta_string.h"
 
-
 struct AnimationData
 {
   String name;
@@ -23,9 +22,11 @@ struct Animation
 };
 typedef struct Animation Animation;
 
-extern AnimationData g_animationData[128];
+extern AnimationData     g_animationData[128];
 
-void updateAnimation(Animation * animation);
-void parseAnimationDataFromJson(Json * json);
+void                     initAnimation(Animation* animation, AnimationData* data);
+AnimationData*           getAnimationData(String key);
+void                     updateAnimation(Animation* animation, Timer* timer);
+void                     parseAnimationDataFromJson(Json* json);
 
 #endif

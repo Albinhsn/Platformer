@@ -178,3 +178,12 @@ six_002 176
 seven_002 177
 eight_002 178
 nine_002 179
+a_woodCoin_001 180
+a_waterfallTop_001 181
+a_waterfallMid_001 182
+a_waterfallBot_001 183
+a_lever_001 184
+a_flagTop_001 185
+a_button_001 186
+a_coin_001 187
+a_spring_001 188

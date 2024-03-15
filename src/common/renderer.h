@@ -47,6 +47,7 @@ typedef enum TextureModel TextureModel;
 typedef struct Renderer   Renderer;
 extern Renderer           g_renderer;
 
+void                      renderMap(Map* map, Timer* timer);
 void                      renderUnfilledQuad(Vec2f32 start, Vec2f32 end, u32 width, Color* color);
 void                      renderLine(Vec2f32 start, Vec2f32 end, u32 width, Color* color);
 void                      updateWindowSize(i32 width, i32 height);
@@ -61,7 +62,6 @@ void                      renderTextEndsAt(const char* text, Color* color, f32 x
 void                      renderTextStartsAt(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
 void                      renderTextEndsAt(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
 void                      renderEntity(Entity* entity);
-void                      renderMap(Map* map);
 void                      renderHealth(u8 hp);
 void                      initTiledTextures();
 void                      renderTextureTile(f32 x, f32 y, f32 width, f32 height, u32 tiledTextureIdx, u32 textureIdx);

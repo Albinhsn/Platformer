@@ -55,17 +55,15 @@ static void checkEndLevel(UIState* state, Game* game)
 
   for (u32 i = 0; i < game->map.tileCount; i++)
   {
-    MapTile* tile = &map->tiles[i];
+    Tile* tile = &map->tiles[i];
 
     if (map->tiles[i].type == TILE_TYPE_END)
     {
-      f32 x      = ((tile->x / (f32)maxWidth) * 2.0f - 1.0f) * 100.0f;
-      f32 y      = -((tile->y / (f32)maxHeight) * 2.0f - 1.0f) * 100.0f;
 
-      f32 minE1X = x - width;
-      f32 maxE1X = x + width;
-      f32 minE1Y = y - height;
-      f32 maxE1Y = y + height;
+      f32 minE1X = tile->x - width;
+      f32 maxE1X = tile->x + width;
+      f32 minE1Y = tile->y - height;
+      f32 maxE1Y = tile->y + height;
 
       f32 minE2X = player.entity->x - player.entity->width;
       f32 maxE2X = player.entity->x + player.entity->width;
@@ -80,13 +78,13 @@ static void checkEndLevel(UIState* state, Game* game)
   }
 }
 
-static void renderEnemies(Enemy* enemies, u64 enemyCount)
+static void renderEnemies(Timer * timer, Enemy* enemies, u64 enemyCount)
 {
   for (u64 i = 0; i < enemyCount; i++)
   {
     if (enemies[i].entity->animated)
     {
-      updateAnimation(enemies[i].entity->animation);
+      updateAnimation(enemies[i].entity->animation, timer);
     }
     renderEntity(enemies[i].entity);
   }
@@ -104,8 +102,8 @@ static void gameLoop(UIState* state, InputState* inputState, Game* game)
     updatePlayer(inputState, &game->player, &game->timer, &game->map);
     checkEndLevel(state, game);
   }
-  renderMap(&game->map);
-  renderEnemies(game->enemies, game->enemyCount);
+  renderMap(&game->map, &game->timer);
+  renderEnemies(&game->timer, game->enemies, game->enemyCount);
   renderEntity(game->player.entity);
 }
 
@@ -211,7 +209,6 @@ i32 main(int argc, char* argv[])
 
   Game game;
   initGame(&game);
-
 
   while (ui.state != UI_EXIT)
   {

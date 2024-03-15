@@ -359,13 +359,13 @@ void initMainMenuUI(MainMenuUI* mainMenu)
   f32 spaceSize    = getStateVariable("fontSpaceSizeMedium");
 
   initButton(&mainMenu->playButton, RED, "PLAY", fontSize, spaceSize, 0.0f, 31.0f, buttonWidth, buttonHeight, TEXTURE_GREY_BUTTON_05);
-  initAnimation(&mainMenu->playButton.animation, buttonWidth, buttonHeight, 500, 2.0f, 0);
+  initUIAnimation(&mainMenu->playButton.animation, buttonWidth, buttonHeight, 500, 2.0f, 0);
 
   initButton(&mainMenu->settingsButton, RED, "SETTINGS", fontSize, spaceSize, 0.0f, 0.0f, buttonWidth, buttonHeight, TEXTURE_GREY_BUTTON_05);
-  initAnimation(&mainMenu->settingsButton.animation, buttonWidth, buttonHeight, 500, 2.0f, 1);
+  initUIAnimation(&mainMenu->settingsButton.animation, buttonWidth, buttonHeight, 500, 2.0f, 1);
 
   initButton(&mainMenu->exitButton, RED, "EXIT", fontSize, spaceSize, 0.0f, -31.0f, buttonWidth, buttonHeight, TEXTURE_GREY_BUTTON_05);
-  initAnimation(&mainMenu->exitButton.animation, buttonWidth, buttonHeight, 500, 2.0f, 2);
+  initUIAnimation(&mainMenu->exitButton.animation, buttonWidth, buttonHeight, 500, 2.0f, 2);
 }
 
 void initPauseMenuUI(PauseMenuUI* menu)
@@ -376,13 +376,13 @@ void initPauseMenuUI(PauseMenuUI* menu)
   f32 spaceSize    = getStateVariable("fontSpaceSizeMedium");
 
   initButton(&menu->playButton, RED, "PLAY", fontSize, spaceSize, 0.0f, 31.0f, buttonWidth, buttonHeight, TEXTURE_GREY_BUTTON_05);
-  initAnimation(&menu->playButton.animation, buttonWidth, buttonHeight, 500, 2.0f, 0);
+  initUIAnimation(&menu->playButton.animation, buttonWidth, buttonHeight, 500, 2.0f, 0);
 
   initButton(&menu->settingsButton, RED, "SETTINGS", fontSize, spaceSize, 0.0f, 0.0f, buttonWidth, buttonHeight, TEXTURE_GREY_BUTTON_05);
-  initAnimation(&menu->settingsButton.animation, buttonWidth, buttonHeight, 500, 2.0f, 1);
+  initUIAnimation(&menu->settingsButton.animation, buttonWidth, buttonHeight, 500, 2.0f, 1);
 
   initButton(&menu->mainMenuButton, RED, "MAIN MENU", fontSize, spaceSize, 0.0f, -31.0f, buttonWidth, buttonHeight, TEXTURE_GREY_BUTTON_05);
-  initAnimation(&menu->mainMenuButton.animation, buttonWidth, buttonHeight, 500, 2.0f, 2);
+  initUIAnimation(&menu->mainMenuButton.animation, buttonWidth, buttonHeight, 500, 2.0f, 2);
 }
 
 void initSettingsUI(SettingsMenuUI* settings)

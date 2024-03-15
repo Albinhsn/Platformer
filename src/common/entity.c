@@ -28,13 +28,11 @@ void parseEnemiesFromJson(Json* json, Map* map, Enemy** enemies_, u64* enemyCoun
     JsonObject tileObj         = array.values[i].obj;
     u8         x               = (lookupJsonElement(&tileObj, "x"))->number;
     u8         y               = (lookupJsonElement(&tileObj, "y"))->number;
-    u8         textureIdx      = (lookupJsonElement(&tileObj, "textureIdx"))->number;
 
     enemies[i].entity          = getNewEntity();
     Entity* enemyEntity        = enemies[i].entity;
     enemyEntity->x             = ((x / (f32)mapWidth) * 2.0f - 1.0f) * 100.0f;
     enemyEntity->y             = -((((f32)y - 0.5f) / (f32)mapHeight) * 2.0f - 1.0f) * 100.0f;
-    enemyEntity->textureIdx    = textureIdx;
     enemyEntity->height        = (1 / (f32)mapHeight) * 200.0f;
     enemyEntity->width         = (1 / (f32)mapWidth) * 200.0f;
     enemyEntity->movementSpeed = 0.0f;
@@ -101,7 +99,7 @@ static bool collided(Player* player, Map* map)
 
   for (u8 i = 0; i < tileCount; i++)
   {
-    MapTile tile     = map->tiles[i];
+    Tile tile     = map->tiles[i];
     f32     x        = ((tile.x / (f32)maxWidth) * 2.0f - 1.0f) * 100.0f;
     f32     y        = -((tile.y / (f32)maxHeight) * 2.0f - 1.0f) * 100.0f;
 
@@ -145,13 +143,12 @@ static bool isGrounded(Player* player, Map* map)
 
   for (u8 i = 0; i < tileCount; i++)
   {
-    MapTile tile      = map->tiles[i];
-    f32     x         = ((tile.x / (f32)maxWidth) * 2.0f - 1.0f) * 100.0f;
-    f32     y         = -((tile.y / (f32)maxHeight) * 2.0f - 1.0f) * 100.0f;
+    Tile tile      = map->tiles[i];
 
-    bool    withinX   = !(minX > x + width || maxX < x - width);
-    bool    groundedY = maxY > y + height && maxY - (y + height) <= 1.0f;
+    bool    withinX   = !(minX > tile.x + width || maxX < tile.x - width);
+    bool    groundedY = maxY > tile.y + height && maxY - (tile.y + height) <= 1.0f;
     bool    ground    = tile.type == TILE_TYPE_GROUND;
+
 
     if (withinX && groundedY && ground)
     {

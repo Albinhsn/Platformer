@@ -54,7 +54,7 @@ void initDropdown(DropdownUIComponent* slider, u32 itemCount, const char** itemT
   }
 }
 
-void initAnimation(UIAnimation* animation, f32 initialWidth, f32 initialHeight, u64 animationTimer, f32 maxSize, u32 functionIdx)
+void initUIAnimation(UIAnimation* animation, f32 initialWidth, f32 initialHeight, u64 animationTimer, f32 maxSize, u32 functionIdx)
 {
   animation->initialWidth     = initialWidth;
   animation->initialHeight    = initialHeight;
