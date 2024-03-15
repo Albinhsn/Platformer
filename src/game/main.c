@@ -18,6 +18,7 @@ struct Game
   Player player;
   Map    map;
   Enemy* enemies;
+  u64    enemyCount;
 };
 
 typedef struct Game Game;
@@ -78,6 +79,14 @@ static void checkEndLevel(UIState* state, Game* game)
   }
 }
 
+static void renderEnemies(Enemy* enemies, u64 enemyCount)
+{
+  for (u64 i = 0; i < enemyCount; i++)
+  {
+    renderEntity(enemies[i].entity);
+  }
+}
+
 static void gameLoop(UIState* state, InputState* inputState, Game* game)
 {
   updateTimer(&game->timer);
@@ -91,6 +100,7 @@ static void gameLoop(UIState* state, InputState* inputState, Game* game)
     checkEndLevel(state, game);
   }
   renderMap(&game->map);
+  renderEnemies(game->enemies, game->enemyCount);
   renderEntity(game->player.entity);
 }
 
@@ -116,9 +126,9 @@ static void renderInfoStrings(u64* prevTick)
   *prevTick = SDL_GetTicks();
 }
 
-static const char* mapFileLocations[] = {"./Assets/Maps/map01.json"};
+static const char* mapFileLocations[] = {"./Assets/Maps/test_map01.json"};
 
-void parseMap(Game* game)
+void               parseMap(Game* game)
 {
   Arena arena;
   initArena(&arena, 4096);
@@ -134,7 +144,7 @@ void parseMap(Game* game)
   deserializeFromString(&arena, &json, fileContent);
 
   parseMapFromJson(&json, &game->map);
-  parseEnemiesFromJson(&json, &game->enemies);
+  parseEnemiesFromJson(&json, &game->map, &game->enemies, &game->enemyCount);
 }
 
 void initGame(Game* game)
@@ -162,6 +172,7 @@ i32 main(int argc, char* argv[])
 {
   srand(0);
   loadStateVariables();
+  loadTileMapMapping();
 
   clearGlobalEntites();
 
@@ -185,7 +196,6 @@ i32 main(int argc, char* argv[])
 
   Game game;
   initGame(&game);
-  return 0;
 
   while (ui.state != UI_EXIT)
   {

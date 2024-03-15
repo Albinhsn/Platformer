@@ -1,6 +1,6 @@
 #include "common.h"
-#include "timer.h"
 #include "renderer.h"
+#include "timer.h"
 #include <SDL2/SDL_video.h>
 #include <math.h>
 #include <stdio.h>
@@ -14,9 +14,11 @@ struct StateVariable
 };
 typedef struct StateVariable StateVariable;
 StateVariable                g_stateVariables[64];
-u64                          g_stateVariableCounter = 0;
+StateVariable                g_tileMapMapping[256];
+u64                          g_stateVariableCounter  = 0;
+u64                          g_tileMapMappingCounter = 0;
 
-bool shouldHandleUpdates(Timer* timer, u64* lastUpdated)
+bool                         shouldHandleUpdates(Timer* timer, u64* lastUpdated)
 {
   u64 lastTick = timer->lastTick;
 
@@ -28,7 +30,7 @@ bool shouldHandleUpdates(Timer* timer, u64* lastUpdated)
   return false;
 }
 
-void                         parseIntFromString(int* dest, char* source, u8* length)
+void parseIntFromString(int* dest, char* source, u8* length)
 {
   char number[32];
   memset(number, 0, 32);
@@ -65,6 +67,40 @@ f32 getRandomFloat(f32 min, f32 max)
   return ((f32)rand() / RAND_MAX) * (max - min) + min;
 }
 
+void loadTileMapMapping()
+{
+  const char* fileLocation = "./Assets/variables/tiles_map2.txt";
+  FILE*       filePtr      = fopen(fileLocation, "rb");
+  if (filePtr == 0)
+  {
+    printf("Failed to open tile maps '%s'\n", fileLocation);
+    return;
+  }
+  char buffer[256];
+
+  while (fgets(buffer, 256, filePtr))
+  {
+    u8 idx = 0;
+    while (buffer[idx] != ' ')
+    {
+      idx++;
+    }
+
+    g_tileMapMapping[g_tileMapMappingCounter].key = (char*)malloc(sizeof(char) * (idx + 1));
+    memset(g_tileMapMapping[g_tileMapMappingCounter].key, 0, idx + 1);
+    memcpy(g_tileMapMapping[g_tileMapMappingCounter].key, buffer, idx);
+
+    while (buffer[idx] == ' ')
+    {
+      idx++;
+    }
+
+    g_tileMapMapping[g_tileMapMappingCounter].value = atof(&buffer[idx]);
+    printf("Added tileMapping %s:%f\n", g_tileMapMapping[g_tileMapMappingCounter].key, g_tileMapMapping[g_tileMapMappingCounter].value);
+    g_tileMapMappingCounter++;
+  }
+}
+
 void loadStateVariables()
 {
   const char* fileLocation = "./Assets/variables/state.txt";
@@ -93,9 +129,23 @@ void loadStateVariables()
     }
 
     g_stateVariables[g_stateVariableCounter].value = atof(&buffer[idx]);
-    printf("Added %s:%f\n", g_stateVariables[g_stateVariableCounter].key, g_stateVariables[g_stateVariableCounter].value);
+    printf("Added statevariable %s:%f\n", g_stateVariables[g_stateVariableCounter].key, g_stateVariables[g_stateVariableCounter].value);
     g_stateVariableCounter++;
   }
+}
+
+void setTileMapping(const char* key, f32 value)
+{
+  for (int i = 0; i < g_tileMapMappingCounter; i++)
+  {
+    u64 minLen = MIN(strlen(key), strlen(g_tileMapMapping[i].key));
+    if (strncmp(key, g_tileMapMapping[i].key, minLen) == 0)
+    {
+      g_tileMapMapping[i].value = value;
+    }
+  }
+  g_tileMapMapping[g_tileMapMappingCounter++] = (StateVariable){.key = (char*)key, .value = value};
+  printf("Setting '%s' as %lf\n", key, value);
 }
 
 void setStateVariable(const char* key, f32 value)
@@ -109,7 +159,22 @@ void setStateVariable(const char* key, f32 value)
     }
   }
   g_stateVariables[g_stateVariableCounter++] = (StateVariable){.key = (char*)key, .value = value};
-  printf("Settings '%s' as %lf\n", key, value);
+  printf("Setting '%s' as %lf\n", key, value);
+}
+
+
+f32 getTileMapping(const char* key)
+{
+  for (int i = 0; i < g_tileMapMappingCounter; i++)
+  {
+    u64 minLen = MIN(strlen(key), strlen(g_tileMapMapping[i].key));
+    if (strncmp(key, g_tileMapMapping[i].key, minLen) == 0)
+    {
+      return g_tileMapMapping[i].value;
+    }
+  }
+  printf("WARNING: Didn't find tileMapping '%s'\n", key);
+  return 0.0f;
 }
 
 f32 getStateVariable(const char* key)

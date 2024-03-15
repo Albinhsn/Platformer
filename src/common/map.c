@@ -7,7 +7,13 @@ TileType           parseTileType(u32 textureIdx)
 
   switch (textureIdx)
   {
-  case 0:
+  case 0:{
+
+    }
+  case 1:{
+
+    }
+  case 2:
   {
     return TILE_TYPE_GROUND;
   }

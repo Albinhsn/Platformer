@@ -35,7 +35,7 @@ extern Entity g_entities[MAX_ENTITY_COUNT];
 Entity*       getPlayerEntity();
 Entity*       getNewEntity();
 
-void          parseEnemiesFromJson(Json* json, Enemy** enemies);
+void          parseEnemiesFromJson(Json* json, Map* map, Enemy** enemies_, u64* enemyCount);
 void          initEntity(Entity* entity, f32 x, f32 y, f32 width, f32 height, u32 textureIdx, f32 movementSpeed);
 void          initPlayer(Player* player);
 

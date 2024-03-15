@@ -13,15 +13,33 @@ static bool withinScreen(Entity* entity)
   return !(entity->x <= -x || entity->x >= x || entity->y <= -y || entity->y >= y);
 }
 
-void parseEnemiesFromJson(Json* json, Enemy** enemies)
+void parseEnemiesFromJson(Json* json, Map* map, Enemy** enemies_, u64* enemyCount)
 {
-  JsonObject head  = json->obj;
-  JsonValue* array = lookupJsonElement(&head, "enemies");
-  if (array != NULL)
+  JsonObject head      = json->obj;
+  JsonArray  array     = (lookupJsonElement(&head, "enemies"))->arr;
+  u8         mapWidth  = map->width;
+  u8         mapHeight = map->height;
+
+  Enemy*     enemies   = (Enemy*)malloc(sizeof(Enemy) * array.arraySize);
+  *enemyCount          = array.arraySize;
+
+  for (u32 i = 0; i < array.arraySize; i++)
   {
-    printf("GOT IT\n");
+    JsonObject tileObj         = array.values[i].obj;
+    u8         x               = (lookupJsonElement(&tileObj, "x"))->number;
+    u8         y               = (lookupJsonElement(&tileObj, "y"))->number;
+    u8         textureIdx      = (lookupJsonElement(&tileObj, "textureIdx"))->number;
+
+    enemies[i].entity          = getNewEntity();
+    Entity* enemyEntity        = enemies[i].entity;
+    enemyEntity->x             = ((x / (f32)mapWidth) * 2.0f - 1.0f) * 100.0f;
+    enemyEntity->y             = -((((f32)y - 0.5f) / (f32)mapHeight) * 2.0f - 1.0f) * 100.0f;
+    enemyEntity->textureIdx    = textureIdx;
+    enemyEntity->height        = (1 / (f32)mapHeight)* 200.0f;
+    enemyEntity->width         = (1 / (f32)mapWidth) * 200.0f;
+    enemyEntity->movementSpeed = 0.0f;
   }
-  exit(1);
+  *enemies_ = enemies;
 }
 
 bool entitiesCollided(Entity* e1, Entity* e2)

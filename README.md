@@ -33,7 +33,7 @@
 
 ## Game Things
 ### Enemies
-- [ ] Spawn them
+- [x] Spawn them
 - [ ] Have them move
 - [ ] Have them kill you :)
 
@@ -49,6 +49,7 @@
 ### Random
 - [ ] have some sort of hp idea and respawn rather then die
 - [ ] fix some sort of background in general
+- [ ] fix bounds
 
 
 

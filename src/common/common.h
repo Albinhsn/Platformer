@@ -2,7 +2,6 @@
 #define COMMON_H
 
 #include <stdbool.h>
-#include <stddef.h>
 #include <stdint.h>
 #include <sys/time.h>
 
@@ -76,7 +75,10 @@ u64                  getScreenWidth();
 u64                  getScreenHeight();
 f32                  convertFloatToBE(f32 f);
 u32                  getTimeInMilliseconds();
+void                 loadTileMapMapping();
 void                 loadStateVariables();
+void                 setTileMapping(const char* key, f32 value);
+f32                  getTileMapping(const char* key);
 void                 setStateVariable(const char* key, f32 value);
 f32                  getStateVariable(const char* key);
 void                 getInfoStrings(char* fpsString, char* msString, long long* lastTick, long long* previousTick);
