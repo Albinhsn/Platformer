@@ -19,7 +19,6 @@ typedef struct Entity Entity;
 struct Player
 {
   Entity* entity;
-  i8      hp;
   f32     yAcc;
 };
 typedef struct Player Player;
@@ -27,7 +26,6 @@ typedef struct Player Player;
 struct Enemy
 {
   Entity* entity;
-  i32     hp;
 };
 typedef struct Enemy Enemy;
 
@@ -37,6 +35,7 @@ extern Entity g_entities[MAX_ENTITY_COUNT];
 Entity*       getPlayerEntity();
 Entity*       getNewEntity();
 
+void          parseEnemiesFromJson(Json* json, Enemy** enemies);
 void          initEntity(Entity* entity, f32 x, f32 y, f32 width, f32 height, u32 textureIdx, f32 movementSpeed);
 void          initPlayer(Player* player);
 

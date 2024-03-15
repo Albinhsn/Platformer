@@ -1,8 +1,6 @@
 #include "entity.h"
 #include "common.h"
-#include "input.h"
-#include "map.h"
-#include "timer.h"
+#include "json.h"
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -13,6 +11,17 @@ static bool withinScreen(Entity* entity)
   i32 x = (i32)(100.0f - entity->width / 2.0f);
   i32 y = (i32)(100.0f - entity->height / 2.0f);
   return !(entity->x <= -x || entity->x >= x || entity->y <= -y || entity->y >= y);
+}
+
+void parseEnemiesFromJson(Json* json, Enemy** enemies)
+{
+  JsonObject head  = json->obj;
+  JsonValue* array = lookupJsonElement(&head, "enemies");
+  if (array != NULL)
+  {
+    printf("GOT IT\n");
+  }
+  exit(1);
 }
 
 bool entitiesCollided(Entity* e1, Entity* e2)
@@ -83,7 +92,7 @@ static bool collided(Player* player, Map* map)
 
     f32     minTileY = y - height;
     f32     maxTileY = y + height;
-    bool    ground    = tile.type == TILE_TYPE_GROUND;
+    bool    ground   = tile.type == TILE_TYPE_GROUND;
 
     if (ground && !(minX > maxTileX || maxX < minTileX) && !(minY > maxTileY) && !(maxY < minTileY))
     {

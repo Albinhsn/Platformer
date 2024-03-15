@@ -3,7 +3,7 @@ CC := x86_64-w64-mingw32-gcc
 CFLAGS := -O2 -g -std=c11 -Wall -Wno-missing-braces -Wno-stringop-truncation -D_DEFAULT_SOURCE -I./src/common -I/usr/local/x86_64-w64-mingw32/include 
 LDFLAGS := -L/usr/local/x86_64-w64-mingw32/lib -lm -lopengl32 -lmingw32   -lSDL2main -lSDL2_test -lSDL2
 TARGET = main.exe
-TARGET_EDITOR = editor 
+TARGET_EDITOR = editor.exe
 else
 CC := gcc
 CFLAGS := -O2 -g -std=c11 -Wall -Wno-missing-braces -Wno-stringop-truncation -D_DEFAULT_SOURCE -I./src/common

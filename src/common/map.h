@@ -2,6 +2,7 @@
 #define MAP_H
 
 #include "common.h"
+#include "json.h"
 
 enum TileType
 {
@@ -24,16 +25,16 @@ typedef struct MapTile MapTile;
 struct Map
 {
   MapTile* tiles;
-  i8       backgroundIdx;
-  u8       tileCount;
-  u8       width;
-  u8       height;
   f32      spawnX;
   f32      spawnY;
   f32      endX;
   f32      endY;
+  i8       backgroundIdx;
+  u8       tileCount;
+  u8       width;
+  u8       height;
 };
 typedef struct Map Map;
 
-void               parseMap(Map* map, u64 mapIdx);
+void               parseMapFromJson(Json*json, Map* map);
 #endif

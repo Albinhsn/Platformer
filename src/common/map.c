@@ -1,9 +1,6 @@
 #include "map.h"
-#include "arena.h"
-#include "files.h"
 #include "json.h"
 
-static const char* mapFileLocations[] = {"./Assets/Maps/map01.json"};
 
 TileType           parseTileType(u32 textureIdx)
 {
@@ -29,31 +26,19 @@ TileType           parseTileType(u32 textureIdx)
   }
 }
 
-void parseMap(Map* map, u64 mapIdx)
+void parseMapFromJson(Json* json, Map* map)
 {
-  Arena arena;
-  initArena(&arena, 4096);
-  Json   json;
-  String fileContent;
-  bool   res = readFile((char**)&fileContent.buffer, (i32*)&fileContent.len, mapFileLocations[mapIdx]);
-  if (!res)
-  {
-    printf("Failed to parse map file\n");
-    exit(1);
-  }
 
-  deserializeFromString(&arena, &json, fileContent);
+  map->backgroundIdx    = (lookupJsonElement(&json->obj, "background"))->number;
+  map->width            = (lookupJsonElement(&json->obj, "width"))->number;
+  map->height           = (lookupJsonElement(&json->obj, "height"))->number;
+  JsonArray array       = (lookupJsonElement(&json->obj, "tiles"))->arr;
 
-  map->backgroundIdx  = (lookupJsonElement(&json.obj, "background"))->number;
-  map->width          = (lookupJsonElement(&json.obj, "width"))->number;
-  map->height         = (lookupJsonElement(&json.obj, "height"))->number;
-  JsonArray array     = (lookupJsonElement(&json.obj, "tiles"))->arr;
+  u8        maxWidth    = map->width;
+  u8        maxHeight   = map->height;
 
-  u8        maxWidth  = map->width;
-  u8        maxHeight = map->height;
-
-  map->tileCount      = array.arraySize;
-  map->tiles          = (MapTile*)malloc(sizeof(MapTile) * array.arraySize);
+  map->tileCount        = array.arraySize;
+  map->tiles            = (MapTile*)malloc(sizeof(MapTile) * array.arraySize);
   for (u32 i = 0; i < array.arraySize; i++)
   {
     JsonObject tileObj = array.values[i].obj;

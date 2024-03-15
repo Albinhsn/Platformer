@@ -282,7 +282,6 @@ UIState renderUI(UI* ui, InputState* inputState)
   {
   case UI_MAIN_MENU:
   {
-    printf("Rendering menu!\n");
     return renderMainMenu(ui->mainMenu, inputState);
   }
   case UI_SETTINGS_MENU:
@@ -299,7 +298,6 @@ UIState renderUI(UI* ui, InputState* inputState)
   }
   case UI_PAUSE_MENU:
   {
-    printf("Rendering pause menu!\n");
     return renderPauseMenu(ui->pauseMenu, inputState);
   }
   case UI_CONSOLE:

@@ -1,5 +1,7 @@
+#include "arena.h"
 #include "common.h"
 #include "entity.h"
+#include "files.h"
 #include "game_ui.h"
 #include "input.h"
 #include "map.h"
@@ -15,6 +17,7 @@ struct Game
   u64    mapIdx;
   Player player;
   Map    map;
+  Enemy* enemies;
 };
 
 typedef struct Game Game;
@@ -113,16 +116,37 @@ static void renderInfoStrings(u64* prevTick)
   *prevTick = SDL_GetTicks();
 }
 
+static const char* mapFileLocations[] = {"./Assets/Maps/map01.json"};
+
+void parseMap(Game* game)
+{
+  Arena arena;
+  initArena(&arena, 4096);
+  Json   json;
+  String fileContent;
+  bool   res = readFile((char**)&fileContent.buffer, (i32*)&fileContent.len, mapFileLocations[game->mapIdx]);
+  if (!res)
+  {
+    printf("Failed to parse map file\n");
+    exit(1);
+  }
+
+  deserializeFromString(&arena, &json, fileContent);
+
+  parseMapFromJson(&json, &game->map);
+  parseEnemiesFromJson(&json, &game->enemies);
+}
+
 void initGame(Game* game)
 {
   memset(game, 0, sizeof(Game));
   resetGame(game);
 
-  game->player.hp     = 3;
   game->player.entity = getNewEntity();
   game->player.yAcc   = 0;
   game->mapIdx        = 0;
-  parseMap(&game->map, game->mapIdx);
+  parseMap(game);
+
   initEntity(game->player.entity, game->map.spawnX, game->map.spawnY, 5.0f, 5.0f, 0, 0.5f);
 }
 
@@ -161,6 +185,7 @@ i32 main(int argc, char* argv[])
 
   Game game;
   initGame(&game);
+  return 0;
 
   while (ui.state != UI_EXIT)
   {
