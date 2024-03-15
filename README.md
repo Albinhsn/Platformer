@@ -30,6 +30,9 @@
 - [x] basic movement, gravity and collision
 - [x] differentiate between ground and other collidedable objects
 - [x] spawn at correct position and end game at correct position
+- [ ] figure out a mapping from data to tileMapping so that it can change
+    - [ ] i guess do the same for characters and backgrounds
+- [ ] figure out animation format
 
 ## Game Things
 ### Enemies
@@ -50,6 +53,8 @@
 - [ ] have some sort of hp idea and respawn rather then die
 - [ ] fix some sort of background in general
 - [ ] fix bounds
+- [ ] actually do things with string library? :)
+- [ ] actually log stuff? :)
 
 
 

@@ -54,7 +54,7 @@ void initDropdown(DropdownUIComponent* slider, u32 itemCount, const char** itemT
   }
 }
 
-void initAnimation(Animation* animation, f32 initialWidth, f32 initialHeight, u64 animationTimer, f32 maxSize, u32 functionIdx)
+void initAnimation(UIAnimation* animation, f32 initialWidth, f32 initialHeight, u64 animationTimer, f32 maxSize, u32 functionIdx)
 {
   animation->initialWidth     = initialWidth;
   animation->initialHeight    = initialHeight;
@@ -67,7 +67,7 @@ void initAnimation(Animation* animation, f32 initialWidth, f32 initialHeight, u6
 
 static f32  (*animationFuncs[])(float) = {easeLinearly, easeInCubic, easeOutCubic};
 
-static void animateIn(f32* width, f32* height, Animation* animation)
+static void animateIn(f32* width, f32* height, UIAnimation* animation)
 {
   u32 tick = getTimeInMilliseconds();
   if (animation->startedAnimation == 0)
@@ -84,7 +84,7 @@ static void animateIn(f32* width, f32* height, Animation* animation)
   animation->endedAnimation = tick;
 }
 
-static void animateOut(f32* width, f32* height, Animation* animation)
+static void animateOut(f32* width, f32* height, UIAnimation* animation)
 {
   u64 tickDifference          = getTimeInMilliseconds() - animation->endedAnimation;
   f32 increasePerMs           = animation->maxSize / (f32)animation->animationTimer;
@@ -95,7 +95,7 @@ static void animateOut(f32* width, f32* height, Animation* animation)
   *height                     = animation->initialHeight + animation->maxSize * increase;
 }
 
-void animate(f32* width, f32* height, Animation* animation, bool hovers)
+void animate(f32* width, f32* height, UIAnimation* animation, bool hovers)
 {
   hovers ? animateIn(width, height, animation) : animateOut(width, height, animation);
 }

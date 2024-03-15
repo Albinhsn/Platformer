@@ -1,5 +1,6 @@
 #include "common.h"
 #include "renderer.h"
+#include "sta_string.h"
 #include "timer.h"
 #include <SDL2/SDL_video.h>
 #include <math.h>
@@ -69,7 +70,7 @@ f32 getRandomFloat(f32 min, f32 max)
 
 void loadTileMapMapping()
 {
-  const char* fileLocation = "./Assets/variables/tiles_map2.txt";
+  const char* fileLocation = "./Assets/variables/tiles_map.txt";
   FILE*       filePtr      = fopen(fileLocation, "rb");
   if (filePtr == 0)
   {
@@ -162,18 +163,17 @@ void setStateVariable(const char* key, f32 value)
   printf("Setting '%s' as %lf\n", key, value);
 }
 
-
-f32 getTileMapping(const char* key)
+f32 getTileMapping(String key)
 {
   for (int i = 0; i < g_tileMapMappingCounter; i++)
   {
-    u64 minLen = MIN(strlen(key), strlen(g_tileMapMapping[i].key));
-    if (strncmp(key, g_tileMapMapping[i].key, minLen) == 0)
+    u64 minLen = MIN(key.len, strlen(g_tileMapMapping[i].key));
+    if (strncmp((char*)key.buffer, g_tileMapMapping[i].key, minLen) == 0)
     {
       return g_tileMapMapping[i].value;
     }
   }
-  printf("WARNING: Didn't find tileMapping '%s'\n", key);
+  printf("WARNING: Didn't find tileMapping '%.*s'\n", (i32)key.len, key.buffer);
   return 0.0f;
 }
 

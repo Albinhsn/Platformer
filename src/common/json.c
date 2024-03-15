@@ -10,9 +10,9 @@
 
 struct Buffer
 {
-  u8* buffer;
-  u64 curr;
-  u64 len;
+  char* buffer;
+  u64   curr;
+  u64   len;
 };
 typedef struct Buffer Buffer;
 
@@ -394,6 +394,7 @@ bool parseKeyValuePair(Arena* arena, JsonObject* obj, Buffer* buffer)
   {
     return false;
   }
+  skipWhitespace(buffer);
 
   bool res = parseJsonValue(arena, &obj->values[obj->size], buffer);
   if (!res)
@@ -407,7 +408,6 @@ bool parseKeyValuePair(Arena* arena, JsonObject* obj, Buffer* buffer)
 
 bool parseJsonObject(Arena* arena, JsonObject* obj, Buffer* buffer)
 {
-  // TimeFunction;
   advanceBuffer(buffer);
   skipWhitespace(buffer);
 
@@ -429,6 +429,7 @@ bool parseJsonObject(Arena* arena, JsonObject* obj, Buffer* buffer)
     skipWhitespace(buffer);
   }
   advanceBuffer(buffer);
+  skipWhitespace(buffer);
   return true;
 }
 
@@ -451,6 +452,7 @@ bool parseJsonArray(Arena* arena, JsonArray* arr, Buffer* buffer)
     {
       advanceBuffer(buffer);
     }
+    skipWhitespace(buffer);
   }
   advanceBuffer(buffer);
 
@@ -541,7 +543,7 @@ bool parseJsonValue(Arena* arena, JsonValue* value, Buffer* buffer)
   }
   default:
   {
-    printf("Unknown value token '%c'\n", currentChar);
+    printf("Unknown value token '%c' from\n", currentChar);
     return false;
   }
   }
@@ -553,7 +555,7 @@ bool deserializeFromString(Arena* arena, Json* json, String fileContent)
   bool   first = false;
 
   Buffer buffer;
-  buffer.buffer = (u8*)fileContent.buffer;
+  buffer.buffer = fileContent.buffer;
   buffer.curr   = 0;
   buffer.len    = fileContent.len;
 

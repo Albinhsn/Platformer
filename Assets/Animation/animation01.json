@@ -1,0 +1,33 @@
+{
+  "woodCoin_001": {
+    "textures": ["woodCoin_001", "woodCoin_002"],
+    "timer": 500
+  }, 
+  "waterfallTop_001": {
+    "textures": ["water_002", "water_003"],
+    "timer": 500
+  }, 
+  "waterfallMid_001": {
+    "textures": ["water_004", "water_005"], 
+    "timer": 500},
+  "waterfallBot_001": {
+    "textures": ["water_008", "water_009"],
+    "timer": 500
+  }, 
+  "lever_001": {
+    "textures": ["lever_001", "lever_002", "lever_003"],
+    "timer": 500
+  }, 
+  "flagTop_001": {
+    "textures": ["flag_001", "flag_002"],
+    "timer": 500
+  }, 
+  "button_001": {
+    "textures": ["button_001", "button_002"],
+    "timer": 500
+  }, 
+  "coin_001": {
+    "textures": ["coin_001", "coin_002"],
+    "timer": 500
+  }
+}

@@ -1,6 +1,7 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#include "sta_string.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <sys/time.h>
@@ -78,7 +79,7 @@ u32                  getTimeInMilliseconds();
 void                 loadTileMapMapping();
 void                 loadStateVariables();
 void                 setTileMapping(const char* key, f32 value);
-f32                  getTileMapping(const char* key);
+f32                  getTileMapping(String key);
 void                 setStateVariable(const char* key, f32 value);
 f32                  getStateVariable(const char* key);
 void                 getInfoStrings(char* fpsString, char* msString, long long* lastTick, long long* previousTick);

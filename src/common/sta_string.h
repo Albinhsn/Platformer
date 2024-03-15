@@ -1,16 +1,15 @@
 #ifndef STA_STRING_H
 #define STA_STRING_H
 
-#include "common.h"
 #include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
+
+typedef uint64_t u64;
 
 struct String
 {
-  u64 len;
-  u64 capacity;
-  u8* buffer;
+  u64   len;
+  u64   capacity;
+  char* buffer;
 };
 typedef struct String String;
 

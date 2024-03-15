@@ -1,3 +1,4 @@
+#include "animation.h"
 #include "arena.h"
 #include "common.h"
 #include "entity.h"
@@ -83,6 +84,10 @@ static void renderEnemies(Enemy* enemies, u64 enemyCount)
 {
   for (u64 i = 0; i < enemyCount; i++)
   {
+    if (enemies[i].entity->animated)
+    {
+      updateAnimation(enemies[i].entity->animation);
+    }
     renderEntity(enemies[i].entity);
   }
 }
@@ -140,9 +145,19 @@ void               parseMap(Game* game)
     printf("Failed to parse map file\n");
     exit(1);
   }
-
   deserializeFromString(&arena, &json, fileContent);
 
+  Json   animationJson;
+  String animationContent;
+  res = readFile((char**)&animationContent.buffer, (i32*)&animationContent.len, "./Assets/Animation/animation01.json");
+  if (!res)
+  {
+    printf("Failed to parse map file\n");
+    exit(1);
+  }
+  deserializeFromString(&arena, &animationJson, animationContent);
+
+  parseAnimationDataFromJson(&animationJson);
   parseMapFromJson(&json, &game->map);
   parseEnemiesFromJson(&json, &game->map, &game->enemies, &game->enemyCount);
 }
@@ -157,7 +172,7 @@ void initGame(Game* game)
   game->mapIdx        = 0;
   parseMap(game);
 
-  initEntity(game->player.entity, game->map.spawnX, game->map.spawnY, 5.0f, 5.0f, 0, 0.5f);
+  initEntity(game->player.entity, game->map.spawnX, game->map.spawnY, 5.0f, 5.0f, 0, 0.5f, false);
 }
 
 void clearGlobalEntites()
@@ -196,6 +211,7 @@ i32 main(int argc, char* argv[])
 
   Game game;
   initGame(&game);
+
 
   while (ui.state != UI_EXIT)
   {

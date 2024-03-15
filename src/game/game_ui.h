@@ -84,7 +84,7 @@ typedef struct UI UI;
 
 void              updateUIState(UI* ui, UIState newState, Timer* timer);
 UIState           renderUI(UI* ui, InputState* inputState);
-void              animate(f32* width, f32* height, Animation* animation, bool hovers);
+void              animate(f32* width, f32* height, UIAnimation* animation, bool hovers);
 void              initUI(UI* ui, ConsoleUI* console, GameOverUI* gameOver, MainMenuUI* mainMenu, PauseMenuUI* pauseMenu, SettingsMenuUI* settings);
 
 #endif

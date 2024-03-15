@@ -436,7 +436,15 @@ void renderDropdown(DropdownUIComponent* dropdown)
 
 void renderEntity(Entity* entity)
 {
-  renderTextureTile(entity->x, entity->y, entity->width, entity->height, TEXTURE_CHARACTERS, entity->textureIdx);
+  if (entity->animated)
+  {
+    u64 textureIdx = entity->animation->animationData->textureIds[entity->animation->currentTexture];
+    renderTextureTile(entity->x, entity->y, entity->width, entity->height, TEXTURE_CHARACTERS, textureIdx);
+  }
+  else
+  {
+    renderTextureTile(entity->x, entity->y, entity->width, entity->height, TEXTURE_CHARACTERS, entity->textureIdx);
+  }
 }
 
 void renderMap(Map* map)

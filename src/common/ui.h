@@ -6,7 +6,7 @@
 #include "vector.h"
 #include <stdbool.h>
 
-struct Animation
+struct UIAnimation
 {
   u64 startedAnimation;
   u64 endedAnimation;
@@ -17,7 +17,7 @@ struct Animation
   u32 functionIdx;
 };
 
-typedef struct Animation Animation;
+typedef struct UIAnimation UIAnimation;
 
 struct UIComponent
 {
@@ -36,7 +36,7 @@ struct ButtonUIComponent
   f32         spaceSize;
   Color       color;
   UIComponent component;
-  Animation   animation;
+  UIAnimation animation;
 };
 typedef struct ButtonUIComponent ButtonUIComponent;
 
@@ -75,8 +75,8 @@ void initCheckbox(CheckboxUIComponent* checkbox, f32 x, f32 y, f32 width, f32 he
 void initButton(ButtonUIComponent* button, Color color, const char* text, f32 fontSize, f32 spaceSize, f32 x, f32 y, f32 width, f32 height, u32 textureIdx);
 void initDropdown(DropdownUIComponent* slider, u32 itemCount, const char** itemText, void* dropdownData, Color color, const char* text, f32 fontSize, f32 spaceSize, f32 x, f32 y, f32 width,
                   f32 height, u32 dropdownButtonTextureIdx);
-void initAnimation(Animation* animation, f32 initialWidth, f32 initialHeight, u64 animationTimer, f32 maxSize, u32 functionIdx);
-void animate(f32* width, f32* height, Animation* animation, bool hovers);
+void initAnimation(UIAnimation* animation, f32 initialWidth, f32 initialHeight, u64 animationTimer, f32 maxSize, u32 functionIdx);
+void animate(f32* width, f32* height, UIAnimation* animation, bool hovers);
 bool hovers(UIComponent component, InputState* inputState);
 bool componentIsReleased(UIComponent component, InputState* inputState);
 bool componentIsPressed(UIComponent component, InputState* inputState);

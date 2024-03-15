@@ -35,7 +35,7 @@ void parseEnemiesFromJson(Json* json, Map* map, Enemy** enemies_, u64* enemyCoun
     enemyEntity->x             = ((x / (f32)mapWidth) * 2.0f - 1.0f) * 100.0f;
     enemyEntity->y             = -((((f32)y - 0.5f) / (f32)mapHeight) * 2.0f - 1.0f) * 100.0f;
     enemyEntity->textureIdx    = textureIdx;
-    enemyEntity->height        = (1 / (f32)mapHeight)* 200.0f;
+    enemyEntity->height        = (1 / (f32)mapHeight) * 200.0f;
     enemyEntity->width         = (1 / (f32)mapWidth) * 200.0f;
     enemyEntity->movementSpeed = 0.0f;
   }
@@ -201,14 +201,22 @@ void updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map
   }
 }
 
-void initEntity(Entity* entity, f32 x, f32 y, f32 width, f32 height, u32 textureIdx, f32 movementSpeed)
+void initEntity(Entity* entity, f32 x, f32 y, f32 width, f32 height, u64 textureIdx, f32 movementSpeed, bool animated)
 {
-  entity->x             = x;
-  entity->y             = y;
-  entity->width         = width;
-  entity->height        = height;
-  entity->textureIdx    = textureIdx;
+  entity->x      = x;
+  entity->y      = y;
+  entity->width  = width;
+  entity->height = height;
+  if (entity->animated)
+  {
+    entity->animation = (Animation*)textureIdx;
+  }
+  else
+  {
+    entity->textureIdx = textureIdx;
+  }
   entity->movementSpeed = movementSpeed;
+  entity->animated      = animated;
 }
 
 void debugEntity(Entity* entity)
@@ -220,5 +228,5 @@ void debugEntity(Entity* entity)
 void createPlayer(Player* player)
 {
   player->entity = getPlayerEntity();
-  initEntity(player->entity, 0.0f, 0.0f, 5.0f, 10.0f, 1, 1.0f);
+  initEntity(player->entity, 0.0f, 0.0f, 5.0f, 10.0f, 1, 1.0f, false);
 }
