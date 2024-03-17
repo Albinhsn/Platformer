@@ -439,7 +439,8 @@ void renderEntity(Entity* entity)
 {
   if (entity->animated)
   {
-    renderTextureTile(entity->x, entity->y, entity->width, entity->height, TEXTURE_CHARACTERS, entity->animation->currentTexture);
+    u64 textureIdx = entity->animation->animationData->textureIds[entity->animation->currentTexture];
+    renderTextureTile(entity->x, entity->y, entity->width, entity->height, TEXTURE_CHARACTERS, textureIdx);
   }
   else
   {
@@ -447,7 +448,7 @@ void renderEntity(Entity* entity)
   }
 }
 
-void renderMap(Map* map, Timer * timer)
+void renderMap(Map* map, Timer* timer)
 {
   renderTextureTile(0.0f, 0.0f, 200.0f, 200.0f, TEXTURE_BACKGROUNDS, map->backgroundIdx);
   u8  maxWidth  = map->width;
@@ -458,17 +459,18 @@ void renderMap(Map* map, Timer * timer)
 
   for (u32 i = 0; i < map->tileCount; i++)
   {
-    Tile *tile = &map->tiles[i];
+    Entity* entity = map->tiles[i].entity;
 
-    if (tile->animated)
+    if (entity->animated)
     {
-      u64 prev =  tile->animation.animationData->textureIds[tile->animation.currentTexture];
-      updateAnimation(&tile->animation, timer);
-      renderTextureTile(tile->x, tile->y, width, height, TEXTURE_TILES, tile->animation.animationData->textureIds[tile->animation.currentTexture]);
+      Animation* animation = entity->animation;
+      u64        prev      = animation->animationData->textureIds[entity->animation->currentTexture];
+      updateAnimation(animation, timer);
+      renderTextureTile(entity->x, entity->y, width, height, TEXTURE_TILES, animation->animationData->textureIds[animation->currentTexture]);
     }
     else
     {
-      renderTextureTile(tile->x, tile->y, width, height, TEXTURE_TILES, tile->textureIdx);
+      renderTextureTile(entity->x, entity->y, width, height, TEXTURE_TILES, entity->textureIdx);
     }
   }
 }

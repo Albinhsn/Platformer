@@ -4,7 +4,6 @@
 #include "common.h"
 #include "entity.h"
 #include "font.h"
-#include "map.h"
 #include "texture.h"
 #include "ui.h"
 

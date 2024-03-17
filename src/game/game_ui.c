@@ -214,6 +214,25 @@ static UIState handleConsoleInput(ConsoleUI* console, InputState* inputState)
     {
       setStateVariable("reset", 1);
     }
+    if (strncmp((char*)console->input, "vsync", 5) == 0)
+    {
+      u8 idx = 5;
+      while (console->input[idx] == ' ')
+      {
+        idx++;
+      }
+      i32 res;
+      u8  l;
+      parseIntFromString(&res, (char*)&console->input[idx], &l);
+      if(res == 1){
+        SDL_GL_SetSwapInterval(1);
+        printf("INFO: Set vsync to 1\n");
+      }else{
+        SDL_GL_SetSwapInterval(0);
+        printf("INFO: Set vsync to 0\n");
+      }
+      
+    }
 
     if (strncmp((char*)console->input, "jump", 4) == 0)
     {

@@ -68,7 +68,7 @@ f32 getRandomFloat(f32 min, f32 max)
   return ((f32)rand() / RAND_MAX) * (max - min) + min;
 }
 
-void loadTileMapMapping()
+void loadTileMapping()
 {
   const char* fileLocation = "./Assets/variables/tiles_map.txt";
   FILE*       filePtr      = fopen(fileLocation, "rb");
@@ -130,9 +130,9 @@ void loadStateVariables()
     }
 
     g_stateVariables[g_stateVariableCounter].value = atof(&buffer[idx]);
-    printf("Added statevariable %s:%f\n", g_stateVariables[g_stateVariableCounter].key, g_stateVariables[g_stateVariableCounter].value);
     g_stateVariableCounter++;
   }
+  printf("INFO: Added %d statevariables\n", (i32)g_stateVariables[g_stateVariableCounter].value);
 }
 
 void setTileMapping(const char* key, f32 value)
@@ -146,7 +146,7 @@ void setTileMapping(const char* key, f32 value)
     }
   }
   g_tileMapMapping[g_tileMapMappingCounter++] = (StateVariable){.key = (char*)key, .value = value};
-  printf("Setting '%s' as %lf\n", key, value);
+  printf("INFO: Setting tilemapping '%s' as %lf\n", key, value);
 }
 
 void setStateVariable(const char* key, f32 value)
@@ -160,7 +160,7 @@ void setStateVariable(const char* key, f32 value)
     }
   }
   g_stateVariables[g_stateVariableCounter++] = (StateVariable){.key = (char*)key, .value = value};
-  printf("Setting '%s' as %lf\n", key, value);
+  printf("INFO: Setting statevariable '%s' as %lf\n", key, value);
 }
 
 f32 getTileMappingValue(String key)

@@ -75,6 +75,7 @@ void                addElementToJsonArray(JsonArray* array, JsonValue value);
 void                initJsonArray(Arena* arena, JsonArray* array);
 void                initJsonObject(Arena* arena, JsonObject* obj);
 bool                deserializeFromString(Arena* arena, Json* json, String fileContent);
+bool                deserializeFromFile(Arena* arena, Json* json, String fileLocation);
 bool                serializeToFile(Json* json, const char* filename);
 void                debugJson(Json* json);
 void                debugJsonArray(JsonArray* array);

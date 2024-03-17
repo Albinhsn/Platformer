@@ -30,11 +30,10 @@
 - [x] basic movement, gravity and collision
 - [x] differentiate between ground and other collidedable objects
 - [x] spawn at correct position and end game at correct position
-- [ ] redo and simplify the data format
-- [ ] figure out better way to handle map
-- [ ] figure out a mapping from data to tileMapping so that it can change
-    - [ ] i guess do the same for characters and backgrounds
-- [ ] figure out animation format
+- [x] figure out better way to handle map
+- [x] figure out a mapping from data to tileMapping so that it can change
+    - [x] i guess do the same for characters and backgrounds
+- [x] figure out animation format
 
 ## Game Things
 ### Enemies
@@ -42,14 +41,23 @@
 - [ ] Have them move
 - [ ] Have them kill you :)
 
+
+### Randoms
+I need some sort of concept of a entity that animates based on a function
+    Can be an index into a table of functions
+    When we calculate this we also might want to do some other sort of interaction
+Also need to compose some sort of things as well
+
+
 ### Interaction with ui
 - [ ] fix everything from test map
-    - [ ] the pole thingy that move
+    - [ ] the pole thingy that move when you move over it
     - [ ] the bouncing thing
     - [ ] ladders
-    - [ ] gather emeralds
+    - [ ] gather emeralds/key
     - [ ] take dmg from spikes
-    - [ ] See if you can animate the water
+    - [x] See if you can animate the water
+    - [x] animate flag
     - [ ] Have x3 clouds move
 ### Random
 - [ ] have some sort of hp idea and respawn rather then die

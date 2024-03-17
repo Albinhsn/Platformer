@@ -1,41 +1,107 @@
 {
   "a_woodCoin_001": {
     "textures": ["woodCoin_001", "woodCoin_002"],
-    "timer": 500
+    "timer": 500,
+    "type": 0
   }, 
   "a_waterfallTop_001": {
     "textures": ["water_002", "water_003"],
-    "timer": 500
+    "timer": 300,
+    "type": 0
   }, 
   "a_waterfallMid_001": {
     "textures": ["water_005", "water_006"], 
-    "timer": 500},
+    "timer": 300,
+    "type": 0
+  },
   "a_waterfallBot_001": {
     "textures": ["water_008", "water_009"],
-    "timer": 500
+    "timer": 300,
+    "type": 0
   }, 
   "a_waterSurface_001": {
     "textures": ["water_004", "water_001"],
-    "timer": 500
+    "timer": 500,
+    "type": 0
   }, 
   "a_lever_001": {
     "textures": ["lever_001", "lever_002", "lever_003"],
-    "timer": 500
+    "timer": 500,
+    "type": 0
   }, 
   "a_flagTop_001": {
     "textures": ["flag_001", "flag_002"],
+    "type": 0,
     "timer": 500
   }, 
   "a_button_001": {
     "textures": ["button_001", "button_002"],
+    "type": 0,
     "timer": 500
   }, 
   "a_coin_001": {
     "textures": ["coin_001", "coin_002"],
-    "timer": 500
+    "type": 0,
+    "timer": 400
   },
   "a_spring_001": {
     "textures": ["spring_001", "spring_002"],
+    "type": 0,
+    "timer": 500
+  },
+  "a_green_octopus_001": {
+    "textures": ["green_octopus_001", "green_octopus_002"],
+    "type": 1,
+    "timer": 500
+  },
+  "a_blue_octopus_001": {
+    "textures": ["blue_octopus_001", "blue_octopus_002"],
+    "type": 1,
+    "timer": 500
+  },
+  "a_pink_octopus_001": {
+    "textures": ["pink_octopus_001", "pink_octopus_002"],
+    "type": 1,
+    "timer": 500
+  },
+  "a_yellow_octopus_001": {
+    "textures": ["yellow_octopus_001", "yellow_octopus_002"],
+    "type": 1,
+    "timer": 500
+  },
+  "a_apricot_octopus_001": {
+    "textures": ["apricot_octopus_001", "apricot_octopus_002"],
+    "type": 1,
+    "timer": 500
+  },
+  "a_square_char_001": {
+    "textures": ["square_char_001", "square_char_002"],
+    "type": 1,
+    "timer": 500
+  },
+  "a_flower_char_001": {
+    "textures": ["flower_char_001", "flower_char_002"],
+    "type": 1,
+    "timer": 500
+  },
+  "a_small_red_char_001": {
+    "textures": ["small_red_char_001", "small_red_char_002"],
+    "type": 1,
+    "timer": 500
+  },
+  "a_small_blue_char_001": {
+    "textures": ["small_blue_char_001", "small_blue_char_002"],
+    "type": 1,
+    "timer": 500
+  },
+  "a_large_blue_char_001": {
+    "textures": ["large_blue_char_001", "large_blue_char_002"],
+    "type": 1,
+    "timer": 500
+  },
+  "a_flying_char_001": {
+    "textures": ["flying_char_001", "flying_char_002"],
+    "type": 1,
     "timer": 500
   }
 }

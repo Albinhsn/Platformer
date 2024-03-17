@@ -1,6 +1,7 @@
 #include "json.h"
 #include "arena.h"
 #include "common.h"
+#include "files.h"
 #include <ctype.h>
 #include <float.h>
 #include <math.h>
@@ -547,6 +548,11 @@ bool parseJsonValue(Arena* arena, JsonValue* value, Buffer* buffer)
     return false;
   }
   }
+}
+bool                deserializeFromFile(Arena* arena, Json* json, String fileLocation){
+  String buffer;
+  readFile(&buffer.buffer, &buffer.len, fileLocation.buffer);
+  return deserializeFromString(arena, json, buffer);
 }
 
 bool deserializeFromString(Arena* arena, Json* json, String fileContent)

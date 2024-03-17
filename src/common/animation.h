@@ -2,12 +2,10 @@
 #define ANIMATION_H
 
 #include "common.h"
-#include "json.h"
 #include "sta_string.h"
 
 struct AnimationData
 {
-  String name;
   u64*   textureIds;
   u64    textureCount;
   u64    timer;
@@ -22,11 +20,8 @@ struct Animation
 };
 typedef struct Animation Animation;
 
-extern AnimationData     g_animationData[128];
 
 void                     initAnimation(Animation* animation, AnimationData* data);
-AnimationData*           getAnimationData(String key);
 void                     updateAnimation(Animation* animation, Timer* timer);
-void                     parseAnimationDataFromJson(Json* json);
 
 #endif

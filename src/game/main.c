@@ -1,11 +1,9 @@
-#include "animation.h"
 #include "arena.h"
 #include "common.h"
 #include "entity.h"
 #include "files.h"
 #include "game_ui.h"
 #include "input.h"
-#include "map.h"
 #include "renderer.h"
 #include "timer.h"
 #include <stdlib.h>
@@ -29,8 +27,8 @@ static void         resetPlayer(Player* player, Map* map)
   player->yAcc = 0.0f;
   if (player->entity)
   {
-    player->entity->x = map->spawnX;
-    player->entity->y = map->spawnY;
+    player->entity->x = 0.0f;
+    player->entity->y = 0.0f;
   }
 }
 
@@ -56,14 +54,15 @@ static void checkEndLevel(UIState* state, Game* game)
   for (u32 i = 0; i < game->map.tileCount; i++)
   {
     Tile* tile = &map->tiles[i];
+    Entity * tileEntity = map->tiles[i].entity;
 
     if (map->tiles[i].type == TILE_TYPE_END)
     {
 
-      f32 minE1X = tile->x - width;
-      f32 maxE1X = tile->x + width;
-      f32 minE1Y = tile->y - height;
-      f32 maxE1Y = tile->y + height;
+      f32 minE1X = tileEntity->x - width;
+      f32 maxE1X = tileEntity->x + width;
+      f32 minE1Y = tileEntity->y - height;
+      f32 maxE1Y = tileEntity->y + height;
 
       f32 minE2X = player.entity->x - player.entity->width;
       f32 maxE2X = player.entity->x + player.entity->width;
@@ -75,18 +74,6 @@ static void checkEndLevel(UIState* state, Game* game)
         *state = UI_GAME_OVER;
       }
     }
-  }
-}
-
-static void renderEnemies(Timer * timer, Enemy* enemies, u64 enemyCount)
-{
-  for (u64 i = 0; i < enemyCount; i++)
-  {
-    if (enemies[i].entity->animated)
-    {
-      updateAnimation(enemies[i].entity->animation, timer);
-    }
-    renderEntity(enemies[i].entity);
   }
 }
 
@@ -103,7 +90,6 @@ static void gameLoop(UIState* state, InputState* inputState, Game* game)
     checkEndLevel(state, game);
   }
   renderMap(&game->map, &game->timer);
-  renderEnemies(&game->timer, game->enemies, game->enemyCount);
   renderEntity(game->player.entity);
 }
 
@@ -155,9 +141,7 @@ void               parseMap(Game* game)
   }
   deserializeFromString(&arena, &animationJson, animationContent);
 
-  parseAnimationDataFromJson(&animationJson);
-  parseMapFromJson(&json, &game->map);
-  parseEnemiesFromJson(&json, &game->map, &game->enemies, &game->enemyCount);
+  parseTilesFromJson(&json, &game->map);
 }
 
 void initGame(Game* game)
@@ -170,7 +154,7 @@ void initGame(Game* game)
   game->mapIdx        = 0;
   parseMap(game);
 
-  initEntity(game->player.entity, game->map.spawnX, game->map.spawnY, 5.0f, 5.0f, 0, 0.5f, false);
+  initEntity(game->player.entity, 0.0f, 0.0f, 5.0f, 5.0f, 0, 0.5f, false);
 }
 
 void clearGlobalEntites()
@@ -185,8 +169,6 @@ i32 main(int argc, char* argv[])
 {
   srand(0);
   loadStateVariables();
-  loadTileMapMapping();
-
   clearGlobalEntites();
 
   Font font;
@@ -214,7 +196,6 @@ i32 main(int argc, char* argv[])
   {
 
     initNewFrame(BLACK);
-    renderInfoStrings(&prevTick);
 
     if (inputState.keyboardStateRelease['c'])
     {
@@ -236,6 +217,7 @@ i32 main(int argc, char* argv[])
 
     UIState newState = renderUI(&ui, &inputState);
     updateUIState(&ui, newState, &game.timer);
+    renderInfoStrings(&prevTick);
 
     SDL_GL_SwapWindow(g_renderer.window);
   }

@@ -49,13 +49,19 @@
   ,{"x":18,"y":13,"textureIdx":182}
   ,{"x":18,"y":12,"textureIdx":182}
   ,{"x":18,"y":11,"textureIdx":182}
+  ,{"x":18,"y":5,"textureIdx":189}
+  ,{"x":19,"y":5,"textureIdx":189}
+  ,{"x":17,"y":5,"textureIdx":189}
+  ,{"x":14,"y":5,"textureIdx":185}
+  ,{"x":14,"y":6,"textureIdx":131}
+  ,{"x":14,"y":7,"textureIdx":131}
 ],
 "enemies":[
-  {"x":9,"y":5,"textureIdx":24}
-  ,{"x":4,"y":15,"textureIdx":14}
-  ,{"x":16,"y":15,"textureIdx":18}
-  ,{"x":11,"y":15,"textureIdx":2}
-  ,{"x":11,"y":7,"textureIdx":11}
-  ,{"x":13,"y":15,"textureIdx":16}
+  {"x":9,"y":5,"textureIdx":36}
+  ,{"x":4,"y":15,"textureIdx":32}
+  ,{"x":16,"y":15,"textureIdx":34}
+  ,{"x":11,"y":15,"textureIdx":27}
+  ,{"x":11,"y":7,"textureIdx":31}
+  ,{"x":13,"y":15,"textureIdx":33}
 ]
 }

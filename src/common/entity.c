@@ -3,8 +3,11 @@
 #include "json.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 
 Entity      g_entities[256];
+TileData    g_tileData[256];
+u64         g_tileDataCounter = 0;
 
 static bool withinScreen(Entity* entity)
 {
@@ -13,31 +16,85 @@ static bool withinScreen(Entity* entity)
   return !(entity->x <= -x || entity->x >= x || entity->y <= -y || entity->y >= y);
 }
 
-void parseEnemiesFromJson(Json* json, Map* map, Enemy** enemies_, u64* enemyCount)
+void loadTileData()
+{
+  const char* tileLocation = "./Assets/variables/tiles_01.json";
+  String      fileString   = {.buffer = (char*)tileLocation, .len = strlen(tileLocation), .capacity = 0};
+  Json        tileJson;
+  Arena       arena;
+  initArena(&arena, 2000);
+
+  deserializeFromFile(&arena, &tileJson, fileString);
+  JsonValue* tileValues = tileJson.obj.values;
+  String*    tileKeys   = tileJson.obj.keys;
+  for (u64 i = 0; i < tileJson.obj.size; i++)
+  {
+    TileData* data       = &g_tileData[g_tileDataCounter++];
+    data->name           = tileKeys[i];
+
+    JsonObject tileObj   = tileValues[i].obj;
+
+    JsonValue* animation = lookupJsonElement(&tileObj, "animation");
+    if (animation)
+    {
+      JsonObject animationObj          = animation->obj;
+      JsonValue* timerValue            = lookupJsonElement(&animationObj, "timer");
+      JsonArray  textureKeys           = lookupJsonElement(&animationObj, "textures")->arr;
+      data->animated                   = true;
+      data->animationData.timer        = timerValue->number;
+      data->animationData.textureCount = textureKeys.arraySize;
+      data->animationData.textureIds   = (u64*)malloc(sizeof(u64) * textureKeys.arraySize);
+      for (u64 i = 0; i < textureKeys.arraySize; i++)
+      {
+        data->animationData.textureIds[i] = getTileMappingValue(textureKeys.values[i].string);
+      }
+    }
+  }
+}
+
+void parseTilesFromJson(Json* json, Map* map)
 {
   JsonObject head      = json->obj;
   JsonArray  array     = (lookupJsonElement(&head, "enemies"))->arr;
   u8         mapWidth  = map->width;
   u8         mapHeight = map->height;
 
-  Enemy*     enemies   = (Enemy*)malloc(sizeof(Enemy) * array.arraySize);
-  *enemyCount          = array.arraySize;
+  map->tiles           = (Tile*)malloc(sizeof(Tile) * array.arraySize);
+  map->tileCount       = array.arraySize;
 
   for (u32 i = 0; i < array.arraySize; i++)
   {
-    JsonObject tileObj         = array.values[i].obj;
-    u8         x               = (lookupJsonElement(&tileObj, "x"))->number;
-    u8         y               = (lookupJsonElement(&tileObj, "y"))->number;
+    JsonObject tileObj = array.values[i].obj;
+    u8         x       = (lookupJsonElement(&tileObj, "x"))->number;
+    u8         y       = (lookupJsonElement(&tileObj, "y"))->number;
 
-    enemies[i].entity          = getNewEntity();
-    Entity* enemyEntity        = enemies[i].entity;
-    enemyEntity->x             = ((x / (f32)mapWidth) * 2.0f - 1.0f) * 100.0f;
-    enemyEntity->y             = -((((f32)y - 0.5f) / (f32)mapHeight) * 2.0f - 1.0f) * 100.0f;
-    enemyEntity->height        = (1 / (f32)mapHeight) * 200.0f;
-    enemyEntity->width         = (1 / (f32)mapWidth) * 200.0f;
-    enemyEntity->movementSpeed = 0.0f;
+    Tile*      tile    = &map->tiles[i];
+    tile->entity       = getNewEntity();
+
+    Entity* tileEntity = tile->entity;
+    tileEntity->x      = ((x / (f32)mapWidth) * 2.0f - 1.0f) * 100.0f;
+    tileEntity->y      = -((((f32)y - 0.5f) / (f32)mapHeight) * 2.0f - 1.0f) * 100.0f;
+    tileEntity->height = (1 / (f32)mapHeight) * 200.0f;
+    tileEntity->width  = (1 / (f32)mapWidth) * 200.0f;
+
+    u64    textureIdx  = (lookupJsonElement(&tileObj, "textureIdx"))->number;
+
+    String key         = (String){.len = 0, .buffer = 0, .capacity = 0};
+    getTileMappingKey(&key, textureIdx);
+    printf("Got character mapping key %.*s\n", (i32)key.len, key.buffer);
+    AnimationData* data  = getAnimationData(key);
+    tileEntity->animated = data != 0;
+    if (tileEntity->animated)
+    {
+      tileEntity->animation = (Animation*)malloc(sizeof(Animation));
+      initAnimation(tileEntity->animation, data);
+    }
+    else
+    {
+      printf("NOT ANIMATION\n");
+      tileEntity->textureIdx = textureIdx;
+    }
   }
-  *enemies_ = enemies;
 }
 
 bool entitiesCollided(Entity* e1, Entity* e2)
@@ -99,16 +156,16 @@ static bool collided(Player* player, Map* map)
 
   for (u8 i = 0; i < tileCount; i++)
   {
-    Tile tile     = map->tiles[i];
-    f32     x        = ((tile.x / (f32)maxWidth) * 2.0f - 1.0f) * 100.0f;
-    f32     y        = -((tile.y / (f32)maxHeight) * 2.0f - 1.0f) * 100.0f;
+    Entity* tileEntity = map->tiles[i].entity;
+    f32     x          = ((tileEntity->x / (f32)maxWidth) * 2.0f - 1.0f) * 100.0f;
+    f32     y          = -((tileEntity->y / (f32)maxHeight) * 2.0f - 1.0f) * 100.0f;
 
-    f32     minTileX = x - width;
-    f32     maxTileX = x + width;
+    f32     minTileX   = x - width;
+    f32     maxTileX   = x + width;
 
-    f32     minTileY = y - height;
-    f32     maxTileY = y + height;
-    bool    ground   = tile.type == TILE_TYPE_GROUND;
+    f32     minTileY   = y - height;
+    f32     maxTileY   = y + height;
+    bool    ground     = map->tiles[i].type == TILE_TYPE_GROUND;
 
     if (ground && !(minX > maxTileX || maxX < minTileX) && !(minY > maxTileY) && !(maxY < minTileY))
     {
@@ -143,12 +200,11 @@ static bool isGrounded(Player* player, Map* map)
 
   for (u8 i = 0; i < tileCount; i++)
   {
-    Tile tile      = map->tiles[i];
+    Entity* tileEntity = map->tiles[i].entity;
 
-    bool    withinX   = !(minX > tile.x + width || maxX < tile.x - width);
-    bool    groundedY = maxY > tile.y + height && maxY - (tile.y + height) <= 1.0f;
-    bool    ground    = tile.type == TILE_TYPE_GROUND;
-
+    bool    withinX    = !(minX > tileEntity->x + width || maxX < tileEntity->x - width);
+    bool    groundedY  = maxY > tileEntity->y + height && maxY - (tileEntity->y + height) <= 1.0f;
+    bool    ground     = map->tiles[i].type == TILE_TYPE_GROUND;
 
     if (withinX && groundedY && ground)
     {
@@ -161,7 +217,6 @@ static bool isGrounded(Player* player, Map* map)
 void updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map)
 {
 
-  f32 ms   = player->entity->movementSpeed;
   f32 xAcc = 0.0f;
 
   if (!isGrounded(player, map) || player->yAcc > 0)
@@ -176,11 +231,11 @@ void updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map
 
   if (inputState->keyboardStateDown['d'])
   {
-    xAcc += ms;
+    xAcc += 1.0f;
   }
   if (inputState->keyboardStateDown['a'])
   {
-    xAcc -= ms;
+    xAcc -= 1.0f;
   }
 
   Entity* entity = player->entity;
@@ -212,8 +267,7 @@ void initEntity(Entity* entity, f32 x, f32 y, f32 width, f32 height, u64 texture
   {
     entity->textureIdx = textureIdx;
   }
-  entity->movementSpeed = movementSpeed;
-  entity->animated      = animated;
+  entity->animated = animated;
 }
 
 void debugEntity(Entity* entity)
