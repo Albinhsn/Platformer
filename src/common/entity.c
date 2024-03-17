@@ -1,6 +1,8 @@
 #include "entity.h"
+#include "animation.h"
 #include "common.h"
 #include "json.h"
+#include "sta_string.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
@@ -52,6 +54,20 @@ void loadTileData()
   }
 }
 
+static TileData* getTileData(String key)
+{
+
+  for (u64 i = 0; i < g_tileDataCounter; i++)
+  {
+    if (sta_compareString(key, g_tileData[i].name))
+    {
+      return &g_tileData[i];
+    }
+  }
+  printf("WARNING: No tileData found with %.*s\n", (i32)key.len, key.buffer);
+  return 0;
+}
+
 void parseTilesFromJson(Json* json, Map* map)
 {
   JsonObject head      = json->obj;
@@ -81,18 +97,59 @@ void parseTilesFromJson(Json* json, Map* map)
 
     String key         = (String){.len = 0, .buffer = 0, .capacity = 0};
     getTileMappingKey(&key, textureIdx);
-    printf("Got character mapping key %.*s\n", (i32)key.len, key.buffer);
-    AnimationData* data  = getAnimationData(key);
-    tileEntity->animated = data != 0;
-    if (tileEntity->animated)
+    if (key.buffer != 0)
     {
-      tileEntity->animation = (Animation*)malloc(sizeof(Animation));
-      initAnimation(tileEntity->animation, data);
-    }
-    else
-    {
-      printf("NOT ANIMATION\n");
-      tileEntity->textureIdx = textureIdx;
+      TileData* tileData   = getTileData(key);
+      tileEntity->animated = tileData->animated;
+      if (tileEntity->animated)
+      {
+        tileEntity->animation = (Animation*)malloc(sizeof(Animation));
+        initAnimation(tileEntity->animation, &tileData->animationData);
+      }
+      else
+      {
+        tileEntity->textureIdx = tileEntity->textureIdx;
+      }
+      tile->entityType = tileData->entityType;
+      tile->type       = tileData->tileType;
+      switch (tile->entityType)
+      {
+      case ENTITY_TYPE_DUMB:
+      {
+        tile->cloud = 0;
+        break;
+      }
+      case ENTITY_TYPE_ITEM:
+      {
+        tile->item = (Item*)malloc(sizeof(Item));
+        break;
+      }
+      case ENTITY_TYPE_CLOUD:
+      {
+        tile->cloud = (Cloud*)malloc(sizeof(Cloud));
+        break;
+      }
+      case ENTITY_TYPE_LEVER:
+      {
+        tile->lever = (Lever*)malloc(sizeof(Lever));
+        break;
+      }
+      case ENTITY_TYPE_BUTTON:
+      {
+        tile->button = (Button*)malloc(sizeof(Button));
+        break;
+      }
+      case ENTITY_TYPE_ENEMY:
+      {
+        tile->enemy = (Enemy*)malloc(sizeof(Enemy));
+        break;
+      }
+      case ENTITY_TYPE_SRPING:
+      {
+        tile->spring = (Spring*)malloc(sizeof(Spring));
+        break;
+      }
+      }
     }
   }
 }

@@ -86,6 +86,13 @@ struct Lever
 };
 typedef struct Lever Lever;
 
+struct Spring
+{
+  u64 lastPressed;
+  u64 cd;
+};
+typedef struct Spring Spring;
+
 struct Player
 {
   Entity* entity;
@@ -122,6 +129,7 @@ struct Tile
     Lever*  lever;
     Button* button;
     Enemy*  enemy;
+    Spring* spring;
   };
   TileType   type;
   EntityType entityType;

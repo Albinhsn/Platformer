@@ -1,11 +1,8 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 #include "common.h"
-#include "string.h"
-#include "vector.h"
 #include <GL/gl.h>
 #include <stdbool.h>
-#include <stdio.h>
 
 #define IDLE_STATE     0
 #define RUNNING_STATE  1
@@ -32,11 +29,23 @@ typedef struct Image Image;
 
 struct TargaHeader
 {
-  unsigned char  data1[12];
-  unsigned short width;
-  unsigned short height;
-  unsigned char  bpp;
-  unsigned char  data2;
+  union
+  {
+    u8 header[18];
+    struct
+    {
+      u8  charactersInIdentificationField;
+      u8  colorMapType;
+      u8  imageType;
+      u8  colorMapSpec[5];
+      u16 xOrigin;
+      u16 yOrigin;
+      u16 width;
+      u16 height;
+      u8  imagePixelSize;
+      u8  imageDescriptor;
+    };
+  };
 };
 typedef struct TargaHeader TargaHeader;
 

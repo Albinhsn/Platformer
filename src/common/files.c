@@ -1,5 +1,6 @@
 #include "files.h"
 #include "lodepng.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -86,17 +87,19 @@ void parseTarga(u8** data, u32* width, u32* height, const char* filename)
   *height = (u32)targaFileHeader.height;
 
   // Calculate the size of the 32 bit image data.
-  if (targaFileHeader.bpp == 32)
+  if (targaFileHeader.imagePixelSize == 32)
   {
     imageSize = targaFileHeader.width * targaFileHeader.height * 4;
+    printf("32\n");
   }
-  else if (targaFileHeader.bpp == 24)
+  else if (targaFileHeader.imagePixelSize == 24)
   {
     imageSize = targaFileHeader.width * targaFileHeader.height * 3;
+    printf("24\n");
   }
   else
   {
-    printf("Dont't know how to parse targa image with bpp of '%d'\n", targaFileHeader.bpp);
+    printf("Dont't know how to parse targa image with bpp of '%d'\n", targaFileHeader.imagePixelSize);
     exit(2);
   }
 
@@ -117,7 +120,7 @@ void parseTarga(u8** data, u32* width, u32* height, const char* filename)
   }
 
   targaData   = (u8*)malloc(sizeof(u8) * imageSize);
-  bool bit32  = targaFileHeader.bpp == 32;
+  bool bit32  = targaFileHeader.imagePixelSize == 32;
 
   u32  maxIdx = targaFileHeader.height * targaFileHeader.width;
   for (u32 idx = 0; idx < maxIdx; idx++)

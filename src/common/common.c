@@ -70,7 +70,7 @@ f32 getRandomFloat(f32 min, f32 max)
 
 void loadTileMapping()
 {
-  const char* fileLocation = "./Assets/variables/tiles_map.txt";
+  const char* fileLocation = "./Assets/variables/tiles_map2.txt";
   FILE*       filePtr      = fopen(fileLocation, "rb");
   if (filePtr == 0)
   {

@@ -53,8 +53,8 @@ static void checkEndLevel(UIState* state, Game* game)
 
   for (u32 i = 0; i < game->map.tileCount; i++)
   {
-    Tile* tile = &map->tiles[i];
-    Entity * tileEntity = map->tiles[i].entity;
+    Tile*   tile       = &map->tiles[i];
+    Entity* tileEntity = map->tiles[i].entity;
 
     if (map->tiles[i].type == TILE_TYPE_END)
     {
@@ -80,15 +80,15 @@ static void checkEndLevel(UIState* state, Game* game)
 static void gameLoop(UIState* state, InputState* inputState, Game* game)
 {
   updateTimer(&game->timer);
-  if (shouldHandleUpdates(&game->timer, &game->lastUpdated))
-  {
+  // if (shouldHandleUpdates(&game->timer, &game->lastUpdated))
+  // {
     if (handleInput(inputState))
     {
       *state = UI_EXIT;
     }
-    updatePlayer(inputState, &game->player, &game->timer, &game->map);
-    checkEndLevel(state, game);
-  }
+  //   updatePlayer(inputState, &game->player, &game->timer, &game->map);
+  //   checkEndLevel(state, game);
+  // }
   renderMap(&game->map, &game->timer);
   renderEntity(game->player.entity);
 }
@@ -130,17 +130,6 @@ void               parseMap(Game* game)
     exit(1);
   }
   deserializeFromString(&arena, &json, fileContent);
-
-  Json   animationJson;
-  String animationContent;
-  res = readFile((char**)&animationContent.buffer, (i32*)&animationContent.len, "./Assets/Animation/animation01.json");
-  if (!res)
-  {
-    printf("Failed to parse map file\n");
-    exit(1);
-  }
-  deserializeFromString(&arena, &animationJson, animationContent);
-
   parseTilesFromJson(&json, &game->map);
 }
 
@@ -169,6 +158,8 @@ i32 main(int argc, char* argv[])
 {
   srand(0);
   loadStateVariables();
+  loadTileMapping();
+  loadTileData();
   clearGlobalEntites();
 
   Font font;
@@ -197,27 +188,27 @@ i32 main(int argc, char* argv[])
 
     initNewFrame(BLACK);
 
-    if (inputState.keyboardStateRelease['c'])
-    {
-      updateUIState(&ui, UI_CONSOLE, &game.timer);
-    }
+    // if (inputState.keyboardStateRelease['c'])
+    // {
+    //   updateUIState(&ui, UI_CONSOLE, &game.timer);
+    // }
 
-    if (ui.state == UI_GAME_RUNNING)
-    {
-      if (getStateVariable("reset") == 1)
-      {
-        resetGame(&game);
-      }
+    // if (ui.state == UI_GAME_RUNNING)
+    // {
+    //   if (getStateVariable("reset") == 1)
+    //   {
+    //     resetGame(&game);
+    //   }
       gameLoop(&ui.state, &inputState, &game);
-    }
-    else if (handleInput(&inputState))
-    {
-      break;
-    }
+    // }
+    // else if (handleInput(&inputState))
+    // {
+    //   break;
+    // }
 
-    UIState newState = renderUI(&ui, &inputState);
-    updateUIState(&ui, newState, &game.timer);
-    renderInfoStrings(&prevTick);
+    // UIState newState = renderUI(&ui, &inputState);
+    // updateUIState(&ui, newState, &game.timer);
+    // renderInfoStrings(&prevTick);
 
     SDL_GL_SwapWindow(g_renderer.window);
   }
