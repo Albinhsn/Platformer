@@ -1,10 +1,11 @@
 #ifndef STA_STRING_H
 #define STA_STRING_H
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef uint64_t u64;
+typedef int      i32;
 
 struct String
 {
@@ -14,6 +15,6 @@ struct String
 };
 typedef struct String String;
 
-bool                  sta_compareString(String s1, String s2);
+i32                   sta_compareString(String s1, String s2);
 
 #endif

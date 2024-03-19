@@ -68,7 +68,7 @@ static inline void initTileFromData(UITile* tile, TileData* data)
   }
   else
   {
-    tile->textureIdx = data->textureIdx;
+    tile->textureIdx = getTileMappingValue(data->name);
   }
 }
 
@@ -80,6 +80,7 @@ static void initUITiles(UITiles* tiles, f32 x, f32 y, f32 width, f32 height, f32
   tiles->tiles       = (UITile*)malloc(sizeof(UITile) * tiles->tileCounter);
   for (u64 i = 0; i < tiles->tileCounter; i++)
   {
+    printf("Initing %ld: ", i);
     initTileFromData(&tiles->tiles[i], getTileData(i));
   }
 }

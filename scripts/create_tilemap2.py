@@ -1,9 +1,9 @@
 import json
 
-f = open("../Assets/variables/tiles_01.json", "w")
+f = open("../Assets/variables/tiles_02.json", "w")
 
 M = {
-    "a_apricot_octopus_001": {
+    "octopus_apricot_001": {
         "animation": {
             "textures": ["apricot_octopus_001", "apricot_octopus_002"],
             "timer": 500,
@@ -14,7 +14,7 @@ M = {
         "textureIdx": 176,
         "tileType": 0,
     },
-    "a_blue_octopus_001": {
+    "octopus_blue_001": {
         "animation": {
             "textures": ["blue_octopus_001", "blue_octopus_002"],
             "timer": 500,
@@ -25,7 +25,7 @@ M = {
         "textureIdx": 173,
         "tileType": 0,
     },
-    "a_button_001": {
+    "button_001": {
         "animation": {
             "textures": ["button_001", "button_002"],
             "timer": 500,
@@ -36,7 +36,7 @@ M = {
         "textureIdx": 167,
         "tileType": 0,
     },
-    "a_coin_001": {
+    "coin_001": {
         "animation": {"textures": ["coin_001", "coin_002"], "timer": 400},
         "boundsHeight": 0,
         "boundsWidth": 0,
@@ -44,7 +44,7 @@ M = {
         "textureIdx": 168,
         "tileType": 0,
     },
-    "a_flagTop_001": {
+    "flagTop_001": {
         "animation": {"textures": ["flag_001", "flag_002"], "timer": 500},
         "boundsHeight": 0,
         "boundsWidth": 0,
@@ -52,7 +52,7 @@ M = {
         "textureIdx": 166,
         "tileType": 0,
     },
-    "a_flower_char_001": {
+    "char_flower_001": {
         "animation": {
             "textures": ["flower_char_001", "flower_char_002"],
             "timer": 500,
@@ -63,7 +63,7 @@ M = {
         "textureIdx": 178,
         "tileType": 0,
     },
-    "a_flying_char_001": {
+    "char_flying_001": {
         "animation": {
             "textures": ["flying_char_001", "flying_char_002"],
             "timer": 500,
@@ -74,7 +74,7 @@ M = {
         "textureIdx": 182,
         "tileType": 0,
     },
-    "a_green_octopus_001": {
+    "octopus_green_001": {
         "animation": {
             "textures": ["green_octopus_001", "green_octopus_002"],
             "timer": 500,
@@ -85,7 +85,7 @@ M = {
         "textureIdx": 172,
         "tileType": 0,
     },
-    "a_large_blue_char_001": {
+    "char_large_blue_001": {
         "animation": {
             "textures": ["large_blue_char_001", "large_blue_char_002"],
             "timer": 500,
@@ -96,7 +96,7 @@ M = {
         "textureIdx": 181,
         "tileType": 0,
     },
-    "a_lever_001": {
+    "lever_001": {
         "animation": {
             "textures": ["lever_001", "lever_002", "lever_003"],
             "timer": 500,
@@ -107,7 +107,7 @@ M = {
         "textureIdx": 165,
         "tileType": 0,
     },
-    "a_pink_octopus_001": {
+    "octopus_pink_001": {
         "animation": {
             "textures": ["pink_octopus_001", "pink_octopus_002"],
             "timer": 500,
@@ -118,7 +118,7 @@ M = {
         "textureIdx": 174,
         "tileType": 0,
     },
-    "a_small_blue_char_001": {
+    "char_small_blue_001": {
         "animation": {
             "textures": ["small_blue_char_001", "small_blue_char_002"],
             "timer": 500,
@@ -129,7 +129,7 @@ M = {
         "textureIdx": 180,
         "tileType": 0,
     },
-    "a_small_red_char_001": {
+    "char_small_red_001": {
         "animation": {
             "textures": ["small_red_char_001", "small_red_char_002"],
             "timer": 500,
@@ -140,7 +140,7 @@ M = {
         "textureIdx": 179,
         "tileType": 0,
     },
-    "a_spring_001": {
+    "spring_001": {
         "animation": {
             "textures": ["spring_001", "spring_002"],
             "timer": 500,
@@ -151,7 +151,7 @@ M = {
         "textureIdx": 169,
         "tileType": 0,
     },
-    "a_square_char_001": {
+    "char_square_001": {
         "animation": {
             "textures": ["square_char_001", "square_char_002"],
             "timer": 500,
@@ -162,7 +162,7 @@ M = {
         "textureIdx": 177,
         "tileType": 0,
     },
-    "a_waterSurface_001": {
+    "waterSurface_001": {
         "animation": {"textures": ["water_004", "water_001"], "timer": 500},
         "boundsHeight": 0,
         "boundsWidth": 0,
@@ -170,7 +170,7 @@ M = {
         "textureIdx": 170,
         "tileType": 0,
     },
-    "a_waterfallBot_001": {
+    "waterfallBot_001": {
         "animation": {"textures": ["water_008", "water_009"], "timer": 300},
         "boundsHeight": 0,
         "boundsWidth": 0,
@@ -178,7 +178,7 @@ M = {
         "textureIdx": 164,
         "tileType": 0,
     },
-    "a_waterfallMid_001": {
+    "waterfallMid_001": {
         "animation": {"textures": ["water_005", "water_006"], "timer": 300},
         "boundsHeight": 0,
         "boundsWidth": 0,
@@ -186,7 +186,7 @@ M = {
         "textureIdx": 163,
         "tileType": 0,
     },
-    "a_waterfallTop_001": {
+    "waterfallTop_001": {
         "animation": {"textures": ["water_002", "water_003"], "timer": 300},
         "boundsHeight": 0,
         "boundsWidth": 0,
@@ -194,7 +194,7 @@ M = {
         "textureIdx": 162,
         "tileType": 0,
     },
-    "a_woodCoin_001": {
+    "woodCoin_001": {
         "animation": {
             "textures": ["woodCoin_001", "woodCoin_002"],
             "timer": 500,
@@ -205,7 +205,7 @@ M = {
         "textureIdx": 161,
         "tileType": 0,
     },
-    "a_yellow_octopus_001": {
+    "octopus_yellow_001": {
         "animation": {
             "textures": ["yellow_octopus_001", "yellow_octopus_002"],
             "timer": 500,
@@ -314,20 +314,6 @@ M = {
         "textureIdx": 95,
         "tileType": 0,
     },
-    "button_001": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 131,
-        "tileType": 0,
-    },
-    "button_002": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 132,
-        "tileType": 0,
-    },
     "cactus_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
@@ -375,13 +361,6 @@ M = {
         "boundsWidth": 0,
         "entityType": 0,
         "textureIdx": 137,
-        "tileType": 0,
-    },
-    "cross_001": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 139,
         "tileType": 0,
     },
     "diamond_001": {
@@ -671,46 +650,11 @@ M = {
         "textureIdx": 133,
         "tileType": 0,
     },
-    "dot_001": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 138,
-        "tileType": 0,
-    },
-    "eight_001": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 149,
-        "tileType": 0,
-    },
-    "eight_002": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 159,
-        "tileType": 0,
-    },
-    "emptyHeart_001": {
+    "heart_empty_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
         "textureIdx": 41,
-        "tileType": 0,
-    },
-    "five_001": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 146,
-        "tileType": 0,
-    },
-    "five_002": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 156,
         "tileType": 0,
     },
     "flag_003": {
@@ -720,21 +664,7 @@ M = {
         "textureIdx": 114,
         "tileType": 0,
     },
-    "four_001": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 145,
-        "tileType": 0,
-    },
-    "four_002": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 155,
-        "tileType": 0,
-    },
-    "fullHeart_001": {
+    "heart_full_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
@@ -853,7 +783,7 @@ M = {
         "textureIdx": 66,
         "tileType": 0,
     },
-    "halfHeart_001": {
+    "heart_half_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
@@ -907,34 +837,6 @@ M = {
         "boundsWidth": 0,
         "entityType": 0,
         "textureIdx": 112,
-        "tileType": 0,
-    },
-    "nine_001": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 150,
-        "tileType": 0,
-    },
-    "nine_002": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 160,
-        "tileType": 0,
-    },
-    "one_001": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 142,
-        "tileType": 0,
-    },
-    "one_002": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 152,
         "tileType": 0,
     },
     "pipe_001": {
@@ -1056,20 +958,6 @@ M = {
         "textureIdx": 94,
         "tileType": 0,
     },
-    "seven_001": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 148,
-        "tileType": 0,
-    },
-    "seven_002": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 158,
-        "tileType": 0,
-    },
     "sign_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
@@ -1105,20 +993,6 @@ M = {
         "textureIdx": 75,
         "tileType": 0,
     },
-    "six_001": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 147,
-        "tileType": 0,
-    },
-    "six_002": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 157,
-        "tileType": 0,
-    },
     "snowman_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
@@ -1133,7 +1007,7 @@ M = {
         "textureIdx": 128,
         "tileType": 0,
     },
-    "spike_char_001": {
+    "char_spike_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
@@ -1145,20 +1019,6 @@ M = {
         "boundsWidth": 0,
         "entityType": 0,
         "textureIdx": 57,
-        "tileType": 0,
-    },
-    "three_001": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 144,
-        "tileType": 0,
-    },
-    "three_002": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 154,
         "tileType": 0,
     },
     "treeTop_001": {
@@ -1301,20 +1161,6 @@ M = {
         "textureIdx": 122,
         "tileType": 0,
     },
-    "two_001": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 143,
-        "tileType": 0,
-    },
-    "two_002": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 153,
-        "tileType": 0,
-    },
     "water_007": {
         "boundsHeight": 0,
         "boundsWidth": 0,
@@ -1334,20 +1180,6 @@ M = {
         "boundsWidth": 0,
         "entityType": 0,
         "textureIdx": 24,
-        "tileType": 0,
-    },
-    "zero_001": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 141,
-        "tileType": 0,
-    },
-    "zero_002": {
-        "boundsHeight": 0,
-        "boundsWidth": 0,
-        "entityType": 0,
-        "textureIdx": 151,
         "tileType": 0,
     },
 }

@@ -1,4 +1,5 @@
 #include "asset.h"
+#include "sta_string.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,7 +15,7 @@ static TileData* getTileDataByKey(String key)
 
   for (u64 i = 0; i < g_tileDataCounter; i++)
   {
-    if (sta_compareString(key, g_tileData[i].name))
+    if (sta_compareString(key, g_tileData[i].name) == 0)
     {
       return &g_tileData[i];
     }
@@ -99,9 +100,17 @@ void setTileMapping(const char* key, f32 value)
   printf("INFO: Setting tilemapping '%s' as %lf\n", key, value);
 }
 
+static i32 sortTileData(const void* a_, const void* b_)
+{
+  TileData* a = (TileData*)a_;
+  TileData* b = (TileData*)b_;
+
+  return sta_compareString(a->name, b->name);
+}
+
 void loadTileData()
 {
-  const char* tileLocation = "./Assets/variables/tiles_01.json";
+  const char* tileLocation = "./Assets/variables/tiles_02.json";
   String      fileString   = {.buffer = (char*)tileLocation, .len = strlen(tileLocation), .capacity = 0};
   Json        tileJson;
   Arena       arena;
@@ -139,6 +148,7 @@ void loadTileData()
       data->textureIdx = value->number;
     }
   }
+  qsort(g_tileData, g_tileDataCounter, sizeof(TileData), sortTileData);
 }
 
 void parseTilesFromJson(Json* json, Map* map)
@@ -229,6 +239,7 @@ void parseTilesFromJson(Json* json, Map* map)
 
 TileData* getTileData(u64 index)
 {
+  printf("%.*s\n", (i32)g_tileData[index].name.len, g_tileData[index].name.buffer);
   return &g_tileData[index];
 }
 
