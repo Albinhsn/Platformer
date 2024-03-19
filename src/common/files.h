@@ -49,7 +49,7 @@ struct TargaHeader
 };
 typedef struct TargaHeader TargaHeader;
 
-void                       parseTarga(u8** data, u32* width, u32* height, const char* filename);
+bool                       parseTarga(u8** data, u32* width, u32* height, const char* filename);
 bool                       readFile(char** buffer, int* len, const char* fileName);
 bool                       parsePNG(u8** data, u32* width, u32* height, const char* filename);
 

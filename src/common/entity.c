@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 
-Entity      g_entities[256];
+Entity      g_entities[MAX_ENTITY_COUNT];
 TileData    g_tileData[256];
 u64         g_tileDataCounter = 0;
 
@@ -16,6 +16,14 @@ static bool withinScreen(Entity* entity)
   i32 x = (i32)(100.0f - entity->width / 2.0f);
   i32 y = (i32)(100.0f - entity->height / 2.0f);
   return !(entity->x <= -x || entity->x >= x || entity->y <= -y || entity->y >= y);
+}
+
+void initGlobalEntities()
+{
+  for (u64 i = 0; i < MAX_ENTITY_COUNT; i++)
+  {
+    g_entities[i].textureIdx = -1;
+  }
 }
 
 void loadTileData()
@@ -50,6 +58,12 @@ void loadTileData()
       {
         data->animationData.textureIds[i] = getTileMappingValue(textureKeys.values[i].string);
       }
+    }
+    else
+    {
+      data->animated   = false;
+      JsonValue* value = lookupJsonElement(&tileObj, "textureIdx");
+      data->textureIdx = value->number;
     }
   }
 }

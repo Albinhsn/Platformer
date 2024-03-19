@@ -146,22 +146,33 @@ struct Map
 };
 typedef struct Map Map;
 
-#define MAX_ENTITY_COUNT 256
-extern Entity g_entities[MAX_ENTITY_COUNT];
+struct EditorTile
+{
+  u8 x;
+  u8 y;
+  u8 tileIdx;
+};
+typedef struct EditorTile EditorTile;
 
-Entity*       getPlayerEntity();
-Entity*       getNewEntity();
+#define MAX_ENTITY_COUNT 512
+extern Entity   g_entities[MAX_ENTITY_COUNT];
+extern TileData g_tileData[256];
+extern u64      g_tileDataCounter;
 
-void          parseTilesFromJson(Json* json, Map* map);
-void          initEntity(Entity* entity, f32 x, f32 y, f32 width, f32 height, u64 textureIdx, f32 movementSpeed, bool animated);
-void          initPlayer(Player* player);
-void          loadTileData();
+Entity*         getPlayerEntity();
+Entity*         getNewEntity();
 
-bool          entitiesCollided(Entity* e1, Entity* e2);
+void            initGlobalEntities();
+void            parseTilesFromJson(Json* json, Map* map);
+void            initEntity(Entity* entity, f32 x, f32 y, f32 width, f32 height, u64 textureIdx, f32 movementSpeed, bool animated);
+void            initPlayer(Player* player);
+void            loadTileData();
 
-void          updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map);
+bool            entitiesCollided(Entity* e1, Entity* e2);
 
-void          debugPlayer(Player* player);
-void          debugEntity(Entity* entity);
+void            updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map);
+
+void            debugPlayer(Player* player);
+void            debugEntity(Entity* entity);
 
 #endif

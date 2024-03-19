@@ -56,7 +56,7 @@ bool readFile(char** buffer, int* len, const char* fileName)
   return true;
 }
 
-void parseTarga(u8** data, u32* width, u32* height, const char* filename)
+bool parseTarga(u8** data, u32* width, u32* height, const char* filename)
 {
 
   struct TargaHeader targaFileHeader;
@@ -71,7 +71,7 @@ void parseTarga(u8** data, u32* width, u32* height, const char* filename)
   if (filePtr == NULL)
   {
     printf("ERROR: file doesn't exist %s\n", filename);
-    return;
+    return false;
   }
 
   // Read in the file header.
@@ -79,7 +79,7 @@ void parseTarga(u8** data, u32* width, u32* height, const char* filename)
   if (count != 1)
   {
     printf("ERROR: Failed to read into header\n");
-    return;
+    return false;
   }
 
   // Get the important information from the header.
@@ -100,7 +100,7 @@ void parseTarga(u8** data, u32* width, u32* height, const char* filename)
   else
   {
     printf("Dont't know how to parse targa image with bpp of '%d'\n", targaFileHeader.imagePixelSize);
-    exit(2);
+    return false;
   }
 
   // Allocate memory for the targa image data.
@@ -111,12 +111,12 @@ void parseTarga(u8** data, u32* width, u32* height, const char* filename)
   if (count != imageSize)
   {
     printf("ERROR: count read doesn't equal imageSize\n");
-    return;
+    return false;
   }
 
   if (fclose(filePtr) != 0)
   {
-    return;
+    return false;
   }
 
   targaData   = (u8*)malloc(sizeof(u8) * imageSize);
@@ -136,4 +136,5 @@ void parseTarga(u8** data, u32* width, u32* height, const char* filename)
 
   free(targaImage);
   *data = targaData;
+    return true;
 }

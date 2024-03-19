@@ -132,7 +132,7 @@ int main()
       }
     }
   }
-  printf("Layers: %d\n", layer);
+  printf("Layers: %d\n", count / 10);
 
   saveTarga(&sheet, "tilesheet.tga");
 }

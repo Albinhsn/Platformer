@@ -1,6 +1,7 @@
 #include "arena.h"
 #include "common.h"
 #include "editor_ui.h"
+#include "entity.h"
 #include "font.h"
 #include "input.h"
 #include "json.h"
@@ -15,9 +16,9 @@ void saveMap(UI* ui)
   initJsonObject(&arena, &json.obj);
   JsonObject* head            = &json.obj;
 
-  String      widthKey        = (String){.len = 5, .buffer = (u8*)"width", .capacity = 5};
-  String      backgroundKey   = (String){.len = 10, .buffer = (u8*)"background", .capacity = 10};
-  String      heightKey       = (String){.len = 6, .buffer = (u8*)"height", .capacity = 6};
+  String      widthKey        = (String){.len = 5, .buffer = (char*)"width", .capacity = 5};
+  String      backgroundKey   = (String){.len = 10, .buffer = (char*)"background", .capacity = 10};
+  String      heightKey       = (String){.len = 6, .buffer = (char*)"height", .capacity = 6};
 
   JsonValue   widthValue      = (JsonValue){.type = JSON_NUMBER, .number = ui->map.tileWidth};
   JsonValue   heightValue     = (JsonValue){.type = JSON_NUMBER, .number = ui->map.tileHeight};
@@ -33,55 +34,27 @@ void saveMap(UI* ui)
 
   for (u32 i = 0; i < ui->map.tileCount; i++)
   {
-    MapTile   tile            = ui->map.tiles[i];
-    String    xKey            = (String){.len = 1, .buffer = (u8*)"x", .capacity = 1};
-    String    yKey            = (String){.len = 1, .buffer = (u8*)"y", .capacity = 1};
-    String    textureIdxKey   = (String){.len = 10, .buffer = (u8*)"textureIdx", .capacity = 10};
+    EditorTile tile         = ui->map.tiles[i];
+    String     xKey         = (String){.len = 1, .buffer = (char*)"x", .capacity = 1};
+    String     yKey         = (String){.len = 1, .buffer = (char*)"y", .capacity = 1};
+    String     tileIdxKey   = (String){.len = 10, .buffer = (char*)"textureIdx", .capacity = 10};
 
-    JsonValue xValue          = (JsonValue){.type = JSON_NUMBER, .number = tile.x};
-    JsonValue yValue          = (JsonValue){.type = JSON_NUMBER, .number = tile.y};
-    JsonValue textureIdxValue = (JsonValue){.type = JSON_NUMBER, .number = tile.textureIdx};
+    JsonValue  xValue       = (JsonValue){.type = JSON_NUMBER, .number = tile.x};
+    JsonValue  yValue       = (JsonValue){.type = JSON_NUMBER, .number = tile.y};
+    JsonValue  tileIdxValue = (JsonValue){.type = JSON_NUMBER, .number = tile.tileIdx};
 
-    JsonValue tileValue;
+    JsonValue  tileValue;
     tileValue.type = JSON_OBJECT;
     initJsonObject(&arena, &tileValue.obj);
 
     addElementToJsonObject(&tileValue.obj, xKey, xValue);
     addElementToJsonObject(&tileValue.obj, yKey, yValue);
-    addElementToJsonObject(&tileValue.obj, textureIdxKey, textureIdxValue);
+    addElementToJsonObject(&tileValue.obj, tileIdxKey, tileIdxValue);
 
     addElementToJsonArray(&tileArrayValue.arr, tileValue);
   }
-  String tileArrayKey = (String){.len = 5, .buffer = (u8*)"tiles", .capacity = 5};
+  String tileArrayKey = (String){.len = 5, .buffer = (char*)"tiles", .capacity = 5};
   addElementToJsonObject(head, tileArrayKey, tileArrayValue);
-
-  JsonValue enemyArrayValue;
-  initJsonArray(&arena, &enemyArrayValue.arr);
-  enemyArrayValue.type = JSON_ARRAY;
-
-  for (u32 i = 0; i < ui->map.characterCount; i++)
-  {
-    MapTile   tile            = ui->map.characters[i];
-    String    xKey            = (String){.len = 1, .buffer = (u8*)"x", .capacity = 1};
-    String    yKey            = (String){.len = 1, .buffer = (u8*)"y", .capacity = 1};
-    String    textureIdxKey   = (String){.len = 10, .buffer = (u8*)"textureIdx", .capacity = 10};
-
-    JsonValue xValue          = (JsonValue){.type = JSON_NUMBER, .number = tile.x};
-    JsonValue yValue          = (JsonValue){.type = JSON_NUMBER, .number = tile.y};
-    JsonValue textureIdxValue = (JsonValue){.type = JSON_NUMBER, .number = tile.textureIdx};
-
-    JsonValue tileValue;
-    tileValue.type = JSON_OBJECT;
-    initJsonObject(&arena, &tileValue.obj);
-
-    addElementToJsonObject(&tileValue.obj, xKey, xValue);
-    addElementToJsonObject(&tileValue.obj, yKey, yValue);
-    addElementToJsonObject(&tileValue.obj, textureIdxKey, textureIdxValue);
-
-    addElementToJsonArray(&enemyArrayValue.arr, tileValue);
-  }
-  String enemyArrayKey = (String){.len = 7, .buffer = (u8*)"enemies", .capacity = 7};
-  addElementToJsonObject(head, enemyArrayKey, enemyArrayValue);
 
   serializeToFile(&json, "map.json");
   printf("Saved file!\n");
@@ -89,7 +62,10 @@ void saveMap(UI* ui)
 
 i32 main(int argv, char* argc[])
 {
+  initGlobalEntities();
   loadStateVariables();
+  loadTileMapping();
+  loadTileData();
 
   Font font;
   initRenderer(&font, "./Assets/variables/editorTextureLocation.txt");
@@ -101,6 +77,10 @@ i32 main(int argv, char* argc[])
   initUI(&ui);
   initTiledTextures();
 
+  Timer timer;
+  resetTimer(&timer);
+  startTimer(&timer);
+
   while (true)
   {
     initNewFrame(WHITE);
@@ -108,8 +88,9 @@ i32 main(int argv, char* argc[])
     {
       break;
     }
+    updateTimer(&timer);
 
-    if (renderUI(&ui, &inputState))
+    if (renderUI(&ui, &inputState, &timer))
     {
       saveMap(&ui);
     }

@@ -11,7 +11,7 @@
 #include <string.h>
 
 Renderer     g_renderer;
-TextureTiled g_tiledTextures[8];
+TextureTiled g_tiledTextures[7];
 
 void         rebindFullTexture()
 {
@@ -50,9 +50,9 @@ void generateTextures(const char* textureLocations)
     glBindTexture(GL_TEXTURE_2D, texture->textureId);
 
     buffer[strlen(buffer) - 1] = '\0';
-    bool result                = parsePNG(&texture->data, &texture->width, &texture->height, buffer);
-    if (!result)
+    if (!parsePNG(&texture->data, &texture->width, &texture->height, buffer))
     {
+      printf("WARNING: Couldn't parse '%s'\n", buffer);
       continue;
     }
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->data);
@@ -212,12 +212,13 @@ void createTextureShaderProgram()
   sta_glLinkProgram(g_renderer.textureProgramId);
 }
 
+// ToDo hoist this out to file
 void initTiledTextures()
 {
-  const u32    numberOfTiles     = 3;
-  TextureModel tiles[]           = {TEXTURE_TILES, TEXTURE_BACKGROUNDS, TEXTURE_CHARACTERS};
-  u32          tileCountPerRow[] = {20, 4, 9};
-  u32          tileCount[]       = {20 * 9, 4, 9 * 3};
+  const u32    numberOfTiles     = 2;
+  TextureModel tiles[]           = {TEXTURE_TILES, TEXTURE_BACKGROUNDS};
+  u32          tileCountPerRow[] = {10, 4};
+  u32          tileCount[]       = {21 * 10, 4};
   for (u32 i = 0; i < numberOfTiles; i++)
   {
     TextureTiled* tile = &g_tiledTextures[tiles[i]];
@@ -332,14 +333,15 @@ void renderTextureTile(f32 x, f32 y, f32 width, f32 height, u32 tiledTextureIdx,
   getTransformationMatrix(&transMatrix, x, y, width, height);
 
   TextureTiled texture = g_tiledTextures[tiledTextureIdx];
-  u32          maxRow  = texture.texture->height / texture.dim;
   u32          maxCol  = texture.texture->width / texture.dim;
+  u32          maxRow  = texture.texture->height / texture.dim;
   u32          row     = textureIdx / maxCol;
   u32          col     = textureIdx % maxCol;
 
+
   if (row >= maxRow)
   {
-    printf("SEVERE: Trying to access outside of texture %d %d\n", tiledTextureIdx, textureIdx);
+    printf("SEVERE: Trying to access outside of texture, tiledTexture %d, %d vs %d, textureIdx: %d, mr %d, mc %d\n", tiledTextureIdx, row, maxRow, textureIdx, maxRow, maxCol);
     return;
   }
 
@@ -440,11 +442,11 @@ void renderEntity(Entity* entity)
   if (entity->animated)
   {
     u64 textureIdx = entity->animation->animationData->textureIds[entity->animation->currentTexture];
-    renderTextureTile(entity->x, entity->y, entity->width, entity->height, TEXTURE_CHARACTERS, textureIdx);
+    renderTextureTile(entity->x, entity->y, entity->width, entity->height, TEXTURE_TILES, textureIdx);
   }
   else
   {
-    renderTextureTile(entity->x, entity->y, entity->width, entity->height, TEXTURE_CHARACTERS, entity->textureIdx);
+    renderTextureTile(entity->x, entity->y, entity->width, entity->height, TEXTURE_TILES, entity->textureIdx);
   }
 }
 
@@ -464,7 +466,6 @@ void renderMap(Map* map, Timer* timer)
     if (entity->animated)
     {
       Animation* animation = entity->animation;
-      u64        prev      = animation->animationData->textureIds[entity->animation->currentTexture];
       updateAnimation(animation, timer);
       renderTextureTile(entity->x, entity->y, width, height, TEXTURE_TILES, animation->animationData->textureIds[animation->currentTexture]);
     }

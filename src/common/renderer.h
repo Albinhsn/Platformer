@@ -13,7 +13,6 @@ enum TextureModel
 {
   TEXTURE_TILES,
   TEXTURE_BACKGROUNDS,
-  TEXTURE_CHARACTERS,
   TEXTURE_FONT,
   TEXTURE_GREY_BUTTON_05,
   TEXTURE_PLAYER_MODEL,
@@ -25,7 +24,7 @@ enum TextureModel
 };
 typedef enum TextureModel TextureModel;
 
-extern TextureTiled       g_tiledTextures[8];
+extern TextureTiled       g_tiledTextures[7];
 
 struct Renderer
 {
@@ -42,32 +41,31 @@ struct Renderer
   u32           textureCount;
 };
 
-typedef enum TextureModel TextureModel;
-typedef struct Renderer   Renderer;
-extern Renderer           g_renderer;
+typedef struct Renderer Renderer;
+extern Renderer         g_renderer;
 
-void                      renderMap(Map* map, Timer* timer);
-void                      renderUnfilledQuad(Vec2f32 start, Vec2f32 end, u32 width, Color* color);
-void                      renderLine(Vec2f32 start, Vec2f32 end, u32 width, Color* color);
-void                      updateWindowSize(i32 width, i32 height);
-void                      renderComponent(UIComponent* comp);
-void                      renderTexture(Matrix3x3* transMatrix, u32 textureIdx);
-void                      renderButton(ButtonUIComponent* button);
-void                      renderSlider(SliderUIComponent* slider);
-void                      renderCheckbox(CheckboxUIComponent* checkbox);
-void                      renderDropdown(DropdownUIComponent* dropdown);
-void                      renderTextCentered(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
-void                      renderTextEndsAt(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
-void                      renderTextStartsAt(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
-void                      renderTextEndsAt(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
-void                      renderEntity(Entity* entity);
-void                      renderHealth(u8 hp);
-void                      initTiledTextures();
-void                      renderTextureTile(f32 x, f32 y, f32 width, f32 height, u32 tiledTextureIdx, u32 textureIdx);
-void                      rebindFullTexture();
-void                      initRenderer(Font* font, const char* textureLocation);
+void                    renderMap(Map* map, Timer* timer);
+void                    renderUnfilledQuad(Vec2f32 start, Vec2f32 end, u32 width, Color* color);
+void                    renderLine(Vec2f32 start, Vec2f32 end, u32 width, Color* color);
+void                    updateWindowSize(i32 width, i32 height);
+void                    renderComponent(UIComponent* comp);
+void                    renderTexture(Matrix3x3* transMatrix, u32 textureIdx);
+void                    renderButton(ButtonUIComponent* button);
+void                    renderSlider(SliderUIComponent* slider);
+void                    renderCheckbox(CheckboxUIComponent* checkbox);
+void                    renderDropdown(DropdownUIComponent* dropdown);
+void                    renderTextCentered(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
+void                    renderTextEndsAt(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
+void                    renderTextStartsAt(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
+void                    renderTextEndsAt(const char* text, Color* color, f32 x, f32 y, f32 fontSize, f32 spaceSize);
+void                    renderEntity(Entity* entity);
+void                    renderHealth(u8 hp);
+void                    initTiledTextures();
+void                    renderTextureTile(f32 x, f32 y, f32 width, f32 height, u32 tiledTextureIdx, u32 textureIdx);
+void                    rebindFullTexture();
+void                    initRenderer(Font* font, const char* textureLocation);
 
-inline TextureTiled*      getTiledTexture(TextureModel textureModel)
+inline TextureTiled*    getTiledTexture(TextureModel textureModel)
 {
   return &g_tiledTextures[textureModel];
 }

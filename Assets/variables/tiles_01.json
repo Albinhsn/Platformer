@@ -1,143 +1,143 @@
-{"a_apricot_octopus_001": {
+{"apricot_octopus_001": {
   "animation": {"textures": ["apricot_octopus_001", "apricot_octopus_002"], "timer": 500}, 
   "boundsHeight": 0,
   "boundsWidth": 0,
   "entityType": 0,
   "tileType": 0
   }, 
-  "a_blue_octopus_001": {
+  "blue_octopus_001": {
     "animation": {"textures": ["blue_octopus_001", "blue_octopus_002"], "timer": 500},
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   }, 
-  "a_button_001": {
+  "button_001": {
     "animation": {"textures": ["button_001", "button_002"], "timer": 500}, 
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   }, 
-  "a_coin_001": {
+  "coin_001": {
     "animation": {"textures": ["coin_001", "coin_002"], "timer": 400}, 
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   }, 
-  "a_flagTop_001": {
+  "flagTop_001": {
     "animation": {"textures": ["flag_001", "flag_002"], "timer": 500}, 
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   },
-  "a_flower_char_001": {
+  "flower_char_001": {
     "animation": {"textures": ["flower_char_001", "flower_char_002"], "timer": 500},
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   },
-  "a_flying_char_001": {
+  "flying_char_001": {
     "animation": {"textures": ["flying_char_001", "flying_char_002"], "timer": 500},
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   },
-  "a_green_octopus_001": {
+  "green_octopus_001": {
     "animation": {"textures": ["green_octopus_001", "green_octopus_002"], "timer": 500},
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   },
-  "a_large_blue_char_001": {
+  "large_blue_char_001": {
     "animation": {"textures": ["large_blue_char_001", "large_blue_char_002"], "timer": 500},
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   },
-  "a_lever_001": {
+  "lever_001": {
     "animation": {"textures": ["lever_001", "lever_002", "lever_003"], "timer": 500},
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   }, 
-  "a_pink_octopus_001": {
+  "pink_octopus_001": {
     "animation": {"textures": ["pink_octopus_001", "pink_octopus_002"], "timer": 500},
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   },
-  "a_small_blue_char_001": {
+  "small_blue_char_001": {
     "animation": {"textures": ["small_blue_char_001", "small_blue_char_002"], "timer": 500},
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   },
-  "a_small_red_char_001": {
+  "small_red_char_001": {
     "animation": {"textures": ["small_red_char_001", "small_red_char_002"], "timer": 500},
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   },
-  "a_spring_001": {
+  "spring_001": {
     "animation": {"textures": ["spring_001", "spring_002"], "timer": 500},
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   },
-  "a_square_char_001": {
+  "square_char_001": {
     "animation": {"textures": ["square_char_001", "square_char_002"], "timer": 500},
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0},
-  "a_waterSurface_001": {
+  "waterSurface_001": {
     "animation": {"textures": ["water_004", "water_001"], "timer": 500},
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   },
-  "a_waterfallBot_001": {
+  "waterfallBot_001": {
     "animation": {"textures": ["water_008", "water_009"], "timer": 300}, 
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   },
-  "a_waterfallMid_001": {
+  "waterfallMid_001": {
     "animation": {"textures": ["water_005", "water_006"], "timer": 300},
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   },
-  "a_waterfallTop_001": {
+  "waterfallTop_001": {
     "animation": {"textures": ["water_002", "water_003"], "timer": 300},
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   },
-  "a_woodCoin_001": {
+  "woodCoin_001": {
     "animation": {"textures": ["woodCoin_001", "woodCoin_002"], "timer": 500},
     "boundsHeight": 0,
     "boundsWidth": 0,
     "entityType": 0,
     "tileType": 0
   },
-  "a_yellow_octopus_001": {
+  "yellow_octopus_001": {
     "animation": {"textures": ["yellow_octopus_001", "yellow_octopus_002"], "timer": 500},
     "boundsHeight": 0,
     "boundsWidth": 0,
