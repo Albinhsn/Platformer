@@ -27,8 +27,9 @@ extern u64              g_tileMapMappingCounter;
 extern TileData         g_tileData[256];
 extern u64              g_tileDataCounter;
 
-f32 getTileMappingValue(String key);
+f32                     getTileMappingValue(String key);
 void                    loadAssetData();
 TileData*               getTileData(u64 index);
+void                    parseTilesFromJson(Json* json, Map* map);
 
 #endif

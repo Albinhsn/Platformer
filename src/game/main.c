@@ -1,9 +1,11 @@
 #include "arena.h"
+#include "asset.h"
 #include "common.h"
 #include "entity.h"
 #include "files.h"
 #include "game_ui.h"
 #include "input.h"
+#include "json.h"
 #include "renderer.h"
 #include "timer.h"
 #include <stdlib.h>
@@ -82,10 +84,10 @@ static void gameLoop(UIState* state, InputState* inputState, Game* game)
   updateTimer(&game->timer);
   // if (shouldHandleUpdates(&game->timer, &game->lastUpdated))
   // {
-    if (handleInput(inputState))
-    {
-      *state = UI_EXIT;
-    }
+  if (handleInput(inputState))
+  {
+    *state = UI_EXIT;
+  }
   //   updatePlayer(inputState, &game->player, &game->timer, &game->map);
   //   checkEndLevel(state, game);
   // }
@@ -115,7 +117,7 @@ static void renderInfoStrings(u64* prevTick)
   *prevTick = SDL_GetTicks();
 }
 
-static const char* mapFileLocations[] = {"./Assets/Maps/test_map01.json"};
+static const char* mapFileLocations[] = {"./Assets/Maps/test_map02.json"};
 
 void               parseMap(Game* game)
 {
@@ -158,8 +160,7 @@ i32 main(int argc, char* argv[])
 {
   srand(0);
   loadStateVariables();
-  loadTileMapping();
-  loadTileData();
+  loadAssetData();
   clearGlobalEntites();
 
   Font font;
@@ -199,7 +200,7 @@ i32 main(int argc, char* argv[])
     //   {
     //     resetGame(&game);
     //   }
-      gameLoop(&ui.state, &inputState, &game);
+    gameLoop(&ui.state, &inputState, &game);
     // }
     // else if (handleInput(&inputState))
     // {

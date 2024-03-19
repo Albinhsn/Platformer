@@ -1,6 +1,5 @@
-./Assets/Tilemap/tilemap_packed.png
+./Assets/Tilemap/tilemap_all01.png
 ./Assets/Tilemap/tilemap-backgrounds_packed.png
-./Assets/Tilemap/tilemap-characters_packed.png
 ./Assets/Fonts/font03.png
 ./Assets/UI/grey_button04.png
 ./Assets/Characters/Platformer/tile_0000.png

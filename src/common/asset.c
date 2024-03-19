@@ -138,7 +138,8 @@ void loadTileData()
       data->animationData.textureIds   = (u64*)malloc(sizeof(u64) * textureKeys.arraySize);
       for (u64 i = 0; i < textureKeys.arraySize; i++)
       {
-        data->animationData.textureIds[i] = getTileMappingValue(textureKeys.values[i].string);
+        u64 idx                           = getTileMappingValue(textureKeys.values[i].string);
+        data->animationData.textureIds[i] = idx;
       }
     }
     else
@@ -148,41 +149,41 @@ void loadTileData()
       data->textureIdx = value->number;
     }
   }
-  qsort(g_tileData, g_tileDataCounter, sizeof(TileData), sortTileData);
 }
 
 void parseTilesFromJson(Json* json, Map* map)
 {
-  JsonObject head      = json->obj;
-  JsonArray  array     = (lookupJsonElement(&head, "enemies"))->arr;
-  u8         mapWidth  = map->width;
-  u8         mapHeight = map->height;
+  JsonObject head     = json->obj;
+  map->width          = (lookupJsonElement(&head, "width"))->number;
+  map->height         = (lookupJsonElement(&head, "height"))->number;
 
-  map->tiles           = (Tile*)malloc(sizeof(Tile) * array.arraySize);
-  map->tileCount       = array.arraySize;
+  JsonArray array     = (lookupJsonElement(&head, "tiles"))->arr;
+  u8        mapWidth  = map->width;
+  u8        mapHeight = map->height;
+
+  map->tiles          = (Tile*)malloc(sizeof(Tile) * array.arraySize);
+  map->tileCount      = array.arraySize;
 
   for (u32 i = 0; i < array.arraySize; i++)
   {
-    JsonObject tileObj = array.values[i].obj;
-    u8         x       = (lookupJsonElement(&tileObj, "x"))->number;
-    u8         y       = (lookupJsonElement(&tileObj, "y"))->number;
+    JsonObject tileObj   = array.values[i].obj;
+    u8         x         = (lookupJsonElement(&tileObj, "x"))->number;
+    u8         y         = (lookupJsonElement(&tileObj, "y"))->number;
 
-    Tile*      tile    = &map->tiles[i];
-    tile->entity       = getNewEntity();
+    Tile*      tile      = &map->tiles[i];
+    tile->entity         = getNewEntity();
 
-    Entity* tileEntity = tile->entity;
-    tileEntity->x      = ((x / (f32)mapWidth) * 2.0f - 1.0f) * 100.0f;
-    tileEntity->y      = -((((f32)y - 0.5f) / (f32)mapHeight) * 2.0f - 1.0f) * 100.0f;
-    tileEntity->height = (1 / (f32)mapHeight) * 200.0f;
-    tileEntity->width  = (1 / (f32)mapWidth) * 200.0f;
+    Entity* tileEntity   = tile->entity;
+    tileEntity->x        = ((x / (f32)mapWidth) * 2.0f - 1.0f) * 100.0f;
+    tileEntity->y        = -((((f32)y - 0.5f) / (f32)mapHeight) * 2.0f - 1.0f) * 100.0f;
+    tileEntity->height   = (1 / (f32)mapHeight) * 200.0f;
+    tileEntity->width    = (1 / (f32)mapWidth) * 200.0f;
 
-    u64    textureIdx  = (lookupJsonElement(&tileObj, "textureIdx"))->number;
+    u64       textureIdx = (lookupJsonElement(&tileObj, "textureIdx"))->number;
 
-    String key         = (String){.len = 0, .buffer = 0, .capacity = 0};
-    getTileMappingKey(&key, textureIdx);
-    if (key.buffer != 0)
+    TileData* tileData   = getTileData(textureIdx);
+    if (tileData != 0)
     {
-      TileData* tileData   = getTileDataByKey(key);
       tileEntity->animated = tileData->animated;
       if (tileEntity->animated)
       {
@@ -191,8 +192,13 @@ void parseTilesFromJson(Json* json, Map* map)
       }
       else
       {
-        tileEntity->textureIdx = tileEntity->textureIdx;
+
+        String key;
+        getTileMappingKey(&key, tileData->textureIdx);
+        printf("Found %.*s with %d\n", (i32)key.len, key.buffer, tileData->textureIdx);
+        tileEntity->textureIdx = tileData->textureIdx;
       }
+
       tile->entityType = tileData->entityType;
       tile->type       = tileData->tileType;
       switch (tile->entityType)
@@ -239,7 +245,6 @@ void parseTilesFromJson(Json* json, Map* map)
 
 TileData* getTileData(u64 index)
 {
-  printf("%.*s\n", (i32)g_tileData[index].name.len, g_tileData[index].name.buffer);
   return &g_tileData[index];
 }
 
