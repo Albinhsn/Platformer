@@ -104,6 +104,7 @@ int main()
   struct Image tile;
   u32          tileDimBytes = dim * sheet.bpp;
   i32          layer;
+  printf("Count was %d\n", count);
   for (i32 i = 0; i < count; i++)
   {
     bool result = parsePNG(&tile.data, &tile.width, &tile.height, tileFilenames[i]);

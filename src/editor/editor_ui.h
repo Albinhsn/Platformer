@@ -17,9 +17,20 @@ struct UIMap
 };
 typedef struct UIMap UIMap;
 
+struct UITile
+{
+  union
+  {
+    Animation* animation;
+    u64        textureIdx;
+  };
+  bool animated;
+};
+typedef struct UITile UITile;
+
 struct UITiles
 {
-  Tile*       tiles;
+  UITile*     tiles;
   u64         tileCounter;
   UIComponent comp;
   f32         tileDim;

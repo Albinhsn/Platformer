@@ -218,7 +218,7 @@ void initTiledTextures()
   const u32    numberOfTiles     = 2;
   TextureModel tiles[]           = {TEXTURE_TILES, TEXTURE_BACKGROUNDS};
   u32          tileCountPerRow[] = {10, 4};
-  u32          tileCount[]       = {21 * 10, 4};
+  u32          tileCount[]       = {184, 4};
   for (u32 i = 0; i < numberOfTiles; i++)
   {
     TextureTiled* tile = &g_tiledTextures[tiles[i]];
@@ -337,7 +337,6 @@ void renderTextureTile(f32 x, f32 y, f32 width, f32 height, u32 tiledTextureIdx,
   u32          maxRow  = texture.texture->height / texture.dim;
   u32          row     = textureIdx / maxCol;
   u32          col     = textureIdx % maxCol;
-
 
   if (row >= maxRow)
   {

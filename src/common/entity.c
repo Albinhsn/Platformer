@@ -1,15 +1,11 @@
 #include "entity.h"
 #include "animation.h"
 #include "common.h"
-#include "json.h"
 #include "sta_string.h"
 #include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
 
 Entity      g_entities[MAX_ENTITY_COUNT];
-TileData    g_tileData[256];
-u64         g_tileDataCounter = 0;
 
 static bool withinScreen(Entity* entity)
 {
@@ -23,148 +19,6 @@ void initGlobalEntities()
   for (u64 i = 0; i < MAX_ENTITY_COUNT; i++)
   {
     g_entities[i].textureIdx = -1;
-  }
-}
-
-void loadTileData()
-{
-  const char* tileLocation = "./Assets/variables/tiles_01.json";
-  String      fileString   = {.buffer = (char*)tileLocation, .len = strlen(tileLocation), .capacity = 0};
-  Json        tileJson;
-  Arena       arena;
-  initArena(&arena, 2000);
-
-  deserializeFromFile(&arena, &tileJson, fileString);
-  JsonValue* tileValues = tileJson.obj.values;
-  String*    tileKeys   = tileJson.obj.keys;
-  for (u64 i = 0; i < tileJson.obj.size; i++)
-  {
-    TileData* data       = &g_tileData[g_tileDataCounter++];
-    data->name           = tileKeys[i];
-
-    JsonObject tileObj   = tileValues[i].obj;
-
-    JsonValue* animation = lookupJsonElement(&tileObj, "animation");
-    if (animation)
-    {
-      JsonObject animationObj          = animation->obj;
-      JsonValue* timerValue            = lookupJsonElement(&animationObj, "timer");
-      JsonArray  textureKeys           = lookupJsonElement(&animationObj, "textures")->arr;
-      data->animated                   = true;
-      data->animationData.timer        = timerValue->number;
-      data->animationData.textureCount = textureKeys.arraySize;
-      data->animationData.textureIds   = (u64*)malloc(sizeof(u64) * textureKeys.arraySize);
-      for (u64 i = 0; i < textureKeys.arraySize; i++)
-      {
-        data->animationData.textureIds[i] = getTileMappingValue(textureKeys.values[i].string);
-      }
-    }
-    else
-    {
-      data->animated   = false;
-      JsonValue* value = lookupJsonElement(&tileObj, "textureIdx");
-      data->textureIdx = value->number;
-    }
-  }
-}
-
-static TileData* getTileData(String key)
-{
-
-  for (u64 i = 0; i < g_tileDataCounter; i++)
-  {
-    if (sta_compareString(key, g_tileData[i].name))
-    {
-      return &g_tileData[i];
-    }
-  }
-  printf("WARNING: No tileData found with %.*s\n", (i32)key.len, key.buffer);
-  return 0;
-}
-
-void parseTilesFromJson(Json* json, Map* map)
-{
-  JsonObject head      = json->obj;
-  JsonArray  array     = (lookupJsonElement(&head, "enemies"))->arr;
-  u8         mapWidth  = map->width;
-  u8         mapHeight = map->height;
-
-  map->tiles           = (Tile*)malloc(sizeof(Tile) * array.arraySize);
-  map->tileCount       = array.arraySize;
-
-  for (u32 i = 0; i < array.arraySize; i++)
-  {
-    JsonObject tileObj = array.values[i].obj;
-    u8         x       = (lookupJsonElement(&tileObj, "x"))->number;
-    u8         y       = (lookupJsonElement(&tileObj, "y"))->number;
-
-    Tile*      tile    = &map->tiles[i];
-    tile->entity       = getNewEntity();
-
-    Entity* tileEntity = tile->entity;
-    tileEntity->x      = ((x / (f32)mapWidth) * 2.0f - 1.0f) * 100.0f;
-    tileEntity->y      = -((((f32)y - 0.5f) / (f32)mapHeight) * 2.0f - 1.0f) * 100.0f;
-    tileEntity->height = (1 / (f32)mapHeight) * 200.0f;
-    tileEntity->width  = (1 / (f32)mapWidth) * 200.0f;
-
-    u64    textureIdx  = (lookupJsonElement(&tileObj, "textureIdx"))->number;
-
-    String key         = (String){.len = 0, .buffer = 0, .capacity = 0};
-    getTileMappingKey(&key, textureIdx);
-    if (key.buffer != 0)
-    {
-      TileData* tileData   = getTileData(key);
-      tileEntity->animated = tileData->animated;
-      if (tileEntity->animated)
-      {
-        tileEntity->animation = (Animation*)malloc(sizeof(Animation));
-        initAnimation(tileEntity->animation, &tileData->animationData);
-      }
-      else
-      {
-        tileEntity->textureIdx = tileEntity->textureIdx;
-      }
-      tile->entityType = tileData->entityType;
-      tile->type       = tileData->tileType;
-      switch (tile->entityType)
-      {
-      case ENTITY_TYPE_DUMB:
-      {
-        tile->cloud = 0;
-        break;
-      }
-      case ENTITY_TYPE_ITEM:
-      {
-        tile->item = (Item*)malloc(sizeof(Item));
-        break;
-      }
-      case ENTITY_TYPE_CLOUD:
-      {
-        tile->cloud = (Cloud*)malloc(sizeof(Cloud));
-        break;
-      }
-      case ENTITY_TYPE_LEVER:
-      {
-        tile->lever = (Lever*)malloc(sizeof(Lever));
-        break;
-      }
-      case ENTITY_TYPE_BUTTON:
-      {
-        tile->button = (Button*)malloc(sizeof(Button));
-        break;
-      }
-      case ENTITY_TYPE_ENEMY:
-      {
-        tile->enemy = (Enemy*)malloc(sizeof(Enemy));
-        break;
-      }
-      case ENTITY_TYPE_SRPING:
-      {
-        tile->spring = (Spring*)malloc(sizeof(Spring));
-        break;
-      }
-      }
-    }
   }
 }
 

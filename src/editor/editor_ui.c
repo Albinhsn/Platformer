@@ -1,4 +1,5 @@
 #include "editor_ui.h"
+#include "asset.h"
 #include "common.h"
 #include "entity.h"
 #include "renderer.h"
@@ -6,7 +7,21 @@
 #include "vector.h"
 #include <stdlib.h>
 
-static void renderUIMap(UIMap* map)
+static void renderUITile(UITile tile, Timer* timer, f32 x, f32 y, f32 dim)
+{
+  if (tile.animated)
+  {
+    updateAnimation(tile.animation, timer);
+    u64 textureIdx = tile.animation->animationData->textureIds[tile.animation->currentTexture];
+    renderTextureTile(x, y, dim, dim, TEXTURE_TILES, textureIdx);
+  }
+  else
+  {
+    renderTextureTile(x, y, dim, dim, TEXTURE_TILES, tile.textureIdx);
+  }
+}
+
+static void renderUIMap(UIMap* map, UITiles* tiles, Timer* timer)
 {
   UIComponent comp = map->comp;
   f32         minX = comp.x - comp.width;
@@ -22,8 +37,12 @@ static void renderUIMap(UIMap* map)
 
   for (u32 i = 0; i < map->tileCount; i++)
   {
-    EditorTile tile = map->tiles[i];
-    renderTextureTile(minX + (tile.x + 0.5f) * dimX * 2, minY - (tile.y + 0.5f) * dimY * 2, dimX, dimY, TEXTURE_TILES, map->tiles[i].tileIdx);
+    EditorTile editorTile = map->tiles[i];
+    f32        x          = minX + (editorTile.x + 0.5f) * dimX * 2;
+    f32        y          = minY - (editorTile.y + 0.5f) * dimY * 2;
+
+    UITile     tile       = tiles->tiles[editorTile.tileIdx];
+    renderUITile(tile, timer, x, y, dimX);
   }
 }
 static void initUIMap(UIMap* map, f32 x, f32 y, f32 w, f32 h)
@@ -39,34 +58,29 @@ static void initUIMap(UIMap* map, f32 x, f32 y, f32 w, f32 h)
   map->backgroundIdx = -1;
 }
 
+static inline void initTileFromData(UITile* tile, TileData* data)
+{
+  tile->animated = data->animated;
+  if (tile->animated)
+  {
+    tile->animation = (Animation*)malloc(sizeof(Animation));
+    initAnimation(tile->animation, &data->animationData);
+  }
+  else
+  {
+    tile->textureIdx = data->textureIdx;
+  }
+}
+
 static void initUITiles(UITiles* tiles, f32 x, f32 y, f32 width, f32 height, f32 tileDim)
 {
   tiles->tileDim = 4.0f;
   initUIComponent(&tiles->comp, x, y, width, height, -1);
-
-  TileData* tileData = g_tileData;
   tiles->tileCounter = g_tileDataCounter;
-  tiles->tiles       = (Tile*)malloc(sizeof(Tile) * tiles->tileCounter);
-  printf("Creating %ld entities\n", tiles->tileCounter);
+  tiles->tiles       = (UITile*)malloc(sizeof(UITile) * tiles->tileCounter);
   for (u64 i = 0; i < tiles->tileCounter; i++)
   {
-    Tile*     tile   = &tiles->tiles[i];
-    TileData* data   = &tileData[i];
-    tile->type       = data->tileType;
-    tile->entityType = data->entityType;
-    tile->entity     = getNewEntity();
-    Entity* entity   = tile->entity;
-    entity->animated = data->animated;
-
-    if (entity->animated)
-    {
-      entity->animation = (Animation*)malloc(sizeof(Animation));
-      initAnimation(entity->animation, &data->animationData);
-    }
-    else
-    {
-      entity->textureIdx = data->textureIdx;
-    }
+    initTileFromData(&tiles->tiles[i], getTileData(i));
   }
 }
 
@@ -100,21 +114,8 @@ static void renderTiles(UITiles* tiles, Timer* timer)
   f32 doubleDim = dim * 2.0f;
   for (u32 i = 0; i < tiles->tileCounter; i++)
   {
-    printf("%ld\n", (u64)tiles);
-    Entity* entity = tiles[i].tiles->entity;
-    if (entity->animated)
-    {
-      updateAnimation(entity->animation, timer);
-      printf("%ld\n", entity->animation->currentTexture);
-      printf("%ld\n", entity->animation->animationData->textureCount);
-      u64 textureIdx = entity->animation->animationData->textureIds[entity->animation->currentTexture];
-      renderTextureTile(x, y, dim, dim, TEXTURE_TILES, textureIdx);
-    }
-    else
-    {
-      printf("%d\n", entity->textureIdx);
-      renderTextureTile(x, y, dim, dim, TEXTURE_TILES, entity->textureIdx);
-    }
+    UITile tile = tiles->tiles[i];
+    renderUITile(tile, timer, x, y, dim);
     x += doubleDim;
     if (x >= endX)
     {
@@ -172,6 +173,13 @@ static void debugTileMap(UIMap* map)
       minY -= diffY;
     }
   }
+}
+
+static void renderSelected(UITiles* tiles, Timer* timer, UIComponent selected)
+{
+  UIComponent* comp = &selected;
+  UITile       tile = tiles->tiles[comp->textureIdx];
+  renderUITile(tile, timer, comp->x, comp->y, comp->width);
 }
 
 static void addTileToMap(UIMap* map, InputState* inputState, u32 tileIdx)
@@ -235,9 +243,8 @@ bool renderUI(UI* ui, InputState* inputState, Timer* timer)
   rebindFullTexture();
   renderButton(&ui->saveBtn);
 
-  renderUIMap(&ui->map);
-  UIComponent* comp = &ui->selected;
-  renderTextureTile(comp->x, comp->y, comp->width, comp->height, TEXTURE_TILES, comp->textureIdx);
+  renderUIMap(&ui->map, &ui->tiles, timer);
+  renderSelected(&ui->tiles, timer, ui->selected);
 
   debugTileMap(&ui->map);
   return componentIsReleased(ui->saveBtn.component, inputState);

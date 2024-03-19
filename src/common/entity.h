@@ -3,7 +3,6 @@
 #include "animation.h"
 #include "common.h"
 #include "input.h"
-#include "json.h"
 #include "timer.h"
 
 enum EntityType
@@ -103,22 +102,6 @@ struct Player
 
 typedef struct Player Player;
 
-struct TileData
-{
-  f32    boundsWidth;
-  f32    boundsHeight;
-  f32    entityType;
-  f32    tileType;
-  String name;
-  union
-  {
-    AnimationData animationData;
-    u32           textureIdx;
-  };
-  bool animated;
-};
-typedef struct TileData TileData;
-
 struct Tile
 {
   Entity* entity;
@@ -155,24 +138,20 @@ struct EditorTile
 typedef struct EditorTile EditorTile;
 
 #define MAX_ENTITY_COUNT 512
-extern Entity   g_entities[MAX_ENTITY_COUNT];
-extern TileData g_tileData[256];
-extern u64      g_tileDataCounter;
+extern Entity g_entities[MAX_ENTITY_COUNT];
 
-Entity*         getPlayerEntity();
-Entity*         getNewEntity();
+Entity*       getPlayerEntity();
+Entity*       getNewEntity();
 
-void            initGlobalEntities();
-void            parseTilesFromJson(Json* json, Map* map);
-void            initEntity(Entity* entity, f32 x, f32 y, f32 width, f32 height, u64 textureIdx, f32 movementSpeed, bool animated);
-void            initPlayer(Player* player);
-void            loadTileData();
+void          initGlobalEntities();
+void          initEntity(Entity* entity, f32 x, f32 y, f32 width, f32 height, u64 textureIdx, f32 movementSpeed, bool animated);
+void          initPlayer(Player* player);
 
-bool            entitiesCollided(Entity* e1, Entity* e2);
+bool          entitiesCollided(Entity* e1, Entity* e2);
 
-void            updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map);
+void          updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map);
 
-void            debugPlayer(Player* player);
-void            debugEntity(Entity* entity);
+void          debugPlayer(Player* player);
+void          debugEntity(Entity* entity);
 
 #endif

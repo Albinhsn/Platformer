@@ -68,6 +68,13 @@ typedef int64_t  i64;
 struct Timer;
 typedef struct Timer Timer;
 
+struct StateVariable
+{
+  char* key;
+  f32   value;
+};
+typedef struct StateVariable StateVariable;
+
 bool                 shouldHandleUpdates(Timer* timer, u64* lastUpdated);
 void                 parseFloatFromString(float* dest, char* source, u8* length);
 void                 parseIntFromString(int* dest, char* source, u8* length);
@@ -76,13 +83,7 @@ u64                  getScreenWidth();
 u64                  getScreenHeight();
 f32                  convertFloatToBE(f32 f);
 u32                  getTimeInMilliseconds();
-void                 loadTileMapping();
 void                 loadStateVariables();
-f32                  getCharacterMappingValue(String key);
-void                 getCharacterMappingKey(String* key, u64 value);
-void                 setTileMapping(const char* key, f32 value);
-f32                  getTileMappingValue(String key);
-void                 getTileMappingKey(String* key, u64 value);
 void                 setStateVariable(const char* key, f32 value);
 f32                  getStateVariable(const char* key);
 void                 getInfoStrings(char* fpsString, char* msString, long long* lastTick, long long* previousTick);
