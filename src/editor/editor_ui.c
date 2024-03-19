@@ -98,6 +98,7 @@ void initUI(UI* ui)
   initUIMap(&ui->map, -30.0f, 0.0f, 60.0f, 60.0f);
   initUITiles(&ui->tiles, 68.0f, 0.0f, 32.0f, 100.0f, 4.0f);
   initUISelected(&ui->selected, -30.0f, 80.0f, 10.0f, 10.0f);
+  initUIComponent(&ui->background, -60.0f, -80.0f, 30.0f, 15.0f, 0);
 
   initButton(&ui->saveBtn, RED, "save", 5.0f, 10.0f, -10.0f, -80.0f, 15.0f, 15.0f, TEXTURE_GREY_BUTTON_05);
 }
@@ -227,6 +228,29 @@ static void addTileToMap(UIMap* map, InputState* inputState, u32 tileIdx)
   map->tileCount++;
 }
 
+void changeBackground(UIComponent comp, UIMap* map, InputState* inputState)
+{
+  u32 screenWidth    = getScreenWidth();
+  f32 mouseX         = inputState->mouseX / (f32)screenWidth * 200.0f - 100.0f;
+
+  f32 x              = (mouseX - comp.x + comp.width) / (comp.width * 2);
+
+  map->backgroundIdx = (getTiledTexture(TEXTURE_BACKGROUNDS)->count) * x;
+}
+
+void renderBackground(UIComponent comp)
+{
+  TextureTiled* backgrounds = getTiledTexture(TEXTURE_BACKGROUNDS);
+  f32           width       = comp.width / (f32)backgrounds->count;
+  f32           x           = comp.x - comp.width + width;
+  for (u32 i = 0; i < backgrounds->count; i++, x += width * 2.0f)
+  {
+    renderTextureTile(x, comp.y, width, comp.height, TEXTURE_BACKGROUNDS, i);
+  }
+
+  renderUnfilledQuad(CREATE_VEC2f32(comp.x - comp.width, comp.y - comp.height), CREATE_VEC2f32(comp.x + comp.width, comp.y + comp.height), 2, &RED);
+}
+
 bool renderUI(UI* ui, InputState* inputState, Timer* timer)
 {
   if (componentIsReleased(ui->tiles.comp, inputState))
@@ -239,12 +263,17 @@ bool renderUI(UI* ui, InputState* inputState, Timer* timer)
   {
     addTileToMap(&ui->map, inputState, ui->selected.textureIdx);
   }
-
   rebindFullTexture();
   renderButton(&ui->saveBtn);
 
   renderUIMap(&ui->map, &ui->tiles, timer);
   renderSelected(&ui->tiles, timer, ui->selected);
+
+  renderBackground(ui->background);
+  if (componentIsReleased(ui->background, inputState))
+  {
+    changeBackground(ui->background, &ui->map, inputState);
+  }
 
   debugTileMap(&ui->map);
   return componentIsReleased(ui->saveBtn.component, inputState);

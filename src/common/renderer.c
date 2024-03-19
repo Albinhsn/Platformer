@@ -302,7 +302,6 @@ static void setTextShaderParams(Font* font, Color* color)
 
 void renderUnfilledQuad(Vec2f32 start, Vec2f32 end, u32 width, Color* color)
 {
-
   renderLine(CREATE_VEC2f32(start.x, start.y), CREATE_VEC2f32(end.x, start.y), width, color);
   renderLine(CREATE_VEC2f32(start.x, start.y), CREATE_VEC2f32(start.x, end.y), width, color);
   renderLine(CREATE_VEC2f32(end.x, start.y), CREATE_VEC2f32(end.x, end.y), width, color);

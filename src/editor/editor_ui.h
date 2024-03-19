@@ -42,6 +42,7 @@ struct UI
   UIMap             map;
   UITiles           tiles;
   UIComponent       selected;
+  UIComponent       background;
   ButtonUIComponent saveBtn;
 };
 typedef struct UI UI;
