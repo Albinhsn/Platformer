@@ -92,7 +92,7 @@ static void gameLoop(UIState* state, InputState* inputState, Game* game)
   //   checkEndLevel(state, game);
   // }
   renderMap(&game->map, &game->timer);
-  renderEntity(game->player.entity);
+  // renderEntity(game->player.entity);
 }
 
 static void renderInfoStrings(u64* prevTick)
@@ -117,7 +117,7 @@ static void renderInfoStrings(u64* prevTick)
   *prevTick = SDL_GetTicks();
 }
 
-static const char* mapFileLocations[] = {"./Assets/Maps/test_map02.json"};
+static const char* mapFileLocations[] = {"./Assets/Maps/test_map03.json"};
 
 void               parseMap(Game* game)
 {
@@ -140,11 +140,11 @@ void initGame(Game* game)
   memset(game, 0, sizeof(Game));
   resetGame(game);
 
-  game->player.entity = getNewEntity();
-  game->player.yAcc   = 0;
-  game->mapIdx        = 0;
+  game->mapIdx = 0;
   parseMap(game);
 
+  game->player.entity = getNewEntity();
+  game->player.yAcc   = 0;
   initEntity(game->player.entity, 0.0f, 0.0f, 5.0f, 5.0f, 0, 0.5f, false);
 }
 

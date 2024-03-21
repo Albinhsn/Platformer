@@ -110,7 +110,7 @@ static i32 sortTileData(const void* a_, const void* b_)
 
 void loadTileData()
 {
-  const char* tileLocation = "./Assets/variables/tiles_02.json";
+  const char* tileLocation = "./Assets/variables/tiles_03.json";
   String      fileString   = {.buffer = (char*)tileLocation, .len = strlen(tileLocation), .capacity = 0};
   Json        tileJson;
   Arena       arena;
@@ -182,63 +182,62 @@ void parseTilesFromJson(Json* json, Map* map)
     u64       textureIdx = (lookupJsonElement(&tileObj, "textureIdx"))->number;
 
     TileData* tileData   = getTileData(textureIdx);
-    if (tileData != 0)
+    if (tileData == 0)
     {
-      tileEntity->animated = tileData->animated;
-      if (tileEntity->animated)
-      {
-        tileEntity->animation = (Animation*)malloc(sizeof(Animation));
-        initAnimation(tileEntity->animation, &tileData->animationData);
-      }
-      else
-      {
+      printf("SEVERE: Failed to get tile data from %ld\n", textureIdx);
+      exit(1);
+    }
 
-        String key;
-        getTileMappingKey(&key, tileData->textureIdx);
-        printf("Found %.*s with %d\n", (i32)key.len, key.buffer, tileData->textureIdx);
-        tileEntity->textureIdx = tileData->textureIdx;
-      }
+    tileEntity->animated = tileData->animated;
+    if (tileEntity->animated)
+    {
+      tileEntity->animation = (Animation*)malloc(sizeof(Animation));
+      initAnimation(tileEntity->animation, &tileData->animationData);
+    }
+    else
+    {
+      tileEntity->textureIdx = tileData->textureIdx;
+    }
 
-      tile->entityType = tileData->entityType;
-      tile->type       = tileData->tileType;
-      switch (tile->entityType)
-      {
-      case ENTITY_TYPE_DUMB:
-      {
-        tile->cloud = 0;
-        break;
-      }
-      case ENTITY_TYPE_ITEM:
-      {
-        tile->item = (Item*)malloc(sizeof(Item));
-        break;
-      }
-      case ENTITY_TYPE_CLOUD:
-      {
-        tile->cloud = (Cloud*)malloc(sizeof(Cloud));
-        break;
-      }
-      case ENTITY_TYPE_LEVER:
-      {
-        tile->lever = (Lever*)malloc(sizeof(Lever));
-        break;
-      }
-      case ENTITY_TYPE_BUTTON:
-      {
-        tile->button = (Button*)malloc(sizeof(Button));
-        break;
-      }
-      case ENTITY_TYPE_ENEMY:
-      {
-        tile->enemy = (Enemy*)malloc(sizeof(Enemy));
-        break;
-      }
-      case ENTITY_TYPE_SRPING:
-      {
-        tile->spring = (Spring*)malloc(sizeof(Spring));
-        break;
-      }
-      }
+    tile->entityType = tileData->entityType;
+    tile->type       = tileData->tileType;
+    switch (tile->entityType)
+    {
+    case ENTITY_TYPE_DUMB:
+    {
+      tile->cloud = 0;
+      break;
+    }
+    case ENTITY_TYPE_ITEM:
+    {
+      tile->item = (Item*)malloc(sizeof(Item));
+      break;
+    }
+    case ENTITY_TYPE_CLOUD:
+    {
+      tile->cloud = (Cloud*)malloc(sizeof(Cloud));
+      break;
+    }
+    case ENTITY_TYPE_LEVER:
+    {
+      tile->lever = (Lever*)malloc(sizeof(Lever));
+      break;
+    }
+    case ENTITY_TYPE_BUTTON:
+    {
+      tile->button = (Button*)malloc(sizeof(Button));
+      break;
+    }
+    case ENTITY_TYPE_ENEMY:
+    {
+      tile->enemy = (Enemy*)malloc(sizeof(Enemy));
+      break;
+    }
+    case ENTITY_TYPE_SRPING:
+    {
+      tile->spring = (Spring*)malloc(sizeof(Spring));
+      break;
+    }
     }
   }
 }

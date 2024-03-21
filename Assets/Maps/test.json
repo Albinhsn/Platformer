@@ -1,0 +1,9 @@
+{"width":20,"height":20,"background":-1,"tiles":[
+  {"x":12,"y":5,"textureIdx":0},
+  {"x":15,"y":7,"textureIdx":16},
+  {"x":11,"y":8,"textureIdx":45},
+  {"x":15,"y":5,"textureIdx":19},
+  {"x":14,"y":10,"textureIdx":13},
+  {"x":13,"y":2,"textureIdx":11},
+  {"x":10,"y":5,"textureIdx":4}
+]}

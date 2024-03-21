@@ -52,7 +52,7 @@ Entity* getPlayerEntity()
 
 Entity* getNewEntity()
 {
-  for (i32 i = 1; i < MAX_ENTITY_COUNT; i++)
+  for (i32 i = 0; i < MAX_ENTITY_COUNT; i++)
   {
     if (g_entities[i].textureIdx == -1)
     {
@@ -199,10 +199,4 @@ void debugEntity(Entity* entity)
 {
 
   printf("%f %f %f %f %d\n", entity->x, entity->y, entity->width, entity->height, entity->textureIdx);
-}
-
-void createPlayer(Player* player)
-{
-  player->entity = getPlayerEntity();
-  initEntity(player->entity, 0.0f, 0.0f, 5.0f, 10.0f, 1, 1.0f, false);
 }

@@ -1,4 +1,5 @@
 #include "arena.h"
+#include "asset.h"
 #include "common.h"
 #include "editor_ui.h"
 #include "entity.h"
@@ -34,16 +35,17 @@ void saveMap(UI* ui)
 
   for (u32 i = 0; i < ui->map.tileCount; i++)
   {
-    EditorTile tile         = ui->map.tiles[i];
-    String     xKey         = (String){.len = 1, .buffer = (char*)"x", .capacity = 1};
-    String     yKey         = (String){.len = 1, .buffer = (char*)"y", .capacity = 1};
-    String     tileIdxKey   = (String){.len = 10, .buffer = (char*)"textureIdx", .capacity = 10};
+    EditorTile tile       = ui->map.tiles[i];
+    String     xKey       = (String){.len = 1, .buffer = (char*)"x", .capacity = 1};
+    String     yKey       = (String){.len = 1, .buffer = (char*)"y", .capacity = 1};
+    String     tileIdxKey = (String){.len = 10, .buffer = (char*)"textureIdx", .capacity = 10};
 
-    JsonValue  xValue       = (JsonValue){.type = JSON_NUMBER, .number = tile.x};
-    JsonValue  yValue       = (JsonValue){.type = JSON_NUMBER, .number = tile.y};
-    JsonValue  tileIdxValue = (JsonValue){.type = JSON_NUMBER, .number = tile.tileIdx};
+    JsonValue  xValue     = (JsonValue){.type = JSON_NUMBER, .number = tile.x};
+    JsonValue  yValue     = (JsonValue){.type = JSON_NUMBER, .number = tile.y};
 
-    JsonValue  tileValue;
+    JsonValue tileIdxValue = (JsonValue){.type = JSON_NUMBER, .number = tile.tileIdx};
+
+    JsonValue tileValue;
     tileValue.type = JSON_OBJECT;
     initJsonObject(&arena, &tileValue.obj);
 
@@ -64,8 +66,7 @@ i32 main(int argv, char* argc[])
 {
   initGlobalEntities();
   loadStateVariables();
-  loadTileMapping();
-  loadTileData();
+  loadAssetData();
 
   Font font;
   initRenderer(&font, "./Assets/variables/editorTextureLocation.txt");

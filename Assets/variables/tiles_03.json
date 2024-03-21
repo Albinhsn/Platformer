@@ -10,7 +10,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 176,
         "tileType": 0
     },
     "octopus_blue_001": {
@@ -24,7 +23,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 173,
         "tileType": 0
     },
     "button_001": {
@@ -38,7 +36,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 167,
         "tileType": 0
     },
     "coin_001": {
@@ -52,7 +49,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 168,
         "tileType": 0
     },
     "flagTop_001": {
@@ -66,7 +62,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 166,
         "tileType": 0
     },
     "char_flower_001": {
@@ -80,7 +75,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 178,
         "tileType": 0
     },
     "char_flying_001": {
@@ -94,7 +88,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 182,
         "tileType": 0
     },
     "octopus_green_001": {
@@ -108,7 +101,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 172,
         "tileType": 0
     },
     "char_large_blue_001": {
@@ -122,7 +114,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 181,
         "tileType": 0
     },
     "lever_001": {
@@ -137,7 +128,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 165,
         "tileType": 0
     },
     "octopus_pink_001": {
@@ -151,7 +141,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 174,
         "tileType": 0
     },
     "char_small_blue_001": {
@@ -165,7 +154,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 180,
         "tileType": 0
     },
     "char_small_red_001": {
@@ -179,7 +167,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 179,
         "tileType": 0
     },
     "spring_001": {
@@ -193,7 +180,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 169,
         "tileType": 0
     },
     "char_square_001": {
@@ -207,7 +193,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 177,
         "tileType": 0
     },
     "waterSurface_001": {
@@ -221,7 +206,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 170,
         "tileType": 0
     },
     "waterfallBot_001": {
@@ -235,7 +219,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 164,
         "tileType": 0
     },
     "waterfallMid_001": {
@@ -249,7 +232,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 163,
         "tileType": 0
     },
     "waterfallTop_001": {
@@ -263,7 +245,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 162,
         "tileType": 0
     },
     "woodCoin_001": {
@@ -277,7 +258,6 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 161,
         "tileType": 0
     },
     "octopus_yellow_001": {
@@ -291,161 +271,160 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 175,
         "tileType": 0
     },
     "block_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 42,
+        "textureIdx": 47,
         "tileType": 0
     },
     "block_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 43,
+        "textureIdx": 48,
         "tileType": 0
     },
     "block_003": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 44,
+        "textureIdx": 49,
         "tileType": 0
     },
     "block_004": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 45,
+        "textureIdx": 50,
         "tileType": 0
     },
     "block_005": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 129,
+        "textureIdx": 146,
         "tileType": 0
     },
     "block_006": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 130,
+        "textureIdx": 147,
         "tileType": 0
     },
     "box_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 7,
+        "textureIdx": 9,
         "tileType": 0
     },
     "box_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 8,
+        "textureIdx": 10,
         "tileType": 0
     },
     "box_003": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 9,
+        "textureIdx": 11,
         "tileType": 0
     },
     "box_004": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 26,
+        "textureIdx": 28,
         "tileType": 0
     },
     "box_005": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 27,
+        "textureIdx": 29,
         "tileType": 0
     },
     "box_006": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 28,
+        "textureIdx": 30,
         "tileType": 0
     },
     "box_007": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 29,
+        "textureIdx": 31,
         "tileType": 0
     },
     "box_008": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 95,
+        "textureIdx": 110,
         "tileType": 0
     },
     "cactus_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 107,
+        "textureIdx": 124,
         "tileType": 0
     },
     "cactus_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 108,
+        "textureIdx": 125,
         "tileType": 0
     },
     "cactus_003": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 110,
+        "textureIdx": 127,
         "tileType": 0
     },
     "cloud_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 134,
+        "textureIdx": 153,
         "tileType": 0
     },
     "cloud_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 135,
+        "textureIdx": 154,
         "tileType": 0
     },
     "cloud_003": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 136,
+        "textureIdx": 155,
         "tileType": 0
     },
     "cloud_004": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 137,
+        "textureIdx": 156,
         "tileType": 0
     },
     "diamond_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 56,
+        "textureIdx": 67,
         "tileType": 0
     },
     "dirt_001": {
@@ -494,749 +473,749 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 18,
+        "textureIdx": 20,
         "tileType": 0
     },
     "dirt_008": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 19,
+        "textureIdx": 21,
         "tileType": 0
     },
     "dirt_009": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 20,
+        "textureIdx": 22,
         "tileType": 0
     },
     "dirt_010": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 21,
+        "textureIdx": 23,
         "tileType": 0
     },
     "dirt_011": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 22,
+        "textureIdx": 24,
         "tileType": 0
     },
     "dirt_012": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 23,
+        "textureIdx": 25,
         "tileType": 0
     },
     "dirt_013": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 35,
+        "textureIdx": 40,
         "tileType": 0
     },
     "dirt_014": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 36,
+        "textureIdx": 41,
         "tileType": 0
     },
     "dirt_015": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 37,
+        "textureIdx": 42,
         "tileType": 0
     },
     "dirt_016": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 38,
+        "textureIdx": 43,
         "tileType": 0
     },
     "dirt_017": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 52,
+        "textureIdx": 60,
         "tileType": 0
     },
     "dirt_018": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 53,
+        "textureIdx": 61,
         "tileType": 0
     },
     "dirt_019": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 54,
+        "textureIdx": 62,
         "tileType": 0
     },
     "dirt_020": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 55,
+        "textureIdx": 63,
         "tileType": 0
     },
     "dirt_021": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 67,
+        "textureIdx": 80,
         "tileType": 0
     },
     "dirt_022": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 68,
+        "textureIdx": 81,
         "tileType": 0
     },
     "dirt_023": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 69,
+        "textureIdx": 82,
         "tileType": 0
     },
     "dirt_024": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 70,
+        "textureIdx": 83,
         "tileType": 0
     },
     "dirt_025": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 87,
+        "textureIdx": 100,
         "tileType": 0
     },
     "dirt_026": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 88,
+        "textureIdx": 101,
         "tileType": 0
     },
     "dirt_027": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 89,
+        "textureIdx": 102,
         "tileType": 0
     },
     "dirt_028": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 90,
+        "textureIdx": 103,
         "tileType": 0
     },
     "dirt_029": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 91,
+        "textureIdx": 104,
         "tileType": 0
     },
     "dirt_030": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 103,
+        "textureIdx": 120,
         "tileType": 0
     },
     "dirt_031": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 104,
+        "textureIdx": 121,
         "tileType": 0
     },
     "dirt_032": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 105,
+        "textureIdx": 122,
         "tileType": 0
     },
     "dirt_033": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 106,
+        "textureIdx": 123,
         "tileType": 0
     },
     "dirt_034": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 123,
+        "textureIdx": 140,
         "tileType": 0
     },
     "dirt_035": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 124,
+        "textureIdx": 141,
         "tileType": 0
     },
     "dirt_036": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 125,
+        "textureIdx": 142,
         "tileType": 0
     },
     "dirt_037": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 126,
+        "textureIdx": 143,
         "tileType": 0
     },
     "door_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 113,
+        "textureIdx": 130,
         "tileType": 0
     },
     "door_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 133,
+        "textureIdx": 150,
         "tileType": 0
     },
     "heart_empty_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 41,
+        "textureIdx": 46,
         "tileType": 0
     },
     "flag_003": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 114,
+        "textureIdx": 131,
         "tileType": 0
     },
     "heart_full_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 39,
+        "textureIdx": 44,
         "tileType": 0
     },
     "grass_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 14,
+        "textureIdx": 16,
         "tileType": 0
     },
     "grass_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 15,
+        "textureIdx": 17,
         "tileType": 0
     },
     "grass_003": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 16,
+        "textureIdx": 18,
         "tileType": 0
     },
     "grass_004": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 17,
+        "textureIdx": 19,
         "tileType": 0
     },
     "grass_005": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 31,
+        "textureIdx": 36,
         "tileType": 0
     },
     "grass_006": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 32,
+        "textureIdx": 37,
         "tileType": 0
     },
     "grass_007": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 33,
+        "textureIdx": 38,
         "tileType": 0
     },
     "grass_008": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 34,
+        "textureIdx": 39,
         "tileType": 0
     },
     "grass_009": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 48,
+        "textureIdx": 56,
         "tileType": 0
     },
     "grass_010": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 49,
+        "textureIdx": 57,
         "tileType": 0
     },
     "grass_011": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 50,
+        "textureIdx": 58,
         "tileType": 0
     },
     "grass_012": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 51,
+        "textureIdx": 59,
         "tileType": 0
     },
     "grass_013": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 63,
+        "textureIdx": 76,
         "tileType": 0
     },
     "grass_014": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 64,
+        "textureIdx": 77,
         "tileType": 0
     },
     "grass_015": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 65,
+        "textureIdx": 78,
         "tileType": 0
     },
     "grass_016": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 66,
+        "textureIdx": 79,
         "tileType": 0
     },
     "heart_half_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 40,
+        "textureIdx": 45,
         "tileType": 0
     },
     "key_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 25,
+        "textureIdx": 27,
         "tileType": 0
     },
     "ladder_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 46,
+        "textureIdx": 51,
         "tileType": 0
     },
     "ladder_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 60,
+        "textureIdx": 71,
         "tileType": 0
     },
     "ladder_003": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 92,
+        "textureIdx": 105,
         "tileType": 0
     },
     "ladder_004": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 93,
+        "textureIdx": 106,
         "tileType": 0
     },
     "mushroom_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 111,
+        "textureIdx": 128,
         "tileType": 0
     },
     "mushroom_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 112,
+        "textureIdx": 129,
         "tileType": 0
     },
     "pipe_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 80,
+        "textureIdx": 93,
         "tileType": 0
     },
     "pipe_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 81,
+        "textureIdx": 94,
         "tileType": 0
     },
     "pipe_003": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 82,
+        "textureIdx": 95,
         "tileType": 0
     },
     "pipe_004": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 96,
+        "textureIdx": 113,
         "tileType": 0
     },
     "pipe_005": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 97,
+        "textureIdx": 114,
         "tileType": 0
     },
     "pipe_006": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 98,
+        "textureIdx": 115,
         "tileType": 0
     },
     "pipe_007": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 115,
+        "textureIdx": 132,
         "tileType": 0
     },
     "pipe_008": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 116,
+        "textureIdx": 133,
         "tileType": 0
     },
     "pipe_009": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 117,
+        "textureIdx": 134,
         "tileType": 0
     },
     "pipe_010": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 118,
+        "textureIdx": 135,
         "tileType": 0
     },
     "rope_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 58,
+        "textureIdx": 69,
         "tileType": 0
     },
     "rope_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 59,
+        "textureIdx": 70,
         "tileType": 0
     },
     "rope_003": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 76,
+        "textureIdx": 89,
         "tileType": 0
     },
     "rope_004": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 77,
+        "textureIdx": 90,
         "tileType": 0
     },
     "rope_005": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 78,
+        "textureIdx": 91,
         "tileType": 0
     },
     "rope_006": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 79,
+        "textureIdx": 92,
         "tileType": 0
     },
     "rope_007": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 94,
+        "textureIdx": 109,
         "tileType": 0
     },
     "sign_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 71,
+        "textureIdx": 84,
         "tileType": 0
     },
     "sign_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 72,
+        "textureIdx": 85,
         "tileType": 0
     },
     "sign_003": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 73,
+        "textureIdx": 86,
         "tileType": 0
     },
     "sign_004": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 74,
+        "textureIdx": 87,
         "tileType": 0
     },
     "sign_005": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 75,
+        "textureIdx": 88,
         "tileType": 0
     },
     "snowman_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 127,
+        "textureIdx": 144,
         "tileType": 0
     },
     "snowman_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 128,
+        "textureIdx": 145,
         "tileType": 0
     },
     "char_spike_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 171,
+        "textureIdx": 165,
         "tileType": 0
     },
     "spikes_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 57,
+        "textureIdx": 68,
         "tileType": 0
     },
     "treeTop_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 10,
+        "textureIdx": 12,
         "tileType": 0
     },
     "treeTop_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 11,
+        "textureIdx": 13,
         "tileType": 0
     },
     "treeTop_003": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 12,
+        "textureIdx": 14,
         "tileType": 0
     },
     "treeTop_004": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 13,
+        "textureIdx": 15,
         "tileType": 0
     },
     "tree_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 30,
+        "textureIdx": 32,
         "tileType": 0
     },
     "tree_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 47,
+        "textureIdx": 52,
         "tileType": 0
     },
     "tree_003": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 61,
+        "textureIdx": 72,
         "tileType": 0
     },
     "tree_004": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 83,
+        "textureIdx": 96,
         "tileType": 0
     },
     "tree_005": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 84,
+        "textureIdx": 97,
         "tileType": 0
     },
     "tree_006": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 85,
+        "textureIdx": 98,
         "tileType": 0
     },
     "tree_007": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 86,
+        "textureIdx": 99,
         "tileType": 0
     },
     "tree_008": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 99,
+        "textureIdx": 116,
         "tileType": 0
     },
     "tree_009": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 100,
+        "textureIdx": 117,
         "tileType": 0
     },
     "tree_010": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 101,
+        "textureIdx": 118,
         "tileType": 0
     },
     "tree_011": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 102,
+        "textureIdx": 119,
         "tileType": 0
     },
     "tree_012": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 109,
+        "textureIdx": 126,
         "tileType": 0
     },
     "tree_013": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 119,
+        "textureIdx": 136,
         "tileType": 0
     },
     "tree_014": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 120,
+        "textureIdx": 137,
         "tileType": 0
     },
     "tree_015": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 121,
+        "textureIdx": 138,
         "tileType": 0
     },
     "tree_016": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 122,
+        "textureIdx": 139,
         "tileType": 0
     },
     "water_007": {
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 62,
+        "textureIdx": 73,
         "tileType": 0
     },
     "wood_001": {
@@ -1250,7 +1229,7 @@
         "boundsHeight": 0,
         "boundsWidth": 0,
         "entityType": 0,
-        "textureIdx": 24,
+        "textureIdx": 26,
         "tileType": 0
     }
 }
