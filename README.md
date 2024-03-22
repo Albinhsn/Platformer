@@ -7,8 +7,8 @@
 ### Interaction with ui
 - [ ] fix everything from test map
     - [ ] the pole thingy that move when you move over it
-    - [ ] the bouncing thing
-    - [ ] ladders
+    - [x] the bouncing thing
+    - [x] ladders
     - [x] gather emeralds/key
     - [x] take dmg from spikes
     - [x] See if you can animate the water

@@ -213,7 +213,6 @@ void parseTilesFromJson(Json* json, Map* map)
       tile->item           = (Item*)malloc(sizeof(Item));
       tile->item->type     = tileData->itemData.itemType;
       tile->item->pickedUp = false;
-          printf("Got item %d\n", tile->item->type);
       break;
     }
     case ENTITY_TYPE_CLOUD:
@@ -236,9 +235,11 @@ void parseTilesFromJson(Json* json, Map* map)
       tile->enemy = (Enemy*)malloc(sizeof(Enemy));
       break;
     }
-    case ENTITY_TYPE_SRPING:
+    case ENTITY_TYPE_SPRING:
     {
-      tile->spring = (Spring*)malloc(sizeof(Spring));
+      tile->spring              = (Spring*)malloc(sizeof(Spring));
+      tile->spring->cd          = 500;
+      tile->spring->lastPressed = 0;
       break;
     }
     case ENTITY_TYPE_SPIKES:

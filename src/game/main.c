@@ -37,8 +37,8 @@ static void         resetPlayer(Player* player, Map* map)
   {
     free(player->items);
   }
-  player->itemCap = 3;
-  player->items   = (Item**)malloc(sizeof(Item*) * player->itemCap);
+  player->itemCap  = 3;
+  player->items    = (Item**)malloc(sizeof(Item*) * player->itemCap);
 }
 
 static void resetGame(Game* game)
@@ -154,6 +154,7 @@ void initGame(Game* game)
   game->player.yAcc   = 0;
   game->player.hp     = 3;
   initEntity(game->player.entity, 0.0f, 90.0f, 5.0f, 5.0f, 0, 0.5f, false);
+  game->player.grounded = false;
 }
 
 void clearGlobalEntites()

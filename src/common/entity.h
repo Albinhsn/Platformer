@@ -13,8 +13,9 @@ enum EntityType
   ENTITY_TYPE_LEVER  = 3,
   ENTITY_TYPE_BUTTON = 4,
   ENTITY_TYPE_ENEMY  = 5,
-  ENTITY_TYPE_SRPING = 6,
-  ENTITY_TYPE_SPIKES = 7
+  ENTITY_TYPE_SPRING = 6,
+  ENTITY_TYPE_SPIKES = 7,
+  ENTITY_TYPE_VERT = 8
 };
 typedef enum EntityType EntityType;
 
@@ -103,6 +104,15 @@ struct Player
   Item**  items;
   f32     yAcc;
   f32     xAcc;
+  union
+  {
+    u8 flags;
+    struct
+    {
+      bool grounded;
+      bool moveVertically;
+    };
+  };
 };
 
 typedef struct Player Player;
@@ -160,6 +170,7 @@ void          initGlobalEntities();
 void          initEntity(Entity* entity, f32 x, f32 y, f32 width, f32 height, u64 textureIdx, f32 movementSpeed, bool animated);
 void          initPlayer(Player* player);
 
+bool          isGrounded(Player* player, Map* map);
 bool          entitiesCollided(Entity* e1, Entity* e2);
 
 void          updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map);

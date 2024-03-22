@@ -180,7 +180,7 @@
         },
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 6,
         "tileType": 1
     },
     "char_square_001": {
@@ -206,7 +206,7 @@
         },
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 8,
         "tileType": 1
     },
     "waterfallBot_001": {
@@ -219,7 +219,7 @@
         },
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 8,
         "tileType": 1
     },
     "waterfallMid_001": {
@@ -232,7 +232,7 @@
         },
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 8,
         "tileType": 1
     },
     "waterfallTop_001": {
@@ -245,7 +245,7 @@
         },
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 8,
         "tileType": 1
     },
     "woodCoin_001": {
@@ -854,28 +854,28 @@
     "ladder_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 8,
         "textureIdx": 51,
         "tileType": 1
     },
     "ladder_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 8,
         "textureIdx": 71,
         "tileType": 1
     },
     "ladder_003": {
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 8,
         "textureIdx": 105,
         "tileType": 1
     },
     "ladder_004": {
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 8,
         "textureIdx": 106,
         "tileType": 1
     },
@@ -1218,7 +1218,7 @@
     "water_007": {
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 8,
         "textureIdx": 73,
         "tileType": 1
     },

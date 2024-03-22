@@ -2,6 +2,7 @@
 #include "animation.h"
 #include "common.h"
 #include "sta_string.h"
+#include <limits.h>
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -82,7 +83,7 @@ static bool collided(Player* player, Map* map)
 #define MAX_GRAVITY          -1.0f
 #define GRAVITY_DELTA        0.5f
 
-static bool isGrounded(Player* player, Map* map)
+bool isGrounded(Player* player, Map* map)
 {
   if (player->yAcc > 0)
   {
@@ -153,7 +154,8 @@ static void handleInteractions(Player* player, Timer* timer, Map* map)
   for (u8 i = 0; i < tileCount; i++)
   {
     Tile* tile = &map->tiles[i];
-    if(tile->entity == 0){
+    if (tile->entity == 0)
+    {
       continue;
     }
     if (entitiesCollided(player->entity, tile->entity))
@@ -178,10 +180,41 @@ static void handleInteractions(Player* player, Timer* timer, Map* map)
         }
         break;
       }
+      case ENTITY_TYPE_SPRING:
+      {
+        if (tile->spring->lastPressed + tile->spring->cd <= timer->lastTick)
+        {
+          Animation* springAnimation = tile->entity->animation;
+          springAnimation->currentTexture++;
+          springAnimation->currentTexture %= springAnimation->animationData->textureCount;
+          springAnimation->animationData->timer = tile->spring->cd;
+          tile->spring->lastPressed             = timer->lastTick;
+          player->yAcc += getStateVariable("jump");
+          player->grounded = false;
+        }
+        break;
+      }
+      case ENTITY_TYPE_VERT:
+      {
+        player->moveVertically = true;
+        break;
+      }
 
       default:
       {
       }
+      }
+    }
+    else
+    {
+      if (tile->entityType == ENTITY_TYPE_SPRING)
+      {
+        if (tile->spring->lastPressed + tile->spring->cd <= timer->lastTick)
+        {
+          Animation* springAnimation      = tile->entity->animation;
+          springAnimation->currentTexture = 0;
+          springAnimation->lastUpdate     = LONG_MAX;
+        }
       }
     }
   }
@@ -190,16 +223,30 @@ static void handleInteractions(Player* player, Timer* timer, Map* map)
 void updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map)
 {
 
-  if (!isGrounded(player, map) || player->yAcc > 0)
+  handleInteractions(player, timer, map);
+  if (player->moveVertically)
   {
-    player->yAcc -= GRAVITY_DELTA;
-    player->yAcc = player->yAcc < MAX_GRAVITY ? MAX_GRAVITY : player->yAcc;
+
+    player->yAcc = inputState->keyboardStateDown['w'];
+    player->yAcc -= inputState->keyboardStateDown['s'];
+  }
+  else if (!player->grounded)
+  {
+    if (isGrounded(player, map))
+    {
+      player->grounded = true;
+    }
+    else
+    {
+      player->yAcc -= GRAVITY_DELTA;
+      player->yAcc = player->yAcc < MAX_GRAVITY ? MAX_GRAVITY : player->yAcc;
+    }
   }
   else
   {
-    player->yAcc = inputState->keyboardStateDown['w'] ? getStateVariable("jump") : 0;
+    player->yAcc     = inputState->keyboardStateDown['w'] ? getStateVariable("jump") : 0;
+    player->grounded = false;
   }
-  handleInteractions(player, timer, map);
 
   f32 xAcc = 0.0f;
   xAcc += inputState->keyboardStateDown['d'];
@@ -217,6 +264,8 @@ void updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map
   {
     entity->y -= player->yAcc;
   }
+
+  player->moveVertically = false;
 }
 
 void initEntity(Entity* entity, f32 x, f32 y, f32 width, f32 height, u64 textureIdx, f32 movementSpeed, bool animated)
