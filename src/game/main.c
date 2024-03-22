@@ -82,17 +82,17 @@ static void checkEndLevel(UIState* state, Game* game)
 static void gameLoop(UIState* state, InputState* inputState, Game* game)
 {
   updateTimer(&game->timer);
-  // if (shouldHandleUpdates(&game->timer, &game->lastUpdated))
-  // {
-  if (handleInput(inputState))
+  if (shouldHandleUpdates(&game->timer, &game->lastUpdated))
   {
-    *state = UI_EXIT;
+    if (handleInput(inputState))
+    {
+      *state = UI_EXIT;
+    }
+    updatePlayer(inputState, &game->player, &game->timer, &game->map);
+    checkEndLevel(state, game);
   }
-  //   updatePlayer(inputState, &game->player, &game->timer, &game->map);
-  //   checkEndLevel(state, game);
-  // }
   renderMap(&game->map, &game->timer);
-  // renderEntity(game->player.entity);
+  renderEntity(game->player.entity);
 }
 
 static void renderInfoStrings(u64* prevTick)
@@ -145,7 +145,7 @@ void initGame(Game* game)
 
   game->player.entity = getNewEntity();
   game->player.yAcc   = 0;
-  initEntity(game->player.entity, 0.0f, 0.0f, 5.0f, 5.0f, 0, 0.5f, false);
+  initEntity(game->player.entity, 0.0f, 90.0f, 5.0f, 5.0f, 0, 0.5f, false);
 }
 
 void clearGlobalEntites()
@@ -189,27 +189,27 @@ i32 main(int argc, char* argv[])
 
     initNewFrame(BLACK);
 
-    // if (inputState.keyboardStateRelease['c'])
-    // {
-    //   updateUIState(&ui, UI_CONSOLE, &game.timer);
-    // }
+    if (inputState.keyboardStateRelease['c'])
+    {
+      updateUIState(&ui, UI_CONSOLE, &game.timer);
+    }
 
-    // if (ui.state == UI_GAME_RUNNING)
-    // {
-    //   if (getStateVariable("reset") == 1)
-    //   {
-    //     resetGame(&game);
-    //   }
-    gameLoop(&ui.state, &inputState, &game);
-    // }
-    // else if (handleInput(&inputState))
-    // {
-    //   break;
-    // }
+    if (ui.state == UI_GAME_RUNNING)
+    {
+      if (getStateVariable("reset") == 1)
+      {
+        resetGame(&game);
+      }
+      gameLoop(&ui.state, &inputState, &game);
+    }
+    else if (handleInput(&inputState))
+    {
+      break;
+    }
 
-    // UIState newState = renderUI(&ui, &inputState);
-    // updateUIState(&ui, newState, &game.timer);
-    // renderInfoStrings(&prevTick);
+    UIState newState = renderUI(&ui, &inputState);
+    updateUIState(&ui, newState, &game.timer);
+    renderInfoStrings(&prevTick);
 
     SDL_GL_SwapWindow(g_renderer.window);
   }

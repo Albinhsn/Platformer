@@ -65,34 +65,13 @@ Entity* getNewEntity()
 
 static bool collided(Player* player, Map* map)
 {
-  f32 minX      = player->entity->x - player->entity->width;
-  f32 maxX      = player->entity->x + player->entity->width;
 
-  f32 minY      = player->entity->y - player->entity->height;
-  f32 maxY      = player->entity->y + player->entity->height;
-
-  u8  tileCount = map->tileCount;
-
-  u8  maxWidth  = map->width;
-  u8  maxHeight = map->height;
-
-  f32 width     = (1.0f / (f32)maxWidth) * 100.0f;
-  f32 height    = (1.0f / (f32)maxHeight) * 100.0f;
+  u8 tileCount = map->tileCount;
 
   for (u8 i = 0; i < tileCount; i++)
   {
     Entity* tileEntity = map->tiles[i].entity;
-    f32     x          = ((tileEntity->x / (f32)maxWidth) * 2.0f - 1.0f) * 100.0f;
-    f32     y          = -((tileEntity->y / (f32)maxHeight) * 2.0f - 1.0f) * 100.0f;
-
-    f32     minTileX   = x - width;
-    f32     maxTileX   = x + width;
-
-    f32     minTileY   = y - height;
-    f32     maxTileY   = y + height;
-    bool    ground     = map->tiles[i].type == TILE_TYPE_GROUND;
-
-    if (ground && !(minX > maxTileX || maxX < minTileX) && !(minY > maxTileY) && !(maxY < minTileY))
+    if (map->tiles[i].type == 0 && entitiesCollided(player->entity, tileEntity))
     {
       return true;
     }
@@ -172,7 +151,7 @@ void updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map
   }
 
   entity->y += player->yAcc;
-  if (!withinScreen(entity))
+  if (!withinScreen(entity) || collided(player, map))
   {
     entity->y -= player->yAcc;
   }

@@ -471,5 +471,6 @@ void renderMap(Map* map, Timer* timer)
     {
       renderTextureTile(entity->x, entity->y, width, height, TEXTURE_TILES, entity->textureIdx);
     }
+    renderUnfilledQuad(CREATE_VEC2f32(entity->x - entity->width, entity->y - entity->height), CREATE_VEC2f32(entity->x + entity->width, entity->y + entity->height), 2, &RED);
   }
 }

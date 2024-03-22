@@ -1,4 +1,5 @@
 #include "asset.h"
+#include "json.h"
 #include "sta_string.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -100,17 +101,9 @@ void setTileMapping(const char* key, f32 value)
   printf("INFO: Setting tilemapping '%s' as %lf\n", key, value);
 }
 
-static i32 sortTileData(const void* a_, const void* b_)
-{
-  TileData* a = (TileData*)a_;
-  TileData* b = (TileData*)b_;
-
-  return sta_compareString(a->name, b->name);
-}
-
 void loadTileData()
 {
-  const char* tileLocation = "./Assets/variables/tiles_03.json";
+  const char* tileLocation = "./Assets/variables/tiles_04.json";
   String      fileString   = {.buffer = (char*)tileLocation, .len = strlen(tileLocation), .capacity = 0};
   Json        tileJson;
   Arena       arena;
@@ -125,6 +118,7 @@ void loadTileData()
     data->name           = tileKeys[i];
 
     JsonObject tileObj   = tileValues[i].obj;
+    data->tileType       = lookupJsonElement(&tileObj, "tileType")->number;
 
     JsonValue* animation = lookupJsonElement(&tileObj, "animation");
     if (animation)
@@ -176,8 +170,8 @@ void parseTilesFromJson(Json* json, Map* map)
     Entity* tileEntity   = tile->entity;
     tileEntity->x        = ((x / (f32)mapWidth) * 2.0f - 1.0f) * 100.0f;
     tileEntity->y        = -((((f32)y - 0.5f) / (f32)mapHeight) * 2.0f - 1.0f) * 100.0f;
-    tileEntity->height   = (1 / (f32)mapHeight) * 200.0f;
-    tileEntity->width    = (1 / (f32)mapWidth) * 200.0f;
+    tileEntity->height   = (1 / (f32)mapHeight) * 100.0f;
+    tileEntity->width    = (1 / (f32)mapWidth) * 100.0f;
 
     u64       textureIdx = (lookupJsonElement(&tileObj, "textureIdx"))->number;
 
@@ -201,6 +195,7 @@ void parseTilesFromJson(Json* json, Map* map)
 
     tile->entityType = tileData->entityType;
     tile->type       = tileData->tileType;
+    printf("%d\n", tile->type);
     switch (tile->entityType)
     {
     case ENTITY_TYPE_DUMB:
