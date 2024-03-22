@@ -5,7 +5,7 @@
 void          updateAnimation(Animation* animation, Timer* timer)
 {
   u32 currentTick = timer->lastTick;
-  if (currentTick - animation->animationData->timer > animation->lastUpdate)
+  if (currentTick - animation->animationData->timer > animation->lastUpdate && animation->shouldBeUpdated)
   {
     animation->lastUpdate = currentTick;
     animation->currentTexture++;
@@ -18,4 +18,5 @@ void initAnimation(Animation* animation, AnimationData* data)
   animation->animationData  = data;
   animation->lastUpdate     = 0;
   animation->currentTexture = 0;
+  animation->shouldBeUpdated = true;
 }

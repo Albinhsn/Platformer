@@ -6,9 +6,9 @@
 
 struct AnimationData
 {
-  u64*   textureIds;
-  u64    textureCount;
-  u64    timer;
+  u64* textureIds;
+  u64  textureCount;
+  u64  timer;
 };
 typedef struct AnimationData AnimationData;
 
@@ -17,9 +17,9 @@ struct Animation
   AnimationData* animationData;
   u64            lastUpdate;
   u64            currentTexture;
+  bool           shouldBeUpdated;
 };
 typedef struct Animation Animation;
-
 
 void                     initAnimation(Animation* animation, AnimationData* data);
 void                     updateAnimation(Animation* animation, Timer* timer);

@@ -85,7 +85,8 @@ typedef struct Button Button;
 
 struct Lever
 {
-  u8 state;
+  u64 lastUpdated;
+  u64 cd;
 };
 typedef struct Lever Lever;
 

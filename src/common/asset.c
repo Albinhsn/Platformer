@@ -203,6 +203,10 @@ void parseTilesFromJson(Json* json, Map* map)
     tile->type       = tileData->tileType;
     switch (tile->entityType)
     {
+    case ENTITY_TYPE_VERT:
+    {
+      break;
+    }
     case ENTITY_TYPE_DUMB:
     {
       tile->cloud = 0;
@@ -222,7 +226,10 @@ void parseTilesFromJson(Json* json, Map* map)
     }
     case ENTITY_TYPE_LEVER:
     {
-      tile->lever = (Lever*)malloc(sizeof(Lever));
+      tile->lever                              = (Lever*)malloc(sizeof(Lever));
+      tile->lever->cd                          = 50;
+      tile->lever->lastUpdated                 = 0;
+      tile->entity->animation->shouldBeUpdated = false;
       break;
     }
     case ENTITY_TYPE_BUTTON:

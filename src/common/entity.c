@@ -162,11 +162,33 @@ static void handleInteractions(Player* player, Timer* timer, Map* map)
     {
       switch (tile->entityType)
       {
+      case ENTITY_TYPE_LEVER:
+      {
+        // ToDo this need to be more fine grained
+        if (tile->lever->cd + tile->lever->lastUpdated <= timer->lastTick)
+        {
+          tile->lever->lastUpdated  = timer->lastTick;
+          Animation* leverAnimation = tile->entity->animation;
+          if (player->entity->x < tile->entity->x)
+          {
+            leverAnimation->currentTexture++;
+            leverAnimation->currentTexture = MIN(leverAnimation->currentTexture, (leverAnimation->animationData->textureCount - 1));
+          }
+          else
+          {
+            leverAnimation->currentTexture--;
+            leverAnimation->currentTexture = MAX(((i32)leverAnimation->currentTexture), 0);
+          }
+        }
+        break;
+      }
       case ENTITY_TYPE_SPIKES:
       {
         if (updateSpike(timer, tile->spike))
+        {
           player->yAcc = getStateVariable("jump") * 0.75f;
-        player->hp--;
+          player->hp--;
+        }
         printf("TOOK DMG %ld\n", player->hp);
         break;
       }
