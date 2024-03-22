@@ -460,6 +460,10 @@ void renderMap(Map* map, Timer* timer)
   for (u32 i = 0; i < map->tileCount; i++)
   {
     Entity* entity = map->tiles[i].entity;
+    if (!entity)
+    {
+      continue;
+    }
 
     if (entity->animated)
     {

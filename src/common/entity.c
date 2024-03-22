@@ -105,10 +105,14 @@ static bool isGrounded(Player* player, Map* map)
   for (u8 i = 0; i < tileCount; i++)
   {
     Entity* tileEntity = map->tiles[i].entity;
+    if (tileEntity == 0)
+    {
+      continue;
+    }
 
-    bool    withinX    = !(minX > tileEntity->x + width || maxX < tileEntity->x - width);
-    bool    groundedY  = maxY > tileEntity->y + height && maxY - (tileEntity->y + height) <= 1.0f;
-    bool    ground     = map->tiles[i].type == TILE_TYPE_GROUND;
+    bool withinX   = !(minX > tileEntity->x + width || maxX < tileEntity->x - width);
+    bool groundedY = maxY > tileEntity->y + height && maxY - (tileEntity->y + height) <= 1.0f;
+    bool ground    = map->tiles[i].type == TILE_TYPE_GROUND;
 
     if (withinX && groundedY && ground)
     {
@@ -128,27 +132,57 @@ static bool updateSpike(Timer* timer, Spike* spike)
   return false;
 }
 
+static void pickupItem(Player* player, Item* item)
+{
+  for (u64 i = 0; i < player->itemCap; i++)
+  {
+    if (player->items[i] == 0)
+    {
+      player->items[i] = item;
+      item->pickedUp   = true;
+      printf("picked up %ld\n", (u64)item);
+      break;
+    }
+  }
+}
+
 static void handleInteractions(Player* player, Timer* timer, Map* map)
 {
 
   u8 tileCount = map->tileCount;
   for (u8 i = 0; i < tileCount; i++)
   {
-    switch (map->tiles[i].entityType)
+    Tile* tile = &map->tiles[i];
+    if(tile->entity == 0){
+      continue;
+    }
+    if (entitiesCollided(player->entity, tile->entity))
     {
-    case ENTITY_TYPE_SPIKES:
-    {
-      if (entitiesCollided(player->entity, map->tiles[i].entity) && updateSpike(timer, map->tiles[i].spike))
+      switch (tile->entityType)
       {
-        player->yAcc = getStateVariable("jump") * 0.75f;
+      case ENTITY_TYPE_SPIKES:
+      {
+        if (updateSpike(timer, tile->spike))
+          player->yAcc = getStateVariable("jump") * 0.75f;
         player->hp--;
         printf("TOOK DMG %ld\n", player->hp);
+        break;
       }
-      break;
-    }
-    default:
-    {
-    }
+      case ENTITY_TYPE_ITEM:
+      {
+        if (!tile->item->pickedUp)
+        {
+          printf("Picked up item!\n");
+          pickupItem(player, tile->item);
+          tile->entity = 0;
+        }
+        break;
+      }
+
+      default:
+      {
+      }
+      }
     }
   }
 }

@@ -115,12 +115,16 @@ void loadTileData()
   String*    tileKeys   = tileJson.obj.keys;
   for (u64 i = 0; i < tileJson.obj.size; i++)
   {
-    TileData* data       = &g_tileData[g_tileDataCounter++];
-    data->name           = tileKeys[i];
+    TileData* data     = &g_tileData[g_tileDataCounter++];
+    data->name         = tileKeys[i];
 
-    JsonObject tileObj   = tileValues[i].obj;
-    data->tileType       = lookupJsonElement(&tileObj, "tileType")->number;
-    data->entityType     = lookupJsonElement(&tileObj, "entityType")->number;
+    JsonObject tileObj = tileValues[i].obj;
+    data->tileType     = lookupJsonElement(&tileObj, "tileType")->number;
+    data->entityType   = lookupJsonElement(&tileObj, "entityType")->number;
+    if (data->entityType == ENTITY_TYPE_ITEM)
+    {
+      data->itemData.itemType = lookupJsonElement(&tileObj, "itemType")->number;
+    }
 
     JsonValue* animation = lookupJsonElement(&tileObj, "animation");
     if (animation)
@@ -196,7 +200,7 @@ void parseTilesFromJson(Json* json, Map* map)
     }
 
     tile->entityType = tileData->entityType;
-    tile->type = tileData->tileType;
+    tile->type       = tileData->tileType;
     switch (tile->entityType)
     {
     case ENTITY_TYPE_DUMB:
@@ -206,7 +210,10 @@ void parseTilesFromJson(Json* json, Map* map)
     }
     case ENTITY_TYPE_ITEM:
     {
-      tile->item = (Item*)malloc(sizeof(Item));
+      tile->item           = (Item*)malloc(sizeof(Item));
+      tile->item->type     = tileData->itemData.itemType;
+      tile->item->pickedUp = false;
+          printf("Got item %d\n", tile->item->type);
       break;
     }
     case ENTITY_TYPE_CLOUD:
@@ -236,7 +243,7 @@ void parseTilesFromJson(Json* json, Map* map)
     }
     case ENTITY_TYPE_SPIKES:
     {
-      tile->spike = (Spike*)malloc(sizeof(Spike));
+      tile->spike           = (Spike*)malloc(sizeof(Spike));
       tile->spike->lastUsed = 0;
       tile->spike->cooldown = 100;
       break;

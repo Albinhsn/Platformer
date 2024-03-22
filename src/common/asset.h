@@ -6,6 +6,12 @@
 #include "entity.h"
 #include "json.h"
 
+struct TileDataItem
+{
+  ItemType itemType;
+};
+typedef struct TileDataItem TileDataItem;
+
 struct TileData
 {
   f32    boundsWidth;
@@ -13,6 +19,10 @@ struct TileData
   f32    entityType;
   f32    tileType;
   String name;
+  union
+  {
+    TileDataItem itemData;
+  };
   union
   {
     AnimationData animationData;

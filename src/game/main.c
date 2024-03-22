@@ -33,6 +33,12 @@ static void         resetPlayer(Player* player, Map* map)
     player->entity->y = 0.0f;
   }
   player->hp = 3;
+  if (player->items)
+  {
+    free(player->items);
+  }
+  player->itemCap = 3;
+  player->items   = (Item**)malloc(sizeof(Item*) * player->itemCap);
 }
 
 static void resetGame(Game* game)

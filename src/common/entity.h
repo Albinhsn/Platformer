@@ -64,13 +64,15 @@ typedef struct Cloud Cloud;
 enum ItemType
 {
   EMERALD,
-  KEY
+  KEY,
+  COIN
 };
 typedef enum ItemType ItemType;
 
 struct Item
 {
   ItemType type;
+  bool     pickedUp;
 };
 typedef struct Item Item;
 
@@ -97,7 +99,8 @@ struct Player
 {
   Entity* entity;
   u64     hp;
-  Item*   items;
+  u64     itemCap;
+  Item**  items;
   f32     yAcc;
   f32     xAcc;
 };
@@ -122,7 +125,7 @@ struct Tile
     Button* button;
     Enemy*  enemy;
     Spring* spring;
-    Spike* spike;
+    Spike*  spike;
   };
   TileType   type;
   EntityType entityType;

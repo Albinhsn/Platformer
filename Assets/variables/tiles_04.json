@@ -48,7 +48,8 @@
         },
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 2,
+        "itemType": 2,
         "tileType": 1
     },
     "flagTop_001": {
@@ -257,7 +258,8 @@
         },
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 2,
+        "itemType": 2,
         "tileType": 1
     },
     "octopus_yellow_001": {
@@ -423,7 +425,8 @@
     "diamond_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 2,
+        "itemType": 0,
         "textureIdx": 67,
         "tileType": 1
     },
@@ -845,6 +848,7 @@
         "boundsWidth": 0,
         "entityType": 0,
         "textureIdx": 27,
+        "itemType": 1,
         "tileType": 1
     },
     "ladder_001": {

@@ -9,7 +9,7 @@
     - [ ] the pole thingy that move when you move over it
     - [ ] the bouncing thing
     - [ ] ladders
-    - [ ] gather emeralds/key
+    - [x] gather emeralds/key
     - [x] take dmg from spikes
     - [x] See if you can animate the water
     - [x] animate flag
