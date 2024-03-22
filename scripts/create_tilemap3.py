@@ -969,7 +969,7 @@ M = {
     "spikes_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 7,
         "textureIdx": 68,
         "tileType": 1,
     },

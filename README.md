@@ -10,7 +10,7 @@
     - [ ] the bouncing thing
     - [ ] ladders
     - [ ] gather emeralds/key
-    - [ ] take dmg from spikes
+    - [x] take dmg from spikes
     - [x] See if you can animate the water
     - [x] animate flag
     - [ ] Have x3 clouds move

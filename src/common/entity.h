@@ -7,13 +7,14 @@
 
 enum EntityType
 {
-  ENTITY_TYPE_DUMB,
-  ENTITY_TYPE_CLOUD,
-  ENTITY_TYPE_ITEM,
-  ENTITY_TYPE_LEVER,
-  ENTITY_TYPE_BUTTON,
-  ENTITY_TYPE_ENEMY,
-  ENTITY_TYPE_SRPING
+  ENTITY_TYPE_DUMB   = 0,
+  ENTITY_TYPE_CLOUD  = 1,
+  ENTITY_TYPE_ITEM   = 2,
+  ENTITY_TYPE_LEVER  = 3,
+  ENTITY_TYPE_BUTTON = 4,
+  ENTITY_TYPE_ENEMY  = 5,
+  ENTITY_TYPE_SRPING = 6,
+  ENTITY_TYPE_SPIKES = 7
 };
 typedef enum EntityType EntityType;
 
@@ -95,12 +96,20 @@ typedef struct Spring Spring;
 struct Player
 {
   Entity* entity;
+  u64     hp;
   Item*   items;
   f32     yAcc;
   f32     xAcc;
 };
 
 typedef struct Player Player;
+
+struct Spike
+{
+  u64 lastUsed;
+  u64 cooldown;
+};
+typedef struct Spike Spike;
 
 struct Tile
 {
@@ -113,6 +122,7 @@ struct Tile
     Button* button;
     Enemy*  enemy;
     Spring* spring;
+    Spike* spike;
   };
   TileType   type;
   EntityType entityType;

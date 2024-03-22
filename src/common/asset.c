@@ -1,4 +1,5 @@
 #include "asset.h"
+#include "entity.h"
 #include "json.h"
 #include "sta_string.h"
 #include <stdio.h>
@@ -119,6 +120,7 @@ void loadTileData()
 
     JsonObject tileObj   = tileValues[i].obj;
     data->tileType       = lookupJsonElement(&tileObj, "tileType")->number;
+    data->entityType     = lookupJsonElement(&tileObj, "entityType")->number;
 
     JsonValue* animation = lookupJsonElement(&tileObj, "animation");
     if (animation)
@@ -194,8 +196,7 @@ void parseTilesFromJson(Json* json, Map* map)
     }
 
     tile->entityType = tileData->entityType;
-    tile->type       = tileData->tileType;
-    printf("%d\n", tile->type);
+    tile->type = tileData->tileType;
     switch (tile->entityType)
     {
     case ENTITY_TYPE_DUMB:
@@ -231,6 +232,13 @@ void parseTilesFromJson(Json* json, Map* map)
     case ENTITY_TYPE_SRPING:
     {
       tile->spring = (Spring*)malloc(sizeof(Spring));
+      break;
+    }
+    case ENTITY_TYPE_SPIKES:
+    {
+      tile->spike = (Spike*)malloc(sizeof(Spike));
+      tile->spike->lastUsed = 0;
+      tile->spike->cooldown = 100;
       break;
     }
     }

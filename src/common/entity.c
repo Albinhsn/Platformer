@@ -118,10 +118,43 @@ static bool isGrounded(Player* player, Map* map)
   return false;
 }
 
-void updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map)
+static bool updateSpike(Timer* timer, Spike* spike)
+{
+  if (timer->lastTick >= spike->lastUsed + spike->cooldown)
+  {
+    spike->lastUsed = timer->lastTick;
+    return true;
+  }
+  return false;
+}
+
+static void handleInteractions(Player* player, Timer* timer, Map* map)
 {
 
-  f32 xAcc = 0.0f;
+  u8 tileCount = map->tileCount;
+  for (u8 i = 0; i < tileCount; i++)
+  {
+    switch (map->tiles[i].entityType)
+    {
+    case ENTITY_TYPE_SPIKES:
+    {
+      if (entitiesCollided(player->entity, map->tiles[i].entity) && updateSpike(timer, map->tiles[i].spike))
+      {
+        player->yAcc = getStateVariable("jump") * 0.75f;
+        player->hp--;
+        printf("TOOK DMG %ld\n", player->hp);
+      }
+      break;
+    }
+    default:
+    {
+    }
+    }
+  }
+}
+
+void updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map)
+{
 
   if (!isGrounded(player, map) || player->yAcc > 0)
   {
@@ -132,18 +165,13 @@ void updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map
   {
     player->yAcc = inputState->keyboardStateDown['w'] ? getStateVariable("jump") : 0;
   }
+  handleInteractions(player, timer, map);
 
-  if (inputState->keyboardStateDown['d'])
-  {
-    xAcc += 1.0f;
-  }
-  if (inputState->keyboardStateDown['a'])
-  {
-    xAcc -= 1.0f;
-  }
+  f32 xAcc = 0.0f;
+  xAcc += inputState->keyboardStateDown['d'];
+  xAcc -= inputState->keyboardStateDown['a'];
 
   Entity* entity = player->entity;
-
   entity->x += xAcc;
   if (!withinScreen(entity) || collided(player, map))
   {

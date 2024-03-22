@@ -32,6 +32,7 @@ static void         resetPlayer(Player* player, Map* map)
     player->entity->x = 0.0f;
     player->entity->y = 0.0f;
   }
+  player->hp = 3;
 }
 
 static void resetGame(Game* game)
@@ -145,6 +146,7 @@ void initGame(Game* game)
 
   game->player.entity = getNewEntity();
   game->player.yAcc   = 0;
+  game->player.hp     = 3;
   initEntity(game->player.entity, 0.0f, 90.0f, 5.0f, 5.0f, 0, 0.5f, false);
 }
 
