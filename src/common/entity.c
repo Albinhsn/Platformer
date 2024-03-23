@@ -179,7 +179,7 @@ static void handleLeverCollision(Tile* tile, Player* player, Timer* timer)
   }
 }
 
-static void handleInteractions(Player* player, Timer* timer, Map* map)
+static void handleTileInteractions(Player* player, Timer* timer, Map* map)
 {
 
   u8 tileCount = map->tileCount;
@@ -194,6 +194,18 @@ static void handleInteractions(Player* player, Timer* timer, Map* map)
     {
       switch (tile->entityType)
       {
+      case ENTITY_TYPE_BUTTON:
+      {
+        Button* button = tile->button;
+        if (!button->onTopOff)
+        {
+          button->pressed      = !button->pressed;
+          button->onTopOff     = true;
+          Animation* anim      = tile->entity->animation;
+          anim->currentTexture = button->pressed;
+        }
+        break;
+      }
       case ENTITY_TYPE_LEVER:
       {
         handleLeverCollision(tile, player, timer);
@@ -204,9 +216,9 @@ static void handleInteractions(Player* player, Timer* timer, Map* map)
         if (updateSpike(timer, tile->spike))
         {
           player->yAcc = getStateVariable("jump") * 0.75f;
+              player->grounded = false;
           player->hp--;
         }
-        printf("TOOK DMG %ld\n", player->hp);
         break;
       }
       case ENTITY_TYPE_ITEM:
@@ -258,6 +270,11 @@ static void handleInteractions(Player* player, Timer* timer, Map* map)
       {
         tile->lever->side = 0;
       }
+      if (tile->entityType == ENTITY_TYPE_BUTTON)
+      {
+        Button* button   = tile->button;
+        button->onTopOff = false;
+      }
     }
   }
 }
@@ -265,7 +282,7 @@ static void handleInteractions(Player* player, Timer* timer, Map* map)
 void updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map)
 {
 
-  handleInteractions(player, timer, map);
+  handleTileInteractions(player, timer, map);
   if (player->moveVertically)
   {
 
@@ -323,7 +340,7 @@ void updateEntities(Map* map, Timer* timer)
         Cloud* cloud = tile->cloud;
         if (cloud->lastUpdated + 16 <= timer->lastTick)
         {
-          Entity * entity = tile->entity;
+          Entity* entity = tile->entity;
           entity->x += cloud->xAcc;
           entity->y += cloud->yAcc;
           cloud->lastUpdated = timer->lastTick;

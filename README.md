@@ -12,6 +12,7 @@
     - [x] See if you can animate the water
     - [x] animate flag
     - [x] Have 1 cloud move
+    - [x] Button
     - [ ] actually clean up entity code
         - [ ] have some things be in data instead of hardcoded
 ### Random

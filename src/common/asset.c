@@ -163,6 +163,7 @@ void parseTilesFromJson(Json* json, Map* map)
 
   map->tiles          = (Tile*)malloc(sizeof(Tile) * array.arraySize);
   map->tileCount      = array.arraySize;
+  printf("Got %d tiles\n", map->tileCount);
 
   for (u32 i = 0; i < array.arraySize; i++)
   {
@@ -241,7 +242,10 @@ void parseTilesFromJson(Json* json, Map* map)
     }
     case ENTITY_TYPE_BUTTON:
     {
-      tile->button = (Button*)malloc(sizeof(Button));
+      tile->button                             = (Button*)malloc(sizeof(Button));
+      tile->button->pressed                    = false;
+      tile->button->onTopOff                   = false;
+      tile->entity->animation->shouldBeUpdated = false;
       break;
     }
     case ENTITY_TYPE_ENEMY:

@@ -15,7 +15,7 @@ enum EntityType
   ENTITY_TYPE_ENEMY  = 5,
   ENTITY_TYPE_SPRING = 6,
   ENTITY_TYPE_SPIKES = 7,
-  ENTITY_TYPE_VERT = 8
+  ENTITY_TYPE_VERT   = 8
 };
 typedef enum EntityType EntityType;
 
@@ -55,12 +55,12 @@ typedef struct Enemy Enemy;
 struct Cloud
 {
   u64 lastUpdated;
-  f32     xAcc;
-  f32     yAcc;
-  f32     minX;
-  f32     minY;
-  f32     maxX;
-  f32     maxY;
+  f32 xAcc;
+  f32 yAcc;
+  f32 minX;
+  f32 minY;
+  f32 maxX;
+  f32 maxY;
 };
 typedef struct Cloud Cloud;
 
@@ -82,6 +82,7 @@ typedef struct Item Item;
 struct Button
 {
   bool pressed;
+  bool onTopOff;
 };
 typedef struct Button Button;
 
@@ -89,7 +90,7 @@ struct Lever
 {
   u64 lastUpdated;
   u64 cd;
-  i8 side;
+  i8  side;
 };
 typedef struct Lever Lever;
 
@@ -176,7 +177,7 @@ void          initPlayer(Player* player);
 
 bool          isGrounded(Player* player, Map* map);
 bool          entitiesCollided(Entity* e1, Entity* e2);
-void updateEntities(Map * map, Timer * timer);
+void          updateEntities(Map* map, Timer* timer);
 
 void          updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map);
 
