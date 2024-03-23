@@ -54,9 +54,11 @@ typedef struct Enemy Enemy;
 
 struct Cloud
 {
-  Entity* entities;
+  u64 lastUpdated;
   f32     xAcc;
   f32     yAcc;
+  f32     minX;
+  f32     minY;
   f32     maxX;
   f32     maxY;
 };
@@ -174,6 +176,7 @@ void          initPlayer(Player* player);
 
 bool          isGrounded(Player* player, Map* map);
 bool          entitiesCollided(Entity* e1, Entity* e2);
+void updateEntities(Map * map, Timer * timer);
 
 void          updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map);
 

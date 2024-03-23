@@ -11,7 +11,7 @@
     - [x] take dmg from spikes
     - [x] See if you can animate the water
     - [x] animate flag
-    - [ ] Have x3 clouds move
+    - [x] Have 1 cloud move
     - [ ] actually clean up entity code
         - [ ] have some things be in data instead of hardcoded
 ### Random
@@ -20,3 +20,4 @@
 - [ ] fix some sort of background in general
 - [ ] fix bounds
 - [ ] actually create a map
+- [ ] fix the three clouds

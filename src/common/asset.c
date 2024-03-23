@@ -104,7 +104,7 @@ void setTileMapping(const char* key, f32 value)
 
 void loadTileData()
 {
-  const char* tileLocation = "./Assets/variables/tiles_04.json";
+  const char* tileLocation = "./Assets/variables/tiles_05.json";
   String      fileString   = {.buffer = (char*)tileLocation, .len = strlen(tileLocation), .capacity = 0};
   Json        tileJson;
   Arena       arena;
@@ -221,7 +221,14 @@ void parseTilesFromJson(Json* json, Map* map)
     }
     case ENTITY_TYPE_CLOUD:
     {
-      tile->cloud = (Cloud*)malloc(sizeof(Cloud));
+      tile->cloud              = (Cloud*)malloc(sizeof(Cloud));
+      tile->cloud->minX        = tile->entity->x - tile->entity->width * 3;
+      tile->cloud->maxX        = tile->entity->x + tile->entity->width * 3;
+      tile->cloud->xAcc        = 0.1f;
+      tile->cloud->maxY        = tile->entity->y;
+      tile->cloud->minY        = tile->entity->y;
+      tile->cloud->yAcc        = 0;
+      tile->cloud->lastUpdated = 0;
       break;
     }
     case ENTITY_TYPE_LEVER:

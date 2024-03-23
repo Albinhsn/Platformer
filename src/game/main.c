@@ -95,6 +95,7 @@ static void gameLoop(UIState* state, InputState* inputState, Game* game)
     {
       *state = UI_EXIT;
     }
+    updateEntities(&game->map, &game->timer);
     updatePlayer(inputState, &game->player, &game->timer, &game->map);
     checkEndLevel(state, game);
   }

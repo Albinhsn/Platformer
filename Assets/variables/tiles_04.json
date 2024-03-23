@@ -397,28 +397,28 @@
     "cloud_001": {
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 4,
         "textureIdx": 153,
         "tileType": 0
     },
     "cloud_002": {
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 4,
         "textureIdx": 154,
         "tileType": 0
     },
     "cloud_003": {
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 4,
         "textureIdx": 155,
         "tileType": 0
     },
     "cloud_004": {
         "boundsHeight": 0,
         "boundsWidth": 0,
-        "entityType": 0,
+        "entityType": 4,
         "textureIdx": 156,
         "tileType": 0
     },

@@ -147,6 +147,38 @@ static void pickupItem(Player* player, Item* item)
   }
 }
 
+static void handleLeverCollision(Tile* tile, Player* player, Timer* timer)
+{
+  if (tile->lever->cd + tile->lever->lastUpdated <= timer->lastTick)
+  {
+    Animation* leverAnimation = tile->entity->animation;
+    f32        width          = tile->entity->width / leverAnimation->animationData->textureCount;
+    f32        middle         = (i32)((leverAnimation->currentTexture - leverAnimation->animationData->textureCount / 2)) * width + tile->entity->x;
+
+    Entity*    playerEntity   = player->entity;
+    f32        lowX           = playerEntity->x - playerEntity->width;
+    f32        highX          = playerEntity->x + playerEntity->width;
+    if (lowX <= middle && middle <= highX)
+    {
+
+      if (playerEntity->x < middle && tile->lever->side != -1)
+      {
+        leverAnimation->currentTexture++;
+        leverAnimation->currentTexture = MIN(leverAnimation->currentTexture, (leverAnimation->animationData->textureCount - 1));
+        tile->lever->side              = 1;
+      }
+      else if (tile->lever->side != 1)
+      {
+        leverAnimation->currentTexture--;
+        leverAnimation->currentTexture = MAX(((i32)leverAnimation->currentTexture), 0);
+        tile->lever->side              = -1;
+      }
+
+      tile->lever->lastUpdated = timer->lastTick;
+    }
+  }
+}
+
 static void handleInteractions(Player* player, Timer* timer, Map* map)
 {
 
@@ -164,35 +196,7 @@ static void handleInteractions(Player* player, Timer* timer, Map* map)
       {
       case ENTITY_TYPE_LEVER:
       {
-        // ToDo this need to be more fine grained
-        if (tile->lever->cd + tile->lever->lastUpdated <= timer->lastTick)
-        {
-          Animation* leverAnimation = tile->entity->animation;
-          f32        width          = tile->entity->width / leverAnimation->animationData->textureCount;
-          f32        middle         = (i32)((leverAnimation->currentTexture - leverAnimation->animationData->textureCount / 2)) * width + tile->entity->x;
-
-          Entity*    playerEntity   = player->entity;
-          f32        lowX           = playerEntity->x - playerEntity->width;
-          f32        highX          = playerEntity->x + playerEntity->width;
-          if (lowX <= middle && middle <= highX)
-          {
-
-            if (playerEntity->x < middle && tile->lever->side != -1)
-            {
-              leverAnimation->currentTexture++;
-              leverAnimation->currentTexture = MIN(leverAnimation->currentTexture, (leverAnimation->animationData->textureCount - 1));
-              tile->lever->side              = 1;
-            }
-            else if (tile->lever->side != 1)
-            {
-              leverAnimation->currentTexture--;
-              leverAnimation->currentTexture = MAX(((i32)leverAnimation->currentTexture), 0);
-              tile->lever->side              = -1;
-            }
-
-            tile->lever->lastUpdated = timer->lastTick;
-          }
-        }
+        handleLeverCollision(tile, player, timer);
         break;
       }
       case ENTITY_TYPE_SPIKES:
@@ -234,7 +238,6 @@ static void handleInteractions(Player* player, Timer* timer, Map* map)
         player->moveVertically = true;
         break;
       }
-
       default:
       {
       }
@@ -251,7 +254,7 @@ static void handleInteractions(Player* player, Timer* timer, Map* map)
           springAnimation->lastUpdate     = LONG_MAX;
         }
       }
-      if (tile->entityType == ENTITY_TYPE_LEVER && !entitiesCollided(player->entity, tile->entity))
+      if (tile->entityType == ENTITY_TYPE_LEVER)
       {
         tile->lever->side = 0;
       }
@@ -305,6 +308,39 @@ void updatePlayer(InputState* inputState, Player* player, Timer* timer, Map* map
   }
 
   player->moveVertically = false;
+}
+void updateEntities(Map* map, Timer* timer)
+{
+  for (u8 i = 0; i < map->tileCount; i++)
+  {
+    if (map->tiles[i].entity != 0)
+    {
+      Tile* tile = &map->tiles[i];
+      switch (tile->entityType)
+      {
+      case ENTITY_TYPE_CLOUD:
+      {
+        Cloud* cloud = tile->cloud;
+        if (cloud->lastUpdated + 16 <= timer->lastTick)
+        {
+          Entity * entity = tile->entity;
+          entity->x += cloud->xAcc;
+          entity->y += cloud->yAcc;
+          cloud->lastUpdated = timer->lastTick;
+          if (entity->x >= cloud->maxX || entity->x <= cloud->minX)
+          {
+            cloud->xAcc = changeSignBitf32(cloud->xAcc);
+          }
+        }
+        break;
+      }
+      default:
+      {
+        break;
+      }
+      }
+    }
+  }
 }
 
 void initEntity(Entity* entity, f32 x, f32 y, f32 width, f32 height, u64 textureIdx, f32 movementSpeed, bool animated)

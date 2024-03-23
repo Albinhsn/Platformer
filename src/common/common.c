@@ -194,3 +194,10 @@ f32 easeLinearly(f32 x)
 {
   return x;
 }
+
+f32 changeSignBitf32(f32 number)
+{
+  u32 numb = *(u32*)&number;
+  numb     = (numb ^ (1 << 31));
+  return *(f32*)&numb;
+}
