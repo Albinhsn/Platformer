@@ -13,7 +13,9 @@
     - [x] animate flag
     - [ ] Have x3 clouds move
     - [ ] actually clean up entity code
+        - [ ] have some things be in data instead of hardcoded
 ### Random
+- [ ] fix reset again :)
 - [ ] have some sort of hp idea and respawn rather then die
 - [ ] fix some sort of background in general
 - [ ] fix bounds

@@ -87,6 +87,7 @@ struct Lever
 {
   u64 lastUpdated;
   u64 cd;
+  i8 side;
 };
 typedef struct Lever Lever;
 

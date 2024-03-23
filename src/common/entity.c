@@ -167,17 +167,30 @@ static void handleInteractions(Player* player, Timer* timer, Map* map)
         // ToDo this need to be more fine grained
         if (tile->lever->cd + tile->lever->lastUpdated <= timer->lastTick)
         {
-          tile->lever->lastUpdated  = timer->lastTick;
           Animation* leverAnimation = tile->entity->animation;
-          if (player->entity->x < tile->entity->x)
+          f32        width          = tile->entity->width / leverAnimation->animationData->textureCount;
+          f32        middle         = (i32)((leverAnimation->currentTexture - leverAnimation->animationData->textureCount / 2)) * width + tile->entity->x;
+
+          Entity*    playerEntity   = player->entity;
+          f32        lowX           = playerEntity->x - playerEntity->width;
+          f32        highX          = playerEntity->x + playerEntity->width;
+          if (lowX <= middle && middle <= highX)
           {
-            leverAnimation->currentTexture++;
-            leverAnimation->currentTexture = MIN(leverAnimation->currentTexture, (leverAnimation->animationData->textureCount - 1));
-          }
-          else
-          {
-            leverAnimation->currentTexture--;
-            leverAnimation->currentTexture = MAX(((i32)leverAnimation->currentTexture), 0);
+
+            if (playerEntity->x < middle && tile->lever->side != -1)
+            {
+              leverAnimation->currentTexture++;
+              leverAnimation->currentTexture = MIN(leverAnimation->currentTexture, (leverAnimation->animationData->textureCount - 1));
+              tile->lever->side              = 1;
+            }
+            else if (tile->lever->side != 1)
+            {
+              leverAnimation->currentTexture--;
+              leverAnimation->currentTexture = MAX(((i32)leverAnimation->currentTexture), 0);
+              tile->lever->side              = -1;
+            }
+
+            tile->lever->lastUpdated = timer->lastTick;
           }
         }
         break;
@@ -237,6 +250,10 @@ static void handleInteractions(Player* player, Timer* timer, Map* map)
           springAnimation->currentTexture = 0;
           springAnimation->lastUpdate     = LONG_MAX;
         }
+      }
+      if (tile->entityType == ENTITY_TYPE_LEVER && !entitiesCollided(player->entity, tile->entity))
+      {
+        tile->lever->side = 0;
       }
     }
   }
