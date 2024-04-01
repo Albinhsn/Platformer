@@ -3,6 +3,7 @@
 #include "timer.h"
 #include "ui.h"
 #include <string.h>
+#include <stdio.h>
 
 void updateUIState(UI* ui, UIState newState, Timer* timer)
 {

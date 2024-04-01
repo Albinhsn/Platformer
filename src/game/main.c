@@ -1,4 +1,5 @@
 #include "arena.h"
+#include <stdio.h>
 #include "asset.h"
 #include "common.h"
 #include "entity.h"

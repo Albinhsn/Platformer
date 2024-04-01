@@ -7,6 +7,7 @@
 #include "texture.h"
 #include "vector.h"
 #include <GL/gl.h>
+#include <stdio.h>
 #include <GL/glext.h>
 #include <string.h>
 

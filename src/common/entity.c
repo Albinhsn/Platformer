@@ -161,6 +161,7 @@ static void handleLeverCollision(Tile* tile, Player* player, Timer* timer)
     if (lowX <= middle && middle <= highX)
     {
 
+      printf("%lf %lf %lf\n", lowX, middle, highX);
       if (playerEntity->x < middle && tile->lever->side != -1)
       {
         leverAnimation->currentTexture++;

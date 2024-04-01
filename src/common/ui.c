@@ -1,4 +1,5 @@
 #include "ui.h"
+#include <stdlib.h>
 #include "common.h"
 #include <SDL2/SDL_video.h>
 

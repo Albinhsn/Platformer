@@ -1,6 +1,7 @@
 #include "font.h"
 #include <GL/glext.h>
 #include "renderer.h"
+#include <stdio.h>
 
 static void parseFontTypes(struct Font* font, const char* fileLocation)
 {

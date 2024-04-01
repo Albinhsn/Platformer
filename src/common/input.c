@@ -1,4 +1,5 @@
 #include "input.h"
+#include <stdio.h>
 #include "common.h"
 #include <SDL2/SDL.h>
 
@@ -16,7 +17,7 @@ void getKeyboardInputCharacters(InputState* inputState, String* string)
       {
         if (string->len == string->capacity)
         {
-          string->buffer = (u8*)realloc(string->buffer, string->capacity * 2);
+          string->buffer = (char*)realloc(string->buffer, string->capacity * 2);
         }
         string->buffer[string->len] = i;
         string->len++;

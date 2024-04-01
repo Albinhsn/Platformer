@@ -4,15 +4,7 @@
 
 ### Interaction with ui
 - [ ] fix everything from test map
-    - [x] the pole thingy that move when you move over it
-    - [x] the bouncing thing
-    - [x] ladders
-    - [x] gather emeralds/key
-    - [x] take dmg from spikes
-    - [x] See if you can animate the water
-    - [x] animate flag
-    - [x] Have 1 cloud move
-    - [x] Button
+    - [ ] fix the lever code a bit
     - [ ] actually clean up entity code
         - [ ] have some things be in data instead of hardcoded
 ### Random
